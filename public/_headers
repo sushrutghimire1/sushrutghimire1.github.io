@@ -1,0 +1,8 @@
+/manifest.json
+  Access-Control-Allow-Origin: *
+
+/articles.json
+  Access-Control-Allow-Origin: *
+
+/books.json
+  Access-Control-Allow-Origin: *
