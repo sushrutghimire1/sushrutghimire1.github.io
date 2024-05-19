@@ -27,6 +27,7 @@
   .presentation-pic {
     width: 350px;
     border-radius: 15px;
+    height: 350px;
   
   }
   
@@ -69,7 +70,7 @@
 
   .presentation-pic {
     width: auto;
-    max-height: 400px;
+    max-height: 250px;
     border-radius: 8px;
     margin-left: 250px;
   }
