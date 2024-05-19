@@ -1,0 +1,17 @@
+{
+  "files": {
+    "main.css": "//sushrutghimire1.github.io/static/css/main.31d451c1.css",
+    "main.js": "//sushrutghimire1.github.io/static/js/main.e3e3377d.js",
+    "static/js/453.b4e8f947.chunk.js": "//sushrutghimire1.github.io/static/js/453.b4e8f947.chunk.js",
+    "static/media/speaking pictures.png": "//sushrutghimire1.github.io/static/media/speaking pictures.8e648f8f6f368802497b.png",
+    "static/media/profile-pic.jpeg": "//sushrutghimire1.github.io/static/media/profile-pic.8f45ad647fb370c38969.jpeg",
+    "index.html": "//sushrutghimire1.github.io/index.html",
+    "main.31d451c1.css.map": "//sushrutghimire1.github.io/static/css/main.31d451c1.css.map",
+    "main.e3e3377d.js.map": "//sushrutghimire1.github.io/static/js/main.e3e3377d.js.map",
+    "453.b4e8f947.chunk.js.map": "//sushrutghimire1.github.io/static/js/453.b4e8f947.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.31d451c1.css",
+    "static/js/main.e3e3377d.js"
+  ]
+}
