@@ -1,0 +1,26 @@
+.footer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    background-color: white;
+    border-top: 1px solid #e0e0e0;
+  }
+  
+  .subscribe-button {
+    background-color: #4285f4;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-right: 10px;
+  }
+  
+  .no-thanks-button {
+    background-color: transparent;
+    color: #5f6368;
+    border: none;
+    cursor: pointer;
+  }
+  
