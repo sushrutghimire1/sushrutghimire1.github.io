@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Part III - Branches Toward Distant Skies</title>
+    <style>
+        :root {
+            --earth-dark: #1a2c2c;
+            --earth-light: #cfd8dc;
+            --leaf-green: #2e7d32;
+            --accent-gold: #ffd54f;
+            --text-color: #263238;
+            --bg-paper: #f4f7f6;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Georgia', serif;
+            background-color: var(--bg-paper);
+            color: var(--text-color);
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* --- Top Navigation --- */
+        .top-nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            min-height: 70px;
+            background: rgba(255, 255, 255, 0.98);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 20px;
+            z-index: 1000; /* High z-index to stay on top */
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        .current-part-title {
+            flex: 1;
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: bold;
+            font-size: 0.9rem;
+            color: var(--earth-dark);
+            padding: 0 10px;
+        }
+
+        .btn-back-tree {
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--leaf-green);
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 0.75rem;
+            border: 1.5px solid var(--leaf-green);
+            padding: 6px 12px;
+            border-radius: 20px;
+            background: white;
+        }
+
+        /* --- Sidebar Tree Navigation --- */
+        .sidebar-tree {
+            width: 280px;
+            background: #eef2f1;
+            border-right: 1px solid #d0d9d7;
+            padding: 100px 25px 25px 25px;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+        }
+
+        .tree-nav-item {
+            position: relative;
+            padding: 18px 0 18px 35px;
+            cursor: pointer;
+            font-size: 0.95rem;
+            transition: 0.4s;
+            border-left: 2px solid #cbd6d4;
+            margin-bottom: 2px;
+            color: #607d8b;
+        }
+
+        .tree-nav-item.active {
+            border-left: 3px solid var(--leaf-green);
+            color: var(--earth-dark);
+            font-weight: bold;
+            background: white;
+        }
+
+        /* --- Main Content Area --- */
+        .content-container {
+            flex: 1;
+            padding: 110px 40px 60px 40px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .story-card {
+            max-width: 800px;
+            width: 100%;
+            background: white;
+            padding: 60px;
+            border-radius: 4px;
+            box-shadow: 0 15px 50px rgba(0,0,0,0.03);
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        .story-image {
+            width: 100%;
+            height: 450px;
+            background-color: #f0f0f0;
+            margin-bottom: 40px;
+            background-size: cover;
+            background-position: center;
+            border-radius: 2px;
+        }
+
+        h2.chapter-title {
+            font-size: 2.2rem;
+            margin-bottom: 30px;
+            color: var(--earth-dark);
+        }
+
+        .story-text {
+            line-height: 2.2;
+            font-size: 1.2rem;
+            margin-bottom: 50px;
+            color: #444;
+        }
+
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            border-top: 1px solid #f0f0f0;
+            padding-top: 40px;
+        }
+
+        .btn-story {
+            padding: 14px 35px;
+            border: 1px solid var(--earth-dark);
+            background: transparent;
+            cursor: pointer;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+        }
+
+        /* --- FIXED MOBILE VIEW --- */
+        @media (max-width: 768px) {
+            body { 
+                flex-direction: column; 
+                height: auto; /* Allow body to grow */
+                overflow-y: auto; /* Enable scrolling */
+            }
+
+            .top-nav { 
+                position: sticky; /* Stays at top but allows flow */
+                flex-direction: column;
+                padding: 10px;
+                min-height: auto;
+            }
+
+            .current-part-title { 
+                margin: 10px 0;
+                font-size: 0.75rem;
+            }
+
+            .sidebar-tree {
+                width: 100%;
+                height: auto;
+                flex-direction: row;
+                padding: 10px;
+                border-right: none;
+                border-bottom: 1px solid #d0d9d7;
+                overflow-x: auto;
+                white-space: nowrap;
+                position: sticky;
+                top: 85px; /* Sits below Top Nav */
+                z-index: 999;
+            }
+
+            .tree-nav-item {
+                padding: 10px 15px;
+                border-left: none;
+                border-bottom: 2px solid transparent;
+                margin-bottom: 0;
+                font-size: 0.8rem;
+            }
+
+            .tree-nav-item.active {
+                border-bottom: 2px solid var(--leaf-green);
+                background: transparent;
+            }
+
+            .tree-nav-item::before { display: none; }
+
+            .content-container {
+                padding: 20px;
+                overflow-y: visible; /* Let the body handle scrolling */
+            }
+
+            .story-card {
+                padding: 25px;
+                box-shadow: none; /* Cleaner on small screens */
+            }
+
+            .story-image {
+                height: 250px;
+                margin-bottom: 20px;
+            }
+
+            h2.chapter-title {
+                font-size: 1.5rem;
+                margin-bottom: 15px;
+            }
+
+            .story-text {
+                font-size: 1.1rem;
+                line-height: 1.8;
+            }
+
+            .mobile-hide { display: none; }
+
+            .controls {
+                flex-direction: row;
+                gap: 10px;
+            }
+
+            .btn-story {
+                padding: 10px 15px;
+                font-size: 0.7rem;
+                flex: 1;
+                text-align: center;
+            }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="top-nav">
+        <a href="memoir.html" class="btn-back-tree">
+            <span>🌳</span> Back to Tree
+        </a>
+        <div class="current-part-title">Part III: Branches Toward Distant Skies</div>
+        <div style="width: 100px;" class="mobile-hide"></div>
+    </nav>
+
+    <aside class="sidebar-tree" id="treeNav"></aside>
+
+    <main class="content-container">
+        <div class="story-card" id="storyCard">
+            <div class="story-image" id="storyImg"></div>
+            <h2 class="chapter-title" id="chapterTitle"></h2>
+            <div class="story-text" id="storyContent"></div>
+            
+            <div class="controls">
+                <button class="btn-story" id="prevBtn" onclick="prevStory()">← Previous</button>
+                <button class="btn-story" id="nextBtn" onclick="nextStory()">Next →</button>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const partData = {
+            chapters: [
+                {
+                    title: "Roots Across Borders",
+                    stories: [
+                        { text: "The map was no longer a collection of lines, but a network of interconnected lives. The roots had grown so deep they bypassed the fences and the concrete, finding soil that didn't care for names or nationalities.", img: "https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1200&q=80" },
+                        { text: "The legacy was not in the wood, but in the oxygen shared with strangers. A single breath taken in the valley was a gift from a tree standing miles away on a mountain peak.", img: "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=1200&q=80" }
+                    ]
+                },
+                {
+                    title: "Photosynthesis of Hope",
+                    stories: [
+                        { text: "Every leaf turned toward the light, performing the ancient alchemy of turning radiation into life. Hope, like sunlight, was a raw resource—abundant yet requiring work to be made useful.", img: "https://images.unsplash.com/photo-1502082553048-f009c37129b9?auto=format&fit=crop&w=1200&q=80" }
+                    ]
+                },
+                {
+                    title: "The Forest of Faces",
+                    stories: [
+                        { text: "In the end, we looked at the canopy and saw ourselves. Not as individuals fighting for the sun, but as a collective consciousness, swaying together in the evening wind, ready for whatever sky comes next.", img: "https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=1200&q=80" }
+                    ]
+                }
+            ]
+        };
+
+        let currentChapter = 0;
+        let currentStory = 0;
+
+        function init() {
+            const nav = document.getElementById('treeNav');
+            partData.chapters.forEach((ch, index) => {
+                const div = document.createElement('div');
+                div.className = `tree-nav-item ${index === 0 ? 'active' : ''}`;
+                div.innerText = ch.title;
+                div.onclick = () => jumpToChapter(index);
+                nav.appendChild(div);
+            });
+            renderStory();
+        }
+
+        function renderStory() {
+            const chapter = partData.chapters[currentChapter];
+            const story = chapter.stories[currentStory];
+            
+            const card = document.getElementById('storyCard');
+            card.style.animation = 'none';
+            card.offsetHeight; 
+            card.style.animation = 'fadeIn 0.8s ease-out';
+
+            document.getElementById('chapterTitle').innerText = chapter.title;
+            document.getElementById('storyContent').innerText = story.text;
+            document.getElementById('storyImg').style.backgroundImage = `url('${story.img}')`;
+
+            const items = document.querySelectorAll('.tree-nav-item');
+            items.forEach((item, idx) => {
+                item.classList.toggle('active', idx === currentChapter);
+            });
+
+            const nextBtn = document.getElementById('nextBtn');
+            nextBtn.innerText = (currentChapter === partData.chapters.length - 1 && currentStory === chapter.stories.length - 1) 
+                ? "Finish Memoir" 
+                : "Next →";
+        }
+
+        function nextStory() {
+            if (currentStory < partData.chapters[currentChapter].stories.length - 1) {
+                currentStory++;
+            } else if (currentChapter < partData.chapters.length - 1) {
+                currentChapter++;
+                currentStory = 0;
+            } else {
+                window.location.href = 'memoir.html'; 
+                return;
+            }
+            renderStory();
+            window.scrollTo({ top: 0, behavior: 'smooth' }); // Scroll back to top for new content
+        }
+
+        function prevStory() {
+            if (currentStory > 0) {
+                currentStory--;
+            } else if (currentChapter > 0) {
+                currentChapter--;
+                currentStory = partData.chapters[currentChapter].stories.length - 1;
+            } else {
+                window.location.href = 'memoir.html';
+            }
+            renderStory();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function jumpToChapter(index) {
+            currentChapter = index;
+            currentStory = 0;
+            renderStory();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        window.onload = init;
+    </script>
+</body>
+</html>

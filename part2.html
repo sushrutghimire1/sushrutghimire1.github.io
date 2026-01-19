@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Part II - The Stem That Faced the Wind</title>
+    <style>
+        :root {
+            /* Part II Palette: Stormy, Resilient, Rising Sap */
+            --storm-blue: #37474f;
+            --wind-grey: #eceff1;
+            --sap-amber: #ffb300;
+            --stem-green: #2e7d32;
+            --bark-brown: #4e342e;
+            --text-color: #263238;
+            --bg-paper: #f4f7f6;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Georgia', serif;
+            background-color: var(--bg-paper);
+            color: var(--text-color);
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* --- Top Navigation --- */
+        .top-nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            min-height: 70px;
+            background: rgba(255, 255, 255, 0.98);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 20px;
+            z-index: 100;
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        .current-part-title {
+            flex: 1;
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: bold;
+            font-size: 0.9rem;
+            color: var(--storm-blue);
+            padding: 0 10px;
+        }
+
+        .btn-back-tree {
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--stem-green);
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 0.75rem;
+            border: 1.5px solid var(--stem-green);
+            padding: 6px 12px;
+            border-radius: 20px;
+            background: white;
+        }
+
+        .btn-back-tree:hover {
+            background: var(--stem-green);
+            color: white !important;
+            box-shadow: 0 4px 12px rgba(46, 125, 50, 0.2);
+        }
+
+        /* --- Sidebar Tree Navigation --- */
+        .sidebar-tree {
+            width: 280px;
+            background: #e9edeb;
+            border-right: 1px solid #cfd8dc;
+            padding: 100px 25px 25px 25px;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+        }
+
+        .tree-nav-item {
+            position: relative;
+            padding: 18px 0 18px 35px;
+            cursor: pointer;
+            font-size: 0.95rem;
+            transition: 0.4s;
+            border-left: 2px solid #cfd8dc;
+            margin-bottom: 2px;
+            color: #546e7a;
+        }
+
+        .tree-nav-item:hover { color: var(--stem-green); background: rgba(255,255,255,0.3); }
+        
+        .tree-nav-item.active {
+            border-left: 3px solid var(--sap-amber);
+            color: var(--storm-blue);
+            font-weight: bold;
+            background: white;
+        }
+
+        .tree-nav-item::before {
+            content: '🍃';
+            position: absolute;
+            left: -12px;
+            top: 18px;
+            filter: grayscale(1);
+            transition: 0.3s;
+        }
+
+        .tree-nav-item.active::before { filter: grayscale(0); }
+
+        /* --- Main Content Area --- */
+        .content-container {
+            flex: 1;
+            padding: 110px 40px 60px 40px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .story-card {
+            max-width: 800px;
+            width: 100%;
+            background: white;
+            padding: 60px;
+            border-radius: 4px;
+            box-shadow: 0 15px 50px rgba(0,0,0,0.03);
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        .story-image {
+            width: 100%;
+            height: 450px;
+            background-color: #f0f0f0;
+            margin-bottom: 40px;
+            background-size: cover;
+            background-position: center;
+            border-radius: 2px;
+        }
+
+        h2.chapter-title {
+            font-size: 2.2rem;
+            margin-bottom: 30px;
+            color: var(--bark-brown);
+            font-weight: 400;
+        }
+
+        .story-text {
+            line-height: 2.2;
+            font-size: 1.2rem;
+            margin-bottom: 50px;
+            color: #444;
+        }
+
+        /* --- Controls --- */
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 50px;
+            width: 100%;
+            border-top: 1px solid #f0f0f0;
+            padding-top: 40px;
+        }
+
+        .btn-story {
+            padding: 14px 35px;
+            border: 1px solid var(--storm-blue);
+            background: transparent;
+            cursor: pointer;
+            font-family: inherit;
+            transition: 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 0.85rem;
+            color: var(--storm-blue);
+        }
+
+        .btn-story:hover {
+            background: var(--storm-blue);
+            color: white;
+        }
+
+        /* --- Mobile Responsive Fix --- */
+        @media (max-width: 768px) {
+            body { flex-direction: column; }
+            
+            .top-nav { 
+                flex-direction: column; 
+                height: auto;
+                padding: 15px 10px; 
+            }
+            
+            .current-part-title { 
+                margin-top: 10px;
+                font-size: 0.8rem;
+                letter-spacing: 1px;
+            } 
+
+            .sidebar-tree {
+                width: 100%;
+                height: auto;
+                flex-direction: row;
+                padding: 100px 10px 10px 10px; /* Adjusted padding to prevent overlap with top-nav */
+                border-right: none;
+                border-bottom: 1px solid #cfd8dc;
+                margin-top: 0;
+                overflow-x: auto;
+            }
+
+            .tree-nav-item { 
+                padding: 12px; 
+                border-left: none; 
+                font-size: 0.75rem; 
+                border-bottom: 2px solid transparent; 
+                white-space: nowrap;
+            }
+
+            .tree-nav-item::before { display: none; }
+            .tree-nav-item.active { border-bottom: 2px solid var(--sap-amber); border-left: none; }
+            
+            .content-container { padding: 20px; padding-top: 20px; }
+            .story-card { padding: 30px; }
+            .story-image { height: 280px; }
+            .mobile-hide { display: none; }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="top-nav">
+        <a href="memoir.html" class="btn-back-tree">
+            <span>🌳</span> Back to Tree
+        </a>
+
+        <div class="current-part-title">
+            Part II: The Stem That Faced the Wind
+        </div>
+        
+        <div style="width: 120px;" class="mobile-hide"></div>
+    </nav>
+
+    <aside class="sidebar-tree" id="treeNav">
+    </aside>
+
+    <main class="content-container">
+        <div class="story-card" id="storyCard">
+            <div class="story-image" id="storyImg"></div>
+            <h2 class="chapter-title" id="chapterTitle"></h2>
+            <div class="story-text" id="storyContent"></div>
+            
+            <div class="controls">
+                <button class="btn-story" id="prevBtn" onclick="prevStory()">← Previous</button>
+                <button class="btn-story" id="nextBtn" onclick="nextStory()">Next →</button>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const partData = {
+            chapters: [
+                {
+                    title: "Cracks in the Bark",
+                    stories: [
+                        { text: "As the stem pushed toward the light, its outer layer began to split. These were not injuries, but the necessary fractures of expansion. The wood hardened where the wind bit most fiercely.", img: "https://images.unsplash.com/photo-1502082553048-f009c37129b9?auto=format&fit=crop&w=1200&q=80" }
+                    ]
+                },
+                {
+                    title: "Rain Without Shelter",
+                    stories: [
+                        { text: "The storms came without warning. Cold, relentless rain weighted every leaf and bowed the head of the young tree. There was no roof but the sky, and no comfort but the strength of the roots anchored deep below.", img: "https://images.unsplash.com/photo-1428592953211-077101b2021b?auto=format&fit=crop&w=1200&q=80" }
+                    ]
+                },
+                {
+                    title: "The Sap Rises",
+                    stories: [
+                        { text: "Deep within, a golden resolve began to flow. Even in the coldest gale, the internal pulse remained warm—a hidden river of life that refused to freeze.", img: "https://images.unsplash.com/photo-1542273917363-3b1817f69a2d?auto=format&fit=crop&w=1200&q=80" }
+                    ]
+                }
+            ]
+        };
+
+        let currentChapter = 0;
+        let currentStory = 0;
+
+        function init() {
+            const nav = document.getElementById('treeNav');
+            partData.chapters.forEach((ch, index) => {
+                const div = document.createElement('div');
+                div.className = `tree-nav-item ${index === 0 ? 'active' : ''}`;
+                div.innerText = ch.title;
+                div.onclick = () => jumpToChapter(index);
+                nav.appendChild(div);
+            });
+            renderStory();
+        }
+
+        function renderStory() {
+            const chapter = partData.chapters[currentChapter];
+            const story = chapter.stories[currentStory];
+            
+            const card = document.getElementById('storyCard');
+            card.style.animation = 'none';
+            card.offsetHeight; 
+            card.style.animation = 'fadeIn 0.8s ease-out';
+
+            document.getElementById('chapterTitle').innerText = chapter.title;
+            document.getElementById('storyContent').innerText = story.text;
+            document.getElementById('storyImg').style.backgroundImage = `url('${story.img}')`;
+
+            const items = document.querySelectorAll('.tree-nav-item');
+            items.forEach((item, idx) => {
+                item.classList.toggle('active', idx === currentChapter);
+            });
+
+            const nextBtn = document.getElementById('nextBtn');
+            nextBtn.innerText = (currentChapter === partData.chapters.length - 1 && currentStory === chapter.stories.length - 1) 
+                ? "Finish Part II" 
+                : "Next →";
+        }
+
+        function nextStory() {
+            if (currentStory < partData.chapters[currentChapter].stories.length - 1) {
+                currentStory++;
+            } else if (currentChapter < partData.chapters.length - 1) {
+                currentChapter++;
+                currentStory = 0;
+            } else {
+                window.location.href = 'memoir.html'; 
+                return;
+            }
+            renderStory();
+        }
+
+        function prevStory() {
+            if (currentStory > 0) {
+                currentStory--;
+            } else if (currentChapter > 0) {
+                currentChapter--;
+                currentStory = partData.chapters[currentChapter].stories.length - 1;
+            } else {
+                window.location.href = 'memoir.html';
+            }
+            renderStory();
+        }
+
+        function jumpToChapter(index) {
+            currentChapter = index;
+            currentStory = 0;
+            renderStory();
+        }
+
+        window.onload = init;
+    </script>
+</body>
+</html>

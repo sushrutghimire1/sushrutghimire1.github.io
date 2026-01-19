@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2129 - A Living Memoir</title>
+    <style>
+        :root {
+            --bg-sky: #d9e4f5;
+            --bg-earth: #d7ccc8;
+            --accent: #5d4037;
+            --text-main: #2c3e50;
+            --serif: 'Georgia', 'Times New Roman', serif;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: var(--serif);
+            background: linear-gradient(to bottom, var(--bg-sky) 0%, #f5f5f5 70%, var(--bg-earth) 100%);
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: var(--text-main);
+        }
+
+        .nav-buttons {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            z-index: 20;
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn-nav {
+            padding: 8px 15px;
+            background: white;
+            border: 1px solid var(--accent);
+            color: var(--accent);
+            text-decoration: none;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: 0.3s;
+        }
+
+        .btn-nav:hover { background: var(--accent); color: white; }
+
+        header {
+            position: absolute;
+            top: 40px;
+            z-index: 10;
+            text-align: center;
+            pointer-events: none;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            font-weight: 300;
+            margin-bottom: 5px;
+        }
+
+        header p {
+            font-style: italic;
+            opacity: 0.7;
+        }
+
+        #canvas-container {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+        }
+
+        canvas {
+            max-width: 100%;
+            max-height: 90vh;
+            cursor: crosshair;
+        }
+
+        /* Hotspot Indicators */
+        .hotspot-label {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.8);
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            border: 1px solid transparent;
+            z-index: 5;
+        }
+
+        .hotspot-label:hover {
+            transform: scale(1.1);
+            background: white;
+            border-color: var(--accent);
+        }
+
+        /* Modal Logic */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.4);
+            backdrop-filter: blur(8px);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+        }
+
+        .modal-content {
+            background: #fffcf5;
+            width: 90%;
+            max-width: 700px;
+            max-height: 80vh;
+            padding: 50px;
+            border-radius: 2px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.3);
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            background: none;
+            border: none;
+            color: #999;
+        }
+
+        .chapter-card {
+            border-bottom: 1px solid #eee;
+            padding: 20px 0;
+            cursor: pointer;
+            transition: padding-left 0.3s ease;
+        }
+
+        .chapter-card:hover {
+            padding-left: 10px;
+            color: var(--accent);
+        }
+
+        .chapter-card h3 {
+            font-size: 1.2rem;
+            margin-bottom: 5px;
+        }
+
+        .reading-view {
+            display: none;
+        }
+
+        .reading-view p {
+            line-height: 1.8;
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+            color: #444;
+        }
+
+        .back-to-list {
+            display: inline-block;
+            margin-bottom: 30px;
+            color: var(--accent);
+            text-decoration: none;
+            font-size: 0.9rem;
+            cursor: pointer;
+        }
+
+        /* Mobile adjustments */
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2rem;
+            }
+
+            .hotspot-label {
+                font-size: 0.7rem;
+                padding: 6px 12px;
+                border-radius: 15px;
+            }
+
+            .modal-content {
+                padding: 30px;
+                max-height: 90vh;
+            }
+
+            /* Better alignment with tree parts on mobile */
+            .hotspot-label:nth-child(1) { /* branches */
+                bottom: 35% !important;
+                left: 60% !important;
+                transform: none !important;
+            }
+            .hotspot-label:nth-child(2) { /* crown */
+                bottom: 65% !important;
+                left: 50% !important;
+                transform: translateX(-50%) !important;
+            }
+            .hotspot-label:nth-child(3) { /* trunk */
+                bottom: 20% !important;
+                left: 40% !important;
+                transform: none !important;
+            }
+            .hotspot-label:nth-child(4) { /* roots */
+                bottom: 5% !important;
+                left: 50% !important;
+                transform: translateX(-50%) !important;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="nav-buttons">
+        <a href="index.html" class="btn-nav">← Home</a>
+    </div>
+
+    <header>
+        <h1>2129</h1>
+        <p>My Living Memoir</p>
+    </header>
+
+    <div id="canvas-container">
+        <div class="hotspot-label" style="bottom: 30%; left: 55%;" onclick="openModal('branches')">III. Branches Toward Distant Skies</div>
+        <div class="hotspot-label" style="bottom: 60%; left: 50%; transform: translateX(-50%);" onclick="openModal('crown')">IV. The Endless Growth</div>
+        <div class="hotspot-label" style="bottom: 15%; left: 42%;" onclick="openModal('trunk')">II. The Stem That Faced the Wind</div>
+        <div class="hotspot-label" style="bottom: 2%; left: 50%; transform: translateX(-50%);" onclick="openModal('roots')">I. Roots Beneath the Soil</div>
+        
+        <canvas id="treeCanvas"></canvas>
+    </div>
+
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal-content">
+            <button class="close-btn" onclick="closeModal()">&times;</button>
+            
+            <div id="listView">
+                <h2 id="partTitle" style="margin-bottom: 10px; text-transform: uppercase; letter-spacing: 2px;"></h2>
+                <p id="partDesc" style="font-style: italic; margin-bottom: 30px; color: #777;"></p>
+                <div id="chapterList"></div>
+            </div>
+
+            <div id="readingView" class="reading-view">
+                <a class="back-to-list" onclick="showListView()">← Back to Chapters</a>
+                <h2 id="readTitle" style="margin-bottom: 25px;"></h2>
+                <div id="readContent"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('treeCanvas');
+        const ctx = canvas.getContext('2d');
+
+        const memoirData = { /* ... same as before ... */ };
+
+        function initCanvas() {
+            canvas.width = window.innerWidth > 800 ? 800 : window.innerWidth * 0.95;
+            canvas.height = window.innerHeight * 0.9;
+            drawTreeScene();
+        }
+
+        function drawTreeScene() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            // Draw Roots first (underneath)
+            drawRoots(canvas.width / 2, canvas.height - 80);
+            
+            // Draw Main Tree
+            drawBranch(canvas.width / 2, canvas.height - 80, -90, 120, 18, 0);
+
+            // Draw Human on a Red Bench
+            drawHumanAndBench(canvas.width / 2 - 120, canvas.height - 95);
+        }
+
+        function drawHumanAndBench(x, y) {
+            // Red Bench
+            ctx.fillStyle = '#c62828'; // Red color
+            // Seat
+            ctx.fillRect(x - 40, y, 80, 8);
+            // Legs
+            ctx.fillRect(x - 35, y + 8, 6, 20);
+            ctx.fillRect(x + 29, y + 8, 6, 20);
+            
+            // Human Figure (sitting, looking right)
+            ctx.fillStyle = '#3e2723'; // Dark brown for human
+            
+            // Body (torso)
+            ctx.fillRect(x - 5, y - 25, 16, 25);
+            
+            // Head
+            ctx.beginPath();
+            ctx.arc(x + 3, y - 33, 8, 0, Math.PI * 2);
+            ctx.fill();
+            
+            // Legs (sitting pose)
+            // Thighs
+            ctx.fillRect(x - 5, y, 20, 7);
+            // Calves
+            ctx.fillRect(x + 15, y, 7, 22);
+            
+            // Arm (resting on lap)
+            ctx.fillRect(x + 5, y - 15, 15, 5);
+        }
+
+        function drawBranch(x, y, angle, len, width, depth) {
+            ctx.beginPath();
+            ctx.save();
+            
+            // Realistic Bark Gradient
+            let grad = ctx.createLinearGradient(x, y, x + Math.cos(angle * Math.PI / 180) * len, y + Math.sin(angle * Math.PI / 180) * len);
+            grad.addColorStop(0, '#3e2723');
+            grad.addColorStop(0.5, '#5d4037');
+            grad.addColorStop(1, '#3e2723');
+            
+            ctx.strokeStyle = grad;
+            ctx.lineWidth = width;
+            ctx.lineCap = 'round';
+            ctx.moveTo(x, y);
+            
+            // Add slight organic curve
+            let cp1x = x + Math.cos(angle * Math.PI / 180) * (len/2) + (Math.random() * 10 - 5);
+            let cp1y = y + Math.sin(angle * Math.PI / 180) * (len/2) + (Math.random() * 10 - 5);
+            let destX = x + Math.cos(angle * Math.PI / 180) * len;
+            let destY = y + Math.sin(angle * Math.PI / 180) * len;
+            
+            ctx.quadraticCurveTo(cp1x, cp1y, destX, destY);
+            ctx.stroke();
+
+            // Draw bark texture lines
+            if (width > 2) {
+                ctx.beginPath();
+                ctx.strokeStyle = 'rgba(0,0,0,0.2)';
+                ctx.lineWidth = width / 4;
+                ctx.moveTo(x + (Math.random()*width-width/2), y);
+                ctx.lineTo(destX, destY);
+                ctx.stroke();
+            }
+
+            if (depth > 8) {
+                drawLeaves(destX, destY);
+                ctx.restore();
+                return;
+            }
+
+            // Recursive branching logic
+            setTimeout(() => {
+                drawBranch(destX, destY, angle - (Math.random() * 20 + 10), len * 0.75, width * 0.7, depth + 1);
+                drawBranch(destX, destY, angle + (Math.random() * 20 + 10), len * 0.75, width * 0.7, depth + 1);
+                if(Math.random() > 0.7) drawBranch(destX, destY, angle + (Math.random() * 10 - 5), len * 0.5, width * 0.6, depth + 1);
+            }, 30);
+
+            ctx.restore();
+        }
+
+        function drawRoots(x, y) {
+            for(let i = 0; i < 5; i++) {
+                drawRootSegment(x, y, 40 + (Math.random() * 100), 10, 8);
+            }
+        }
+
+        function drawRootSegment(x, y, angle, len, width) {
+            ctx.beginPath();
+            ctx.strokeStyle = '#2b1d1a';
+            ctx.lineWidth = width;
+            ctx.moveTo(x, y);
+            let destX = x + Math.cos(angle * Math.PI / 180) * len;
+            let destY = y + Math.sin(angle * Math.PI / 180) * (len * 0.3);
+            ctx.lineTo(destX, destY);
+            ctx.stroke();
+            if(width > 1) drawRootSegment(destX, destY, angle + (Math.random()*40-20), len * 0.7, width * 0.6);
+        }
+
+        function drawLeaves(x, y) {
+            const leafCount = 15;
+            const colors = ['#2d5a27', '#3d6a37', '#1d4a17', '#4d7a47'];
+            
+            for (let i = 0; i < leafCount; i++) {
+                ctx.beginPath();
+                ctx.fillStyle = colors[Math.floor(Math.random() * colors.length)];
+                ctx.globalAlpha = 0.6;
+                let lx = x + (Math.random() * 40 - 20);
+                let ly = y + (Math.random() * 40 - 20);
+                ctx.ellipse(lx, ly, 7, 4, Math.random() * Math.PI, 0, Math.PI * 2);
+                ctx.fill();
+            }
+            ctx.globalAlpha = 1.0;
+        }
+
+        // --- MODAL & UI LOGIC (No changes here) ---
+        function openModal(section) {
+            switch(section) {
+        case 'roots':
+            // This takes the user to your first "book" page
+            window.location.href = 'part1.html'; 
+            break;
+            
+        case 'trunk':
+            // This takes them to the "Stem" page we just created
+            window.location.href = 'part2.html';
+            break;
+
+        case 'branches':
+            // Future link for Part III
+            window.location.href = 'part3.html';
+            break;
+
+        case 'crown':
+            // Future link for Part V
+            window.location.href = 'part4.html';
+            break;
+
+        default:
+            console.log("Section not found");
+    }
+        }
+
+        function closeModal() {
+            document.getElementById('modalOverlay').style.display = 'none';
+        }
+
+        function showReadingView(title, content) {
+            document.getElementById('listView').style.display = 'none';
+            document.getElementById('readingView').style.display = 'block';
+            document.getElementById('readTitle').innerText = title;
+            document.getElementById('readContent').innerHTML = `<p>${content}</p><p>${content}</p>`; // Doubled for scroll effect
+        }
+
+        function showListView() {
+            document.getElementById('listView').style.display = 'block';
+            document.getElementById('readingView').style.display = 'none';
+        }
+
+        // Close modal on outside click
+        window.onclick = function(event) {
+            if (event.target == document.getElementById('modalOverlay')) closeModal();
+        }
+
+        window.onload = initCanvas;
+        window.onresize = initCanvas;  // Redraw on resize/orientation change
+    </script>
+</body>
+</html>
