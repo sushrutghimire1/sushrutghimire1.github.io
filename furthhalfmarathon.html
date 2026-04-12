@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Half Marathon Training Plan</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f7f6f2;
+    --surface: #ffffff;
+    --border: #e2e0d8;
+    --text: #1a1916;
+    --muted: #7a7870;
+    --faint: #aeaca6;
+
+    --rest-bg: #f0efe9;
+    --rest-text: #6b6a64;
+    --speed-bg: #ddeeff;
+    --speed-text: #1a5fa8;
+    --easy-bg: #dff2e0;
+    --easy-text: #2a6e34;
+    --tempo-bg: #fef0d6;
+    --tempo-text: #8a5200;
+    --long-bg: #ece8fd;
+    --long-text: #4a3db0;
+    --rec-bg: #d6f4ec;
+    --rec-text: #0d6b50;
+    --race-bg: #c8f0e0;
+    --race-text: #075c40;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    padding: 2rem 1rem 4rem;
+  }
+
+  .page {
+    max-width: 960px;
+    margin: 0 auto;
+  }
+
+  /* ── Header ── */
+  .header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .header-left h1 {
+    font-size: clamp(1.4rem, 4vw, 2rem);
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+    margin-bottom: .3rem;
+  }
+
+  .header-left p {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    color: var(--muted);
+    letter-spacing: .04em;
+  }
+
+  .race-badge {
+    background: var(--race-bg);
+    color: var(--race-text);
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    font-weight: 500;
+    padding: 6px 12px;
+    border-radius: 6px;
+    white-space: nowrap;
+  }
+
+  /* ── Legend ── */
+  .legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 1.75rem;
+  }
+
+  .leg {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 12px;
+    color: var(--muted);
+    font-family: 'DM Mono', monospace;
+  }
+
+  .leg-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+  }
+
+  /* ── Week block ── */
+  .week-block { margin-bottom: 2rem; }
+
+  .week-header {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    margin-bottom: .6rem;
+    flex-wrap: wrap;
+  }
+
+  .week-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    font-weight: 500;
+    color: var(--faint);
+    text-transform: uppercase;
+    letter-spacing: .1em;
+  }
+
+  .week-title {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--muted);
+  }
+
+  .week-phase {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    padding: 2px 7px;
+    border-radius: 4px;
+    margin-left: auto;
+  }
+
+  .phase-base   { background: #f0efe9; color: #6b6a64; }
+  .phase-volume { background: #fef0d6; color: #8a5200; }
+  .phase-peak   { background: #ece8fd; color: #4a3db0; }
+  .phase-taper  { background: #d6f4ec; color: #0d6b50; }
+  .phase-race   { background: var(--race-bg); color: var(--race-text); }
+
+  /* ── Day grid ── */
+  .days {
+    display: grid;
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+    gap: 5px;
+  }
+
+  .day {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 8px 7px;
+    min-height: 88px;
+    transition: border-color .15s, transform .1s;
+  }
+
+  .day.clickable { cursor: pointer; }
+  .day.clickable:hover {
+    border-color: #aaa;
+    transform: translateY(-1px);
+  }
+
+  .day.rest-bg { background: var(--rest-bg); }
+  .day.race-highlight { border-color: #0d6b50 !important; border-width: 1.5px; }
+
+  .day-name {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    color: var(--faint);
+    margin-bottom: 2px;
+  }
+
+  .day-date {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--muted);
+    margin-bottom: 5px;
+  }
+
+  .day-tag {
+    font-size: 10px;
+    font-weight: 500;
+    font-family: 'DM Mono', monospace;
+    border-radius: 4px;
+    padding: 2px 5px;
+    display: inline-block;
+    margin-bottom: 4px;
+  }
+
+  .day-detail {
+    font-size: 11px;
+    color: var(--muted);
+    line-height: 1.4;
+  }
+
+  .milestone {
+    font-size: 10px;
+    color: var(--tempo-text);
+    margin-top: 3px;
+    font-family: 'DM Mono', monospace;
+  }
+
+  /* tag colors */
+  .t-rest   { background: var(--rest-bg);   color: var(--rest-text); }
+  .t-speed  { background: var(--speed-bg);  color: var(--speed-text); }
+  .t-easy   { background: var(--easy-bg);   color: var(--easy-text); }
+  .t-tempo  { background: var(--tempo-bg);  color: var(--tempo-text); }
+  .t-long   { background: var(--long-bg);   color: var(--long-text); }
+  .t-rec    { background: var(--rec-bg);    color: var(--rec-text); }
+  .t-race   { background: var(--race-bg);   color: var(--race-text); }
+
+  /* ── Tooltip ── */
+  .tooltip-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,.35);
+    z-index: 100;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+  }
+
+  .tooltip-overlay.active { display: flex; }
+
+  .tooltip-box {
+    background: var(--surface);
+    border-radius: 12px;
+    padding: 1.5rem;
+    max-width: 380px;
+    width: 100%;
+    position: relative;
+  }
+
+  .tooltip-day {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    margin-bottom: .4rem;
+  }
+
+  .tooltip-title {
+    font-size: 1.1rem;
+    font-weight: 500;
+    margin-bottom: .75rem;
+  }
+
+  .tooltip-section { margin-bottom: .75rem; }
+
+  .tooltip-section h4 {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    color: var(--faint);
+    margin-bottom: .25rem;
+  }
+
+  .tooltip-section p {
+    font-size: 13px;
+    color: var(--text);
+    line-height: 1.6;
+  }
+
+  .close-btn {
+    position: absolute;
+    top: 12px; right: 14px;
+    background: none;
+    border: none;
+    font-size: 18px;
+    cursor: pointer;
+    color: var(--muted);
+    line-height: 1;
+  }
+
+  /* ── Notes bar ── */
+  .notes-bar {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1rem 1.25rem;
+    margin-bottom: 1.5rem;
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+  }
+
+  .note-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    font-size: 12px;
+    color: var(--muted);
+    flex: 1;
+    min-width: 160px;
+  }
+
+  .note-icon {
+    font-size: 14px;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  @media (max-width: 640px) {
+    .days { grid-template-columns: repeat(4, minmax(0,1fr)); gap: 4px; }
+    .day-name { display: none; }
+  }
+  @media (max-width: 400px) {
+    .days { grid-template-columns: repeat(2, minmax(0,1fr)); }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="header">
+    <div class="header-left">
+      <h1>Half Marathon Training Plan</h1>
+      <p>APR 2026 — JUN 2026 · 8 WEEKS</p>
+    </div>
+    <div>
+      <div class="race-badge">&#127937; Race Day: 6 Jun · Fürth</div>
+    </div>
+  </div>
+
+  <div class="notes-bar">
+    <div class="note-item">
+      <span class="note-icon">&#128167;</span>
+      <span>Carry water + banana/gel on all runs over 14 km</span>
+    </div>
+    <div class="note-item">
+      <span class="note-icon">&#129354;</span>
+      <span>Practice race-day fueling from Week 3 onward</span>
+    </div>
+    <div class="note-item">
+      <span class="note-icon">&#11088;</span>
+      <span>Key milestone: one 18–20 km run in Weeks 5–6</span>
+    </div>
+  </div>
+
+  <div class="legend">
+    <div class="leg"><div class="leg-dot" style="background:#378ADD"></div>Speed/intervals</div>
+    <div class="leg"><div class="leg-dot" style="background:#3a9e4a"></div>Easy run</div>
+    <div class="leg"><div class="leg-dot" style="background:#c47a00"></div>Tempo</div>
+    <div class="leg"><div class="leg-dot" style="background:#6e60d8"></div>Long run</div>
+    <div class="leg"><div class="leg-dot" style="background:#1b9e75"></div>Recovery</div>
+    <div class="leg"><div class="leg-dot" style="background:#aaa"></div>Rest</div>
+  </div>
+
+  <div id="cal"></div>
+</div>
+
+<!-- Tooltip overlay -->
+<div class="tooltip-overlay" id="overlay" onclick="closeTooltip(event)">
+  <div class="tooltip-box">
+    <button class="close-btn" onclick="document.getElementById('overlay').classList.remove('active')">&#215;</button>
+    <div class="tooltip-day" id="tt-day"></div>
+    <div class="tooltip-title" id="tt-title"></div>
+    <div class="tooltip-section">
+      <h4>Warm-up</h4>
+      <p id="tt-warmup"></p>
+    </div>
+    <div class="tooltip-section">
+      <h4>Main session</h4>
+      <p id="tt-main"></p>
+    </div>
+    <div class="tooltip-section">
+      <h4>Cool-down &amp; tip</h4>
+      <p id="tt-tip"></p>
+    </div>
+  </div>
+</div>
+
+<script>
+const DAY_NAMES = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+
+const details = {
+  speed: {
+    warmup: '10 min easy jog + dynamic drills (leg swings, high knees, butt kicks)',
+    tip: '5 min easy jog + stretch. Run the first interval conservatively — speed comes in rep 3–4.'
+  },
+  easy: {
+    warmup: '5 min walking + easy jog build-up',
+    tip: '5 min walk + light stretch. If you can\'t hold a conversation, slow down — this is a recovery stimulus, not a fitness test.'
+  },
+  tempo: {
+    warmup: '10 min easy jog. Tempo is comfortably hard — roughly 7–8/10 effort.',
+    tip: '10 min easy cool-down jog + calf and quad stretch. Don\'t start too fast; settle into pace after 1 km.'
+  },
+  long: {
+    warmup: '5–10 min very easy jog. First 2 km should feel almost too slow.',
+    tip: '10 min walk + full stretch. Fuel every 45–50 min on runs over 14 km. Note how your legs feel for pacing feedback.'
+  },
+  rec: {
+    warmup: 'No formal warm-up — start very easy and stay easy.',
+    tip: 'Keep it short and pleasant. Alternatively swap for 30–40 min cycling, swimming, or yoga. The goal is blood flow, not fitness.'
+  }
+};
+
+const weeks = [
+  {
+    label:'12–18 Apr', num:'Week 1', phase:'Base', phaseClass:'phase-base', long_km:12,
+    days:[
+      {type:'rest',tag:'Rest',detail:'Light mobility / stretching'},
+      {type:'speed',tag:'Speed',detail:'5 × 800 m @ ~5:00/km · rest 2 min',main:'5 × 800 m at roughly 5:00/km. Take 2 min standing/walking rest between reps. Total ~7 km with warm-up and cool-down.'},
+      {type:'easy',tag:'Easy',detail:'6 km easy run',main:'6 km at a fully conversational pace (~6:30–7:00/km). No structure needed.'},
+      {type:'tempo',tag:'Tempo',detail:'6 km @ ~5:30/km',main:'6 km continuous tempo effort at ~5:30/km. This is comfortably hard — you can speak in short sentences.'},
+      {type:'rest',tag:'Rest',detail:'Full rest day'},
+      {type:'long',tag:'Long run',detail:'12 km @ ~6:15/km',main:'12 km at ~6:15/km or slower. Water recommended. Focus on time on feet, not speed.'},
+      {type:'rec',tag:'Recovery',detail:'5 km easy or cross-training',main:'5 km very easy jog or 30–40 min cross-training (bike, swim, yoga).'},
+    ]
+  },
+  {
+    label:'19–25 Apr', num:'Week 2', phase:'Base', phaseClass:'phase-base', long_km:14,
+    days:[
+      {type:'rest',tag:'Rest',detail:'Light mobility / stretching'},
+      {type:'speed',tag:'Speed',detail:'5 × 800 m @ ~5:00/km · rest 2 min',main:'5 × 800 m at ~5:00/km. Same as Week 1 — aim for consistent pacing across all reps.'},
+      {type:'easy',tag:'Easy',detail:'7 km easy run',main:'7 km at comfortable, conversational pace. Add 1 km vs last week.'},
+      {type:'tempo',tag:'Tempo',detail:'6 km @ ~5:30/km',main:'6 km continuous tempo at ~5:30/km. Try to hold form in the last 2 km.'},
+      {type:'rest',tag:'Rest',detail:'Full rest day'},
+      {type:'long',tag:'Long run',detail:'14 km @ ~6:15/km · carry water + banana',main:'14 km at ~6:15/km. First run to carry nutrition — try banana or gel at km 7. Water essential.',milestone:true},
+      {type:'rec',tag:'Recovery',detail:'5 km easy or cross-training',main:'5 km very easy or cross-training. Legs should feel tired from Saturday — keep it gentle.'},
+    ]
+  },
+  {
+    label:'26 Apr–2 May', num:'Week 3', phase:'Volume', phaseClass:'phase-volume', long_km:15,
+    days:[
+      {type:'rest',tag:'Rest',detail:'Light mobility / stretching'},
+      {type:'speed',tag:'Speed',detail:'6 × 800 m or 4 × 1 km',main:'Option A: 6 × 800 m at 5:00/km, 2 min rest. Option B: 4 × 1 km at 5:10/km, 2.5 min rest. Both ~9 km total.'},
+      {type:'easy',tag:'Easy',detail:'8 km easy run',main:'8 km easy. A good day to focus on running form — relax shoulders, land midfoot, short strides.'},
+      {type:'tempo',tag:'Tempo',detail:'8 km @ ~5:30/km',main:'8 km tempo. First 2 km to settle, then hold ~5:30/km for the middle 4, ease the last 2.'},
+      {type:'rest',tag:'Rest',detail:'Full rest day'},
+      {type:'long',tag:'Long run',detail:'15 km @ ~6:15/km · practice fueling',main:'15 km. Practice your race-day fueling strategy: gel or banana at km 7–8, water every 20–25 min.'},
+      {type:'rec',tag:'Recovery',detail:'5 km easy or cross-training',main:'5 km easy or cross-training. Sunday is not optional — recovery runs flush fatigue.'},
+    ]
+  },
+  {
+    label:'3–9 May', num:'Week 4', phase:'Volume', phaseClass:'phase-volume', long_km:16,
+    days:[
+      {type:'rest',tag:'Rest',detail:'Light mobility / stretching'},
+      {type:'speed',tag:'Speed',detail:'6 × 800 m or 4 × 1 km',main:'Same as Week 3 but aim to be slightly faster or more controlled. 6 × 800 m or 4 × 1 km.'},
+      {type:'easy',tag:'Easy',detail:'8 km easy run',main:'8 km easy. If legs feel heavy from Tuesday, slow down further — this run is purely aerobic base.'},
+      {type:'tempo',tag:'Tempo',detail:'8 km @ ~5:30/km',main:'8 km continuous tempo. You should be comfortable at this pace now. Focus on even splits.'},
+      {type:'rest',tag:'Rest',detail:'Full rest day'},
+      {type:'long',tag:'Long run',detail:'16 km @ ~6:15/km · practice fueling',main:'16 km — longest run so far. Two fueling stops recommended (km 6 and km 12). Note energy levels.'},
+      {type:'rec',tag:'Recovery',detail:'6 km easy or cross-training',main:'6 km easy. You\'ve just done your biggest week — Sunday is essential, not optional.'},
+    ]
+  },
+  {
+    label:'10–16 May', num:'Week 5', phase:'Peak', phaseClass:'phase-peak', long_km:18,
+    days:[
+      {type:'rest',tag:'Rest',detail:'Light mobility / stretching'},
+      {type:'speed',tag:'Speed',detail:'5 × 1 km @ ~5:00/km',main:'5 × 1 km at ~5:00/km with 2.5 min rest. These should feel hard but controlled. Total ~10 km.'},
+      {type:'easy',tag:'Easy',detail:'8–10 km easy run',main:'8–10 km easy. Let effort guide distance — 8 if legs are sore, 10 if feeling good.'},
+      {type:'tempo',tag:'Tempo',detail:'10 km @ ~5:30/km',main:'10 km tempo — your longest tempo run. Break into 2 × 5 km with 3 min rest if needed for first attempt.'},
+      {type:'rest',tag:'Rest',detail:'Full rest day'},
+      {type:'long',tag:'Long run',detail:'18 km — key milestone run!',main:'18 km. This is your confidence run. Go slow (6:15–6:30/km), fuel well, and finish feeling like you could do 3 more km.',milestone:true},
+      {type:'rec',tag:'Recovery',detail:'6 km easy or cross-training',main:'6 km very easy. You just ran 18 km — celebrate, recover, and reflect on how it felt.'},
+    ]
+  },
+  {
+    label:'17–23 May', num:'Week 6', phase:'Peak', phaseClass:'phase-peak', long_km:19,
+    days:[
+      {type:'rest',tag:'Rest',detail:'Light mobility / stretching'},
+      {type:'speed',tag:'Speed',detail:'5 × 1 km @ ~5:00/km',main:'5 × 1 km. Same as Week 5 — aim for consistency across reps. Last hard interval session before taper.'},
+      {type:'easy',tag:'Easy',detail:'8–10 km easy run',main:'8–10 km easy. Keep it honest — no pushing. This week is about absorbing all the training load.'},
+      {type:'tempo',tag:'Tempo',detail:'10 km @ ~5:30/km',main:'10 km tempo, final peak tempo effort. Hold form in the last 2 km. Well done — hard work is almost done.'},
+      {type:'rest',tag:'Rest',detail:'Full rest day'},
+      {type:'long',tag:'Long run',detail:'19 km — peak long run!',main:'19 km, your longest training run. Same approach as Week 5: slow, fueled, relaxed. Trust the training.',milestone:true},
+      {type:'rec',tag:'Recovery',detail:'6 km easy or cross-training',main:'6 km easy or cross-training. You\'ve hit peak training volume — taper starts Monday.'},
+    ]
+  },
+  {
+    label:'24–30 May', num:'Week 7', phase:'Taper', phaseClass:'phase-taper', long_km:14,
+    days:[
+      {type:'rest',tag:'Rest',detail:'Light mobility only'},
+      {type:'speed',tag:'Speed',detail:'4 × 800 m — reduced volume',main:'4 × 800 m at race pace or slightly faster. Volume is down — enjoy the lighter load.'},
+      {type:'easy',tag:'Easy',detail:'6 km easy — feel fresh',main:'6 km easy. You may feel sluggish during taper — this is normal. Trust the process.'},
+      {type:'tempo',tag:'Tempo',detail:'6 km tempo — stay controlled',main:'6 km tempo. No heroics — this is maintenance, not fitness building. Finish feeling strong.'},
+      {type:'rest',tag:'Rest',detail:'Full rest day'},
+      {type:'long',tag:'Long run',detail:'14 km @ ~6:15/km',main:'14 km easy. Should feel almost too short after recent weeks. Enjoy the lightness in your legs.'},
+      {type:'rec',tag:'Recovery',detail:'5 km very easy',main:'5 km very easy. Last recovery run before race week. Legs should be feeling fresh.'},
+    ]
+  },
+  {
+    label:'31 May–6 Jun', num:'Week 8', phase:'Race Week', phaseClass:'phase-race', long_km:21.1,
+    race:true,
+    days:[
+      {type:'rest',tag:'Rest',detail:'Rest or light walk'},
+      {type:'easy',tag:'Easy',detail:'5 km shake-out run',main:'5 km very easy. Just to keep the legs moving. No effort, no watch stress.'},
+      {type:'rest',tag:'Rest',detail:'Rest'},
+      {type:'easy',tag:'Easy',detail:'4 km with 3–4 short pickups',main:'4 km easy with 3–4 × 30 sec at race pace. Reminds legs what fast feels like. Done and dusted.'},
+      {type:'rest',tag:'Rest',detail:'Rest · prep kit & nutrition'},
+      {type:'rest',tag:'Rest',detail:'Full rest · sleep early'},
+      {type:'race',tag:'RACE DAY',detail:'Fürth Half Marathon · 21.1 km',main:'Race day! Trust your training. Go out slightly slower than goal pace for the first 5 km, then settle in. Fuel at km 7 and km 13. Enjoy every step.',race:true},
+    ]
+  },
+];
+
+const typeClass = {rest:'t-rest',speed:'t-speed',easy:'t-easy',tempo:'t-tempo',long:'t-long',rec:'t-rec',race:'t-race'};
+const restTypes = new Set(['rest']);
+
+const startDates = [
+  new Date(2026,3,12),new Date(2026,3,19),new Date(2026,3,26),new Date(2026,4,3),
+  new Date(2026,4,10),new Date(2026,4,17),new Date(2026,4,24),new Date(2026,4,31)
+];
+
+function fmtDate(d){return d.getDate()+'.'+(d.getMonth()+1)+'.'}
+
+const cal = document.getElementById('cal');
+
+weeks.forEach((w,wi)=>{
+  const block = document.createElement('div');
+  block.className='week-block';
+
+  const wh = document.createElement('div');
+  wh.className='week-header';
+  wh.innerHTML = `<span class="week-num">${w.num}</span><span class="week-title">${w.label}</span><span class="week-phase ${w.phaseClass}">${w.phase}</span>`;
+  block.appendChild(wh);
+
+  const grid = document.createElement('div');
+  grid.className='days';
+  const start = startDates[wi];
+
+  w.days.forEach((d,di)=>{
+    const cell = document.createElement('div');
+    const date = new Date(start); date.setDate(start.getDate()+di);
+    const isRest = restTypes.has(d.type);
+    cell.className='day'+(isRest?' rest-bg':'')+(d.race?' race-highlight':'')+(!isRest?' clickable':'');
+
+    cell.innerHTML = `
+      <div class="day-name">${DAY_NAMES[di]}</div>
+      <div class="day-date">${fmtDate(date)}</div>
+      <div class="day-tag ${typeClass[d.type]||'t-rest'}">${d.tag}</div>
+      <div class="day-detail">${d.detail}</div>
+      ${d.milestone ? '<div class="milestone">★ milestone</div>' : ''}
+    `;
+
+    if(!isRest){
+      const info = details[d.type] || {};
+      cell.addEventListener('click', () => {
+        document.getElementById('tt-day').textContent = DAY_NAMES[di] + ' · ' + fmtDate(date) + ' · ' + w.num;
+        document.getElementById('tt-title').textContent = d.tag + ' — ' + d.detail;
+        document.getElementById('tt-warmup').textContent = info.warmup || '5–10 min easy jog';
+        document.getElementById('tt-main').textContent = d.main || d.detail;
+        document.getElementById('tt-tip').textContent = info.tip || 'Easy 5 min cool-down + stretch.';
+        document.getElementById('overlay').classList.add('active');
+      });
+    }
+
+    grid.appendChild(cell);
+  });
+
+  block.appendChild(grid);
+  cal.appendChild(block);
+});
+
+function closeTooltip(e){
+  if(e.target===document.getElementById('overlay')) document.getElementById('overlay').classList.remove('active');
+}
+
+document.addEventListener('keydown', e => {
+  if(e.key==='Escape') document.getElementById('overlay').classList.remove('active');
+});
+</script>
+</body>
+</html>
