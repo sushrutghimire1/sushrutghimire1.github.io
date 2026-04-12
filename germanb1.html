@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>German B1 Study Plan</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f7f6f2;
+    --surface: #ffffff;
+    --border: #e2e0d8;
+    --text: #1a1916;
+    --muted: #7a7870;
+    --faint: #aeaca6;
+
+    --vocab-bg:   #ddeeff; --vocab-text:   #1a5fa8;
+    --grammar-bg: #ece8fd; --grammar-text: #4a3db0;
+    --listen-bg:  #d6f4ec; --listen-text:  #0d6b50;
+    --speak-bg:   #fef0d6; --speak-text:   #8a5200;
+    --write-bg:   #fde8f0; --write-text:   #8a1a50;
+    --read-bg:    #dff2e0; --read-text:    #2a6e34;
+    --review-bg:  #f0efe9; --review-text:  #6b6a64;
+    --test-bg:    #c8f0e0; --test-text:    #075c40;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    padding: 2rem 1rem 4rem;
+  }
+
+  .page { max-width: 980px; margin: 0 auto; }
+
+  /* Header */
+  .header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .header-left h1 {
+    font-size: clamp(1.4rem, 4vw, 2rem);
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+    margin-bottom: .3rem;
+  }
+  .header-left p {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    color: var(--muted);
+    letter-spacing: .04em;
+  }
+  .goal-badge {
+    background: var(--test-bg);
+    color: var(--test-text);
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    font-weight: 500;
+    padding: 6px 12px;
+    border-radius: 6px;
+    white-space: nowrap;
+  }
+
+  /* Notes bar */
+  .notes-bar {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1rem 1.25rem;
+    margin-bottom: 1.5rem;
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+  }
+  .note-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    font-size: 12px;
+    color: var(--muted);
+    flex: 1;
+    min-width: 160px;
+  }
+  .note-icon { font-size: 14px; flex-shrink: 0; margin-top: 1px; }
+
+  /* Legend */
+  .legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 1.75rem;
+  }
+  .leg {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 12px;
+    color: var(--muted);
+    font-family: 'DM Mono', monospace;
+  }
+  .leg-dot { width: 8px; height: 8px; border-radius: 50%; }
+
+  /* Month block */
+  .month-block { margin-bottom: 2.25rem; }
+  .month-header {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    margin-bottom: .6rem;
+    flex-wrap: wrap;
+  }
+  .month-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    font-weight: 500;
+    color: var(--faint);
+    text-transform: uppercase;
+    letter-spacing: .1em;
+  }
+  .month-title { font-size: 13px; font-weight: 500; color: var(--muted); }
+  .month-focus {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    padding: 2px 7px;
+    border-radius: 4px;
+    margin-left: auto;
+  }
+
+  /* Week grid — 7 cols for Mon–Sun */
+  .week-group { margin-bottom: 8px; }
+  .week-label-row {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--faint);
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    margin-bottom: 4px;
+  }
+  .days {
+    display: grid;
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+    gap: 5px;
+  }
+
+  /* Day cell */
+  .day {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 8px 7px;
+    min-height: 84px;
+    transition: border-color .15s, transform .1s;
+  }
+  .day.clickable { cursor: pointer; }
+  .day.clickable:hover { border-color: #aaa; transform: translateY(-1px); }
+  .day.rest-bg { background: var(--review-bg); }
+  .day.milestone-cell { border-color: #0d6b50 !important; border-width: 1.5px; }
+
+  .day-name {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    color: var(--faint);
+    margin-bottom: 2px;
+  }
+  .day-date {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--muted);
+    margin-bottom: 5px;
+  }
+  .day-tag {
+    font-size: 10px;
+    font-weight: 500;
+    font-family: 'DM Mono', monospace;
+    border-radius: 4px;
+    padding: 2px 5px;
+    display: inline-block;
+    margin-bottom: 4px;
+  }
+  .day-detail { font-size: 11px; color: var(--muted); line-height: 1.4; }
+  .milestone-mark {
+    font-size: 10px;
+    color: var(--speak-text);
+    margin-top: 3px;
+    font-family: 'DM Mono', monospace;
+  }
+
+  /* tag colors */
+  .t-vocab   { background: var(--vocab-bg);   color: var(--vocab-text); }
+  .t-grammar { background: var(--grammar-bg); color: var(--grammar-text); }
+  .t-listen  { background: var(--listen-bg);  color: var(--listen-text); }
+  .t-speak   { background: var(--speak-bg);   color: var(--speak-text); }
+  .t-write   { background: var(--write-bg);   color: var(--write-text); }
+  .t-read    { background: var(--read-bg);    color: var(--read-text); }
+  .t-review  { background: var(--review-bg);  color: var(--review-text); }
+  .t-test    { background: var(--test-bg);    color: var(--test-text); }
+
+  /* phase badge colors */
+  .p-foundation { background: #ddeeff; color: #1a5fa8; }
+  .p-structure  { background: var(--grammar-bg); color: var(--grammar-text); }
+  .p-fluency    { background: var(--speak-bg);   color: var(--speak-text); }
+  .p-exam-prep  { background: var(--listen-bg);  color: var(--listen-text); }
+  .p-final      { background: var(--test-bg);    color: var(--test-text); }
+
+  /* Tooltip */
+  .tooltip-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,.35);
+    z-index: 100;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+  }
+  .tooltip-overlay.active { display: flex; }
+  .tooltip-box {
+    background: var(--surface);
+    border-radius: 12px;
+    padding: 1.5rem;
+    max-width: 400px;
+    width: 100%;
+    position: relative;
+  }
+  .tooltip-day {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    margin-bottom: .4rem;
+  }
+  .tooltip-title { font-size: 1.05rem; font-weight: 500; margin-bottom: .85rem; }
+  .tooltip-section { margin-bottom: .75rem; }
+  .tooltip-section h4 {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    color: var(--faint);
+    margin-bottom: .25rem;
+  }
+  .tooltip-section p { font-size: 13px; color: var(--text); line-height: 1.6; }
+  .close-btn {
+    position: absolute;
+    top: 12px; right: 14px;
+    background: none; border: none;
+    font-size: 18px; cursor: pointer;
+    color: var(--muted); line-height: 1;
+  }
+
+  @media (max-width: 640px) {
+    .days { grid-template-columns: repeat(4, minmax(0,1fr)); gap: 4px; }
+    .day-name { display: none; }
+  }
+  @media (max-width: 400px) {
+    .days { grid-template-columns: repeat(2, minmax(0,1fr)); }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="header">
+    <div class="header-left">
+      <h1>German B1 Study Plan</h1>
+      <p>APR 2026 — AUG 2026 · 5 MONTHS · 30 MIN/DAY · A2 → B1</p>
+    </div>
+    <div><div class="goal-badge">&#127891; Goal: Work &amp; University</div></div>
+  </div>
+
+  <div class="notes-bar">
+    <div class="note-item">
+      <span class="note-icon">&#128337;</span>
+      <span>30 min/day = ~75 hrs total — consistent daily beats long irregular sessions</span>
+    </div>
+    <div class="note-item">
+      <span class="note-icon">&#128172;</span>
+      <span>Speak from Week 1 — even broken sentences build confidence faster than waiting</span>
+    </div>
+    <div class="note-item">
+      <span class="note-icon">&#11088;</span>
+      <span>Key milestone: end-of-month mini-tests track real progress</span>
+    </div>
+  </div>
+
+  <div class="legend">
+    <div class="leg"><div class="leg-dot" style="background:#378ADD"></div>Vocabulary</div>
+    <div class="leg"><div class="leg-dot" style="background:#6e60d8"></div>Grammar</div>
+    <div class="leg"><div class="leg-dot" style="background:#1b9e75"></div>Listening</div>
+    <div class="leg"><div class="leg-dot" style="background:#c47a00"></div>Speaking</div>
+    <div class="leg"><div class="leg-dot" style="background:#a01a5a"></div>Writing</div>
+    <div class="leg"><div class="leg-dot" style="background:#3a9e4a"></div>Reading</div>
+    <div class="leg"><div class="leg-dot" style="background:#aaa"></div>Review</div>
+    <div class="leg"><div class="leg-dot" style="background:#0d6b50"></div>Test</div>
+  </div>
+
+  <div id="cal"></div>
+</div>
+
+<!-- Tooltip -->
+<div class="tooltip-overlay" id="overlay" onclick="closeTooltip(event)">
+  <div class="tooltip-box">
+    <button class="close-btn" onclick="document.getElementById('overlay').classList.remove('active')">&#215;</button>
+    <div class="tooltip-day" id="tt-day"></div>
+    <div class="tooltip-title" id="tt-title"></div>
+    <div class="tooltip-section">
+      <h4>What to study</h4>
+      <p id="tt-what"></p>
+    </div>
+    <div class="tooltip-section">
+      <h4>Recommended resources</h4>
+      <p id="tt-res"></p>
+    </div>
+    <div class="tooltip-section">
+      <h4>30-min structure</h4>
+      <p id="tt-time"></p>
+    </div>
+  </div>
+</div>
+
+<script>
+const DAY_NAMES = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+
+// ── Type detail cards ──────────────────────────────────────────────────────
+const typeInfo = {
+  vocab: {
+    res: 'Anki flashcard deck (B1 Wortschatz), Quizlet, or Duolingo vocab sets',
+    time: '10 min new cards → 15 min review old cards → 5 min use each word in a sentence'
+  },
+  grammar: {
+    res: 'schubert-verlag.de (free exercises), "Hammer\'s German Grammar", or Nicos Weg (ARD)',
+    time: '5 min review yesterday\'s rule → 15 min study new grammar point → 10 min exercises'
+  },
+  listen: {
+    res: 'Slow German podcast, DW Deutsch lernen (Nicos Weg), Easy German YouTube',
+    time: '5 min preview vocab → 15 min listen once without pausing → 10 min re-listen and note unknown words'
+  },
+  speak: {
+    res: 'iTalki (tutor sessions), Tandem app (language exchange), or record yourself on voice memo',
+    time: '5 min prep topic notes → 20 min speak/record aloud or with a partner → 5 min self-correction'
+  },
+  write: {
+    res: 'Lang-8 or italki notebook for corrections, ChatGPT for feedback, Duden for spelling',
+    time: '5 min brainstorm → 20 min write 80–120 words on the topic → 5 min proofread'
+  },
+  read: {
+    res: 'Deutsche Welle Nachrichten (simplified), Spiegel Online, graded readers level B1',
+    time: '5 min skim article headlines → 20 min read one article carefully → 5 min note new vocab'
+  },
+  review: {
+    res: 'Your own notes, Anki deck, or re-read/re-listen to material from the past week',
+    time: '15 min review grammar notes → 10 min Anki vocab deck → 5 min summarise week in German'
+  },
+  test: {
+    res: 'Goethe B1 practice papers (goethe.de/prüfung), telc B1 sample tests, Modellsätze PDF',
+    time: '30 min timed practice under exam conditions — no dictionary, no pausing'
+  }
+};
+
+// ── Month definitions ──────────────────────────────────────────────────────
+// Each month has a weekly pattern (Mon–Sun) and a focus theme.
+// Pattern types: vocab, grammar, listen, speak, write, read, review, test
+
+const months = [
+  {
+    label: 'Month 1 · Apr–May 2026',
+    num: 'Month 1',
+    phase: 'A2 Consolidation',
+    phaseClass: 'p-foundation',
+    startDate: new Date(2026, 3, 13), // Mon 13 Apr
+    weeks: 4,
+    // Weekly pattern Mon–Sun
+    pattern: ['vocab','grammar','listen','speak','write','read','review'],
+    // Per-day detail overrides by week index (0-based)
+    weekDetails: [
+      // Week 1
+      [
+        {detail:'15 new words: daily life & work vocabulary (Beruf, Büro, Alltag)'},
+        {detail:'Präteritum (simple past) — sein, haben, regular verbs'},
+        {detail:'Slow German ep. 1–2: listen once, note main idea'},
+        {detail:'Introduce yourself in German — job, studies, daily routine (record it)'},
+        {detail:'Write 80 words: "Mein Alltag" — describe a typical day'},
+        {detail:'Read a simple DW article on work or student life'},
+        {detail:'Review all week: vocab flashcards + grammar notes'},
+      ],
+      // Week 2
+      [
+        {detail:'15 words: university & study vocab (Studium, Vorlesung, Prüfung)'},
+        {detail:'Modalverben (können, müssen, dürfen, sollen, wollen, mögen)'},
+        {detail:'Nicos Weg ep. 1–3 on DW: watch + comprehension questions'},
+        {detail:'Speak about your studies or work using modal verbs'},
+        {detail:'Write 80 words: "Was möchte ich erreichen?" (goals)'},
+        {detail:'Read: short article about German university system'},
+        {detail:'Review week 2 + redo any grammar exercises you struggled with'},
+      ],
+      // Week 3
+      [
+        {detail:'15 words: transport, directions, city vocab'},
+        {detail:'Konjunktiv II basics: würde + infinitiv, könnte, müsste'},
+        {detail:'Easy German YouTube: street interview with subtitles'},
+        {detail:'Role-play: asking for directions or navigating the city'},
+        {detail:'Write 80 words: "Wenn ich in Deutschland wäre…" (Konjunktiv II)'},
+        {detail:'Read: schedule or timetable-style text (train connections, events)'},
+        {detail:'Review + write 5 sentences using Konjunktiv II'},
+      ],
+      // Week 4
+      [
+        {detail:'Anki: review all Month 1 vocab (60 cards)'},
+        {detail:'Relativsätze (relative clauses) — der/die/das relative pronouns'},
+        {detail:'Listen: Slow German — replay an episode from earlier, note new words'},
+        {detail:'Speak: summarise Month 1 — what have you learned? (2–3 min monologue)'},
+        {detail:'Write: short formal email (to a professor or colleague) — 80–100 words'},
+        {detail:'Read a graded B1 reader chapter or short story'},
+        {detail:'★ Month 1 mini-test: A2+ grammar + vocab exercise (Goethe sample)', milestone:true},
+      ],
+    ]
+  },
+  {
+    label: 'Month 2 · May 2026',
+    num: 'Month 2',
+    phase: 'Grammar & Structure',
+    phaseClass: 'p-structure',
+    startDate: new Date(2026, 4, 11), // Mon 11 May
+    weeks: 4,
+    pattern: ['grammar','vocab','listen','grammar','write','read','review'],
+    weekDetails: [
+      [
+        {detail:'Nebensätze mit weil, dass, obwohl, wenn — subordinate clauses'},
+        {detail:'15 words: opinions & argumentation (meiner Meinung nach, ich finde…)'},
+        {detail:'DW Podcast: news item for learners — note 3 main points'},
+        {detail:'Passive voice (Passiv): wird gemacht, wurde gemacht'},
+        {detail:'Write 80 words: argue a point — "Sollte man im Büro Deutsch sprechen?" '},
+        {detail:'Read: opinion article or editorial (DW or Spiegel simple)'},
+        {detail:'Review: subordinate clause drills + write 5 passive sentences'},
+      ],
+      [
+        {detail:'Genitiv case — des/der + nouns; wessen, statt, wegen, während'},
+        {detail:'15 words: health, body, illness (useful for formal/work contexts)'},
+        {detail:'Easy German: listen without subtitles first, then with'},
+        {detail:'Passive continued: get comfortable with werden + Partizip II'},
+        {detail:'Write formal letter of complaint or request (80–100 words)'},
+        {detail:'Read: instructions or how-to text (IKEA-style or recipe)'},
+        {detail:'Review Genitiv + passive voice exercises'},
+      ],
+      [
+        {detail:'Adjektivdeklination — adjective endings in all 4 cases'},
+        {detail:'15 words: technology & digital life (useful for university/work)'},
+        {detail:'Listen: German radio news clip (1–2 min), note key facts'},
+        {detail:'Adjective + case practice: describe a product or place in detail'},
+        {detail:'Write a product description or a room/place description (100 words)'},
+        {detail:'Read: Wikipedia-style factual text at B1 level'},
+        {detail:'Review adjective endings table + 10 practice sentences'},
+      ],
+      [
+        {detail:'Futur I (werden + infinitiv) — plans, predictions, assumptions'},
+        {detail:'Anki: review all Month 2 vocab + weak words from Month 1'},
+        {detail:'Slow German or DW: choose favourite episode, detailed listen'},
+        {detail:'Speak: debate practice — argue both sides of a simple topic (record it)'},
+        {detail:'Write: email confirming a meeting or appointment (formal)'},
+        {detail:'Read: newspaper article — underline all subordinate clauses'},
+        {detail:'★ Month 2 mini-test: grammar + reading comprehension', milestone:true},
+      ],
+    ]
+  },
+  {
+    label: 'Month 3 · Jun 2026',
+    num: 'Month 3',
+    phase: 'Fluency & Speaking',
+    phaseClass: 'p-fluency',
+    startDate: new Date(2026, 5, 8), // Mon 8 Jun
+    weeks: 4,
+    pattern: ['vocab','speak','listen','grammar','speak','read','review'],
+    weekDetails: [
+      [
+        {detail:'15 words: work skills & professional vocab (Kenntnisse, Erfahrung, Bewerbung)'},
+        {detail:'iTalki or Tandem: 30 min conversation session on work/study topics'},
+        {detail:'Podcast: B1-level interview, shadowing exercise — repeat sentences aloud'},
+        {detail:'Indirekte Rede (reported speech): er sagte, dass…'},
+        {detail:'Speak: self-introduction for a job interview context (record, critique)'},
+        {detail:'Read: job posting or university application requirements in German'},
+        {detail:'Review: indirect speech structures + 5 example sentences'},
+      ],
+      [
+        {detail:'15 words: environment & society (used in B1 exam writing topics)'},
+        {detail:'Speak: discuss an opinion topic — "Umweltschutz: Was kann man tun?"'},
+        {detail:'Easy German: fast natural speech clip — focus on listening stamina'},
+        {detail:'Two-way prepositions (Wechselpräpositionen): an, auf, in, über, unter…'},
+        {detail:'Speak + write hybrid: speak 2 min on a topic, then write it up (100 words)'},
+        {detail:'Read: factual text about environment or society — B1 level'},
+        {detail:'Review two-way prepositions + speaking notes from the week'},
+      ],
+      [
+        {detail:'15 words: describing people, character traits (used in speaking & writing)'},
+        {detail:'Speaking drill: describe someone\'s personality using relative clauses'},
+        {detail:'Nicos Weg: full episode + follow-up online exercises'},
+        {detail:'Infinitivkonstruktionen: um … zu, ohne … zu, statt … zu'},
+        {detail:'Write: short portrait of a person you admire (work/academic context)'},
+        {detail:'Read: biographical text or interview transcript'},
+        {detail:'Review week vocab + infinitiv constructions'},
+      ],
+      [
+        {detail:'Anki: full review deck — flag difficult words for extra drilling'},
+        {detail:'★ Speaking milestone: 5-min recorded monologue on any B1 topic', milestone:true},
+        {detail:'Listening test practice: Goethe B1 Hörverstehen sample section (timed)'},
+        {detail:'Grammar review: cover all key structures Months 1–3 (notes summary)'},
+        {detail:'Write: formal email + opinion paragraph — two tasks in 30 min'},
+        {detail:'Read: B1 practice reading text under timed conditions (20 min)'},
+        {detail:'★ Month 3 mini-test: reading + listening comprehension combined', milestone:true},
+      ],
+    ]
+  },
+  {
+    label: 'Month 4 · Jul 2026',
+    num: 'Month 4',
+    phase: 'Exam Preparation',
+    phaseClass: 'p-exam-prep',
+    startDate: new Date(2026, 6, 6), // Mon 6 Jul
+    weeks: 4,
+    pattern: ['read','grammar','listen','write','speak','test','review'],
+    weekDetails: [
+      [
+        {detail:'Read: full Goethe B1 Leseverstehen sample — 3 text types, 30 min timed'},
+        {detail:'Grammar gap-fill: mixed B1 grammar (Goethe sample Sprachbausteine)'},
+        {detail:'Hörverstehen practice: Part 1 of B1 listening exam (short dialogues)'},
+        {detail:'Write: B1 Schreiben task 1 — informal letter/email (70–80 words, 15 min)'},
+        {detail:'Speak: Sprechen Teil 1 — Präsentation on a given topic (3 min)'},
+        {detail:'Full timed test: one complete B1 paper section (reading OR listening)'},
+        {detail:'Analyse errors from test: make a correction list, review grammar'},
+      ],
+      [
+        {detail:'Read: Goethe B1 Leseverstehen Part 2 — multiple choice article'},
+        {detail:'Sprachbausteine: complete 10 gap-fill sentences under timed pressure'},
+        {detail:'Hörverstehen Part 2: radio announcements — note key info'},
+        {detail:'Write: B1 Schreiben task 2 — semi-formal letter of request/complaint'},
+        {detail:'Speak: Sprechen Teil 2 — discuss a graph or statistics (with a partner or recorded)'},
+        {detail:'Full timed: complete one full listening section (Goethe sample paper 2)'},
+        {detail:'Review: correct writing tasks + go through listening scripts'},
+      ],
+      [
+        {detail:'Read: Goethe B1 Part 3 — match headlines to text paragraphs (speed drill)'},
+        {detail:'Grammar: focus on weak areas from error list — 30 min targeted drill'},
+        {detail:'Hörverstehen Part 3: longer interview or discussion — note main arguments'},
+        {detail:'Write: practice writing both tasks in 30 min combined (simulate exam)'},
+        {detail:'Speak: Sprechen Teil 3 — negotiate and reach agreement with a partner'},
+        {detail:'Full timed: complete full Leseverstehen section from a practice paper'},
+        {detail:'Review week + update vocab Anki deck with exam-relevant words'},
+      ],
+      [
+        {detail:'Read: full timed reading module — all 3 parts in 65 min (full simulation)'},
+        {detail:'Grammar final review: Relativsätze, Passive, Konjunktiv II, Nebensätze'},
+        {detail:'Listening: full timed Hörverstehen module — all 3 parts'},
+        {detail:'Write: full timed Schreiben module — both tasks in 30 min'},
+        {detail:'Speak: full Sprechen simulation — all 3 parts with time limits'},
+        {detail:'★ Full mock exam day: all 4 modules back to back (2.5 hrs)', milestone:true},
+        {detail:'Review mock exam results: identify top 3 weak areas for Month 5'},
+      ],
+    ]
+  },
+  {
+    label: 'Month 5 · Aug 2026',
+    num: 'Month 5',
+    phase: 'Final Push',
+    phaseClass: 'p-final',
+    startDate: new Date(2026, 7, 3), // Mon 3 Aug
+    weeks: 4,
+    pattern: ['test','grammar','listen','speak','write','read','review'],
+    weekDetails: [
+      [
+        {detail:'Targeted drill: weakest module from mock exam — 30 min focused practice'},
+        {detail:'Grammar: tackle your top 2 error types from Month 4 correction list'},
+        {detail:'Authentic German: TED Talk or university lecture clip (10–12 min), note vocab'},
+        {detail:'Speaking fluency drill: respond to 5 random B1 questions in 1 min each'},
+        {detail:'Write under pressure: both tasks in 28 min (tighter than real exam)'},
+        {detail:'Read: authentic German article — not simplified — and summarise in English'},
+        {detail:'Review: re-listen to Month 4 listening tests, check scripts'},
+      ],
+      [
+        {detail:'Full timed Leseverstehen (new paper) — aim for 80%+ correct'},
+        {detail:'Grammar: Partizipien als Adjektive (das gelesene Buch) — advanced B1'},
+        {detail:'Listening drill: pause after each sentence and repeat (shadowing technique)'},
+        {detail:'Speak: prepare and deliver a 4-min presentation on a professional topic'},
+        {detail:'Write: combine formal style + opinion paragraph in one flowing text (120 words)'},
+        {detail:'Read: 2 articles back to back — practise switching topics quickly'},
+        {detail:'Review + redo any exam section where you scored below 70%'},
+      ],
+      [
+        {detail:'Full Hörverstehen timed drill — fresh sample paper, new material'},
+        {detail:'Grammar: Konzessivsätze (obwohl, trotzdem) and Kausalangaben (da, weil)'},
+        {detail:'Listen: German film/series scene — focus on natural speed and idioms'},
+        {detail:'Speak: spontaneous speaking — pick a random topic, speak for 3 min, record'},
+        {detail:'Write: complete mock Schreiben module — self-assess using Goethe criteria'},
+        {detail:'Read: scan a real German job posting or university website — note vocab'},
+        {detail:'Review everything: 1-page German summary of what you\'ve learned overall'},
+      ],
+      [
+        {detail:'★ Final full mock exam: all 4 modules, exam conditions, timed', milestone:true},
+        {detail:'Final grammar review: light pass — don\'t cram, consolidate'},
+        {detail:'Relaxed listening: Slow German or favourite podcast — enjoy the language'},
+        {detail:'Light speaking: casual conversation with a partner or self-talk practice'},
+        {detail:'Rest day for writing — read over best writing samples from the 5 months'},
+        {detail:'Rest and confidence day — skim notes, recall successes, feel ready'},
+        {detail:'★ B1 Assessment day — or final self-review + plan next steps', milestone:true},
+      ],
+    ]
+  },
+];
+
+const typeClass = {
+  vocab:'t-vocab', grammar:'t-grammar', listen:'t-listen',
+  speak:'t-speak', write:'t-write', read:'t-read',
+  review:'t-review', test:'t-test'
+};
+const tagLabel = {
+  vocab:'Vocab', grammar:'Grammar', listen:'Listening',
+  speak:'Speaking', write:'Writing', read:'Reading',
+  review:'Review', test:'Test'
+};
+const restTypes = new Set(['review']);
+
+function fmtDate(d){ return d.getDate()+'.'+(d.getMonth()+1)+'.'; }
+
+const cal = document.getElementById('cal');
+
+months.forEach(m => {
+  const block = document.createElement('div');
+  block.className = 'month-block';
+
+  const mh = document.createElement('div');
+  mh.className = 'month-header';
+  mh.innerHTML = `<span class="month-num">${m.num}</span><span class="month-title">${m.label}</span><span class="month-focus ${m.phaseClass}">${m.phase}</span>`;
+  block.appendChild(mh);
+
+  for(let wi = 0; wi < m.weeks; wi++){
+    const wg = document.createElement('div');
+    wg.className = 'week-group';
+
+    const weekStart = new Date(m.startDate);
+    weekStart.setDate(m.startDate.getDate() + wi * 7);
+    const weekEnd = new Date(weekStart); weekEnd.setDate(weekStart.getDate() + 6);
+
+    const wlr = document.createElement('div');
+    wlr.className = 'week-label-row';
+    wlr.textContent = 'Week '+(wi+1)+' · '+fmtDate(weekStart)+' – '+fmtDate(weekEnd);
+    wg.appendChild(wlr);
+
+    const grid = document.createElement('div');
+    grid.className = 'days';
+
+    for(let di = 0; di < 7; di++){
+      const dayDate = new Date(weekStart); dayDate.setDate(weekStart.getDate() + di);
+      const type = m.pattern[di];
+      const overrides = (m.weekDetails[wi] && m.weekDetails[wi][di]) || {};
+      const detail = overrides.detail || tagLabel[type] + ' session';
+      const milestone = overrides.milestone || false;
+      const isReview = restTypes.has(type);
+      const info = typeInfo[type] || {};
+
+      const cell = document.createElement('div');
+      cell.className = 'day'
+        + (isReview ? ' rest-bg' : '')
+        + (milestone ? ' milestone-cell' : '')
+        + ' clickable';
+
+      cell.innerHTML = `
+        <div class="day-name">${DAY_NAMES[di]}</div>
+        <div class="day-date">${fmtDate(dayDate)}</div>
+        <div class="day-tag ${typeClass[type]}">${tagLabel[type]}</div>
+        <div class="day-detail">${detail}</div>
+        ${milestone ? '<div class="milestone-mark">★ milestone</div>' : ''}
+      `;
+
+      cell.addEventListener('click', () => {
+        document.getElementById('tt-day').textContent =
+          DAY_NAMES[di] + ' · ' + fmtDate(dayDate) + ' · ' + m.num + ' Week '+(wi+1);
+        document.getElementById('tt-title').textContent = tagLabel[type] + ' — ' + detail;
+        document.getElementById('tt-what').textContent = detail;
+        document.getElementById('tt-res').textContent = info.res || 'See your usual B1 resources.';
+        document.getElementById('tt-time').textContent = info.time || '30 min focused study.';
+        document.getElementById('overlay').classList.add('active');
+      });
+
+      grid.appendChild(cell);
+    }
+
+    wg.appendChild(grid);
+    block.appendChild(wg);
+
+    if(wi < m.weeks - 1){
+      const spacer = document.createElement('div');
+      spacer.style.height = '8px';
+      block.appendChild(spacer);
+    }
+  }
+
+  cal.appendChild(block);
+});
+
+function closeTooltip(e){
+  if(e.target === document.getElementById('overlay'))
+    document.getElementById('overlay').classList.remove('active');
+}
+document.addEventListener('keydown', e => {
+  if(e.key === 'Escape') document.getElementById('overlay').classList.remove('active');
+});
+</script>
+</body>
+</html>
