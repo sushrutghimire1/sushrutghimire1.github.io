@@ -59,6 +59,39 @@
             box-shadow: 15px 15px 0px var(--accent);
         }
 
+        /* NEW BUTTON SECTION */
+        .projects-section {
+            text-align: center;
+            padding: 40px 10%;
+        }
+
+        .projects-section h2 {
+            margin-bottom: 30px;
+        }
+
+        .project-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .project-buttons a {
+            text-decoration: none;
+            padding: 15px 25px;
+            border: 1px solid var(--accent);
+            color: var(--accent);
+            font-weight: bold;
+            transition: all 0.3s ease;
+            background: rgba(255,255,255,0.5);
+        }
+
+        .project-buttons a:hover {
+            background: var(--accent);
+            color: white;
+            transform: translateY(-3px);
+        }
+
         section.content-section {
             padding: 40px 10%;
             max-width: 1200px;
@@ -96,7 +129,6 @@
             font-weight: bold;
         }
 
-        /* Memoir Section Styling */
         .memoir-box {
             grid-column: span 2;
             background: rgba(255, 255, 255, 0.4);
@@ -120,6 +152,7 @@
             .row-grid { grid-template-columns: 1fr; }
             .memoir-box { grid-column: span 1; }
             .image-block { order: -1; }
+            .project-buttons { flex-direction: column; }
         }
     </style>
 </head>
@@ -137,6 +170,18 @@
         </div>
         <div class="image-block">
             <img src="image.jpeg" alt="Sushrut Ghimire" class="profile-photo">
+        </div>
+    </section>
+
+    <!-- NEW SECTION ADDED -->
+    <section class="projects-section">
+        <h2>Projects & Work</h2>
+        <div class="project-buttons">
+            <a href="https://www.sushrutghimire.com.np/furthhalfmarathon.html">Fürth Half Marathon Plan</a>
+            <a href="https://www.sushrutghimire.com.np/germanb1.html">German B1 Learning</a>
+            <a href="https://www.sushrutghimire.com.np/clresearch.html">
+                Behavioral Economics-Informed Contrastive Representation Learning
+            </a>
         </div>
     </section>
 
@@ -170,35 +215,9 @@
                 </div>
             </div>
 
-            <div class="column">
-                <h2>Experience</h2>
-                <div class="item">
-                    <h3>Studentische Hilfskraft</h3>
-                    <span class="date">Mar 2025 – Present </span>
-                    <p>Otto-Friedrich-Universität Bamberg </p>
-                </div>
-                <div class="item">
-                    <h3>Professional, Data Science</h3>
-                    <span class="date">Aug 2021 – Sept 2024 </span>
-                    <p>Fiserv, Noida, India </p>
-                </div>
-            </div>
-
-            <div class="column">
-                <h2>Skills & Honors</h2>
-                <div class="item">
-                    <h3>Top Skills</h3>
-                    <p>Applied Machine Learning, Predictive Modeling, Optimisation, Production Planning, Statistical Analysis </p>
-                </div>
-                <div class="item">
-                    <h3>Awards</h3>
-                    <p>Global Hackathon Winner , COMPEX Scholarship , Silver Echelon Certificate. </p>
-                </div>
-            </div>
-
             <a href="memoir.html" class="memoir-box">
                 <h2>Tree 2129: My Living Memoir</h2>
-                <p>An interactive exploration of my growth, from the roots to the crown. Journey through the chapters lived in the light.</p>
+                <p>An interactive exploration of my growth, from the roots to the crown.</p>
                 <div style="margin-top: 15px; font-weight: bold; color: var(--accent);">Enter the Experience →</div>
             </a>
         </div>
