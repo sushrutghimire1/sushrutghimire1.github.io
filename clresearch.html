@@ -3,555 +3,310 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>AI Research Engineer - 1 Year Roadmap</title>
+  <title>AI Research Engineer Credibility Calendar (2026–2027)</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
-    html {
-      scroll-behavior: smooth;
-    }
     body {
-      background: #0b1020;
-      color: #e5e7eb;
+      background: #0f172a;
+      color: #e2e8f0;
       font-family: Inter, sans-serif;
     }
-    .glass {
-      background: rgba(255,255,255,0.05);
+
+    .month-card {
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(148, 163, 184, 0.2);
       backdrop-filter: blur(10px);
-      border: 1px solid rgba(255,255,255,0.08);
     }
-    .check-item input:checked + span {
-      text-decoration: line-through;
-      opacity: 0.55;
+
+    .week-grid {
+      display: grid;
+      grid-template-columns: repeat(7, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .day-cell {
+      min-height: 150px;
+      border-radius: 16px;
+      padding: 10px;
+      background: rgba(30, 41, 59, 0.9);
+      border: 1px solid rgba(148, 163, 184, 0.12);
+      transition: 0.2s ease;
+    }
+
+    .day-cell:hover {
+      transform: translateY(-2px);
+      border-color: rgba(96, 165, 250, 0.6);
+    }
+
+    .task {
+      font-size: 11px;
+      margin-top: 6px;
+      padding: 6px;
+      border-radius: 8px;
+      line-height: 1.4;
+    }
+
+    .research { background: rgba(99, 102, 241, 0.2); }
+    .systems { background: rgba(14, 165, 233, 0.2); }
+    .math { background: rgba(168, 85, 247, 0.2); }
+    .build { background: rgba(34, 197, 94, 0.2); }
+    .writing { background: rgba(249, 115, 22, 0.2); }
+    .open-source { background: rgba(236, 72, 153, 0.2); }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .legend-color {
+      width: 16px;
+      height: 16px;
+      border-radius: 4px;
     }
   </style>
 </head>
-<body>
-  <div class="max-w-7xl mx-auto px-6 py-10">
-
-    <div class="mb-10">
-      <h1 class="text-5xl font-bold mb-4">AI Research Engineer — 1 Year Operating System</h1>
-      <p class="text-lg text-gray-300 max-w-4xl leading-relaxed">
-        This is not a generic course list. This roadmap is designed to transform you into a highly credible AI Research Engineer with a strong portfolio, systems depth, research capability, and visible public work.
-        
-        The goal at the end of 12 months is:
+<body class="p-8">
+  <div class="max-w-7xl mx-auto">
+    <header class="mb-12">
+      <h1 class="text-5xl font-bold mb-4">
+        AI Research Engineer Credibility Calendar
+      </h1>
+      <p class="text-slate-300 text-lg max-w-4xl leading-relaxed">
+        A one-year execution roadmap focused on producing tangible artifacts that demonstrate professional-level AI research engineering capability. Every month is centered around building credibility through visible outputs: repositories, research reproductions, infrastructure systems, evaluations, blogs, and open-source contributions.
       </p>
+    </header>
 
-      <div class="grid md:grid-cols-3 gap-4 mt-6">
-        <div class="glass rounded-2xl p-5">
-          <h2 class="font-bold text-xl mb-2">Technical Depth</h2>
-          <p>PyTorch, transformers, probabilistic ML, distributed systems, MLOps, scientific computing.</p>
-        </div>
+    <section class="mb-12 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+      <div class="legend-item"><div class="legend-color bg-indigo-500"></div><span>Research</span></div>
+      <div class="legend-item"><div class="legend-color bg-sky-500"></div><span>Systems</span></div>
+      <div class="legend-item"><div class="legend-color bg-purple-500"></div><span>Math</span></div>
+      <div class="legend-item"><div class="legend-color bg-green-500"></div><span>Build</span></div>
+      <div class="legend-item"><div class="legend-color bg-orange-500"></div><span>Writing</span></div>
+      <div class="legend-item"><div class="legend-color bg-pink-500"></div><span>Open Source</span></div>
+    </section>
 
-        <div class="glass rounded-2xl p-5">
-          <h2 class="font-bold text-xl mb-2">Research Credibility</h2>
-          <p>Paper reproductions, technical writing, experiments, open-source contributions, research intuition.</p>
-        </div>
-
-        <div class="glass rounded-2xl p-5">
-          <h2 class="font-bold text-xl mb-2">Public Reputation</h2>
-          <p>Strong GitHub, polished flagship project, blogs, demos, technical communication.</p>
-        </div>
-      </div>
-    </div>
-
-    <div class="glass rounded-3xl p-6 mb-12">
-      <h2 class="text-3xl font-bold mb-4">Daily Non-Negotiables</h2>
-
-      <div class="grid md:grid-cols-2 gap-6">
-        <div>
-          <ul class="space-y-3">
-            <li class="check-item flex items-center gap-3">
-              <input type="checkbox" class="w-5 h-5">
-              <span>2–4 hours deep technical work</span>
-            </li>
-            <li class="check-item flex items-center gap-3">
-              <input type="checkbox" class="w-5 h-5">
-              <span>Read 1 research paper section daily</span>
-            </li>
-            <li class="check-item flex items-center gap-3">
-              <input type="checkbox" class="w-5 h-5">
-              <span>Write implementation notes</span>
-            </li>
-            <li class="check-item flex items-center gap-3">
-              <input type="checkbox" class="w-5 h-5">
-              <span>Code every single day</span>
-            </li>
-          </ul>
-        </div>
-
-        <div>
-          <ul class="space-y-3">
-            <li class="check-item flex items-center gap-3">
-              <input type="checkbox" class="w-5 h-5">
-              <span>Exercise / physical movement</span>
-            </li>
-            <li class="check-item flex items-center gap-3">
-              <input type="checkbox" class="w-5 h-5">
-              <span>Maintain GitHub contribution streak</span>
-            </li>
-            <li class="check-item flex items-center gap-3">
-              <input type="checkbox" class="w-5 h-5">
-              <span>Track weekly learning reflections</span>
-            </li>
-            <li class="check-item flex items-center gap-3">
-              <input type="checkbox" class="w-5 h-5">
-              <span>1 hour focused mathematics practice</span>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </div>
-
-    <div class="space-y-10">
-
-      <section class="glass rounded-3xl p-8">
-        <h2 class="text-4xl font-bold mb-3">Quarter 1 — Foundations + Systems Thinking</h2>
-        <p class="text-gray-300 mb-6">Goal: Build strong mathematical and engineering foundations while becoming extremely comfortable with PyTorch and modern ML systems.</p>
-
-        <div class="grid lg:grid-cols-3 gap-6">
-
-          <div class="bg-black/20 rounded-2xl p-5">
-            <h3 class="text-2xl font-bold mb-4">Month 1</h3>
-            <ul class="space-y-2 list-disc ml-5 text-gray-200">
-              <li>Master Python for scientific computing</li>
-              <li>Deep NumPy + vectorization</li>
-              <li>Linear algebra refresh</li>
-              <li>Linux mastery</li>
-              <li>Git + GitHub workflow</li>
-              <li>Read: Attention Is All You Need</li>
-              <li>Start technical note repository</li>
-            </ul>
-          </div>
-
-          <div class="bg-black/20 rounded-2xl p-5">
-            <h3 class="text-2xl font-bold mb-4">Month 2</h3>
-            <ul class="space-y-2 list-disc ml-5 text-gray-200">
-              <li>PyTorch internals</li>
-              <li>Autograd understanding</li>
-              <li>Optimization algorithms</li>
-              <li>Implement MLPs from scratch</li>
-              <li>Learn experiment tracking</li>
-              <li>Train CNNs end-to-end</li>
-              <li>Deploy simple inference APIs</li>
-            </ul>
-          </div>
-
-          <div class="bg-black/20 rounded-2xl p-5">
-            <h3 class="text-2xl font-bold mb-4">Month 3</h3>
-            <ul class="space-y-2 list-disc ml-5 text-gray-200">
-              <li>Transformers deeply</li>
-              <li>Implement attention from scratch</li>
-              <li>Read transformer papers</li>
-              <li>Learn GPU basics + CUDA awareness</li>
-              <li>Docker + containers</li>
-              <li>Build mini LLM training pipeline</li>
-              <li>Publish first technical blog</li>
-            </ul>
-          </div>
-
-        </div>
-      </section>
-
-      <section class="glass rounded-3xl p-8">
-        <h2 class="text-4xl font-bold mb-3">Quarter 2 — Research Engineering</h2>
-        <p class="text-gray-300 mb-6">Goal: Become capable of reproducing papers and building serious AI systems.</p>
-
-        <div class="grid lg:grid-cols-3 gap-6">
-
-          <div class="bg-black/20 rounded-2xl p-5">
-            <h3 class="text-2xl font-bold mb-4">Month 4</h3>
-            <ul class="space-y-2 list-disc ml-5 text-gray-200">
-              <li>Distributed training concepts</li>
-              <li>Deep dive into tokenization</li>
-              <li>Inference optimization</li>
-              <li>Read scaling law papers</li>
-              <li>Implement LoRA / fine-tuning</li>
-              <li>Start flagship project planning</li>
-            </ul>
-          </div>
-
-          <div class="bg-black/20 rounded-2xl p-5">
-            <h3 class="text-2xl font-bold mb-4">Month 5</h3>
-            <ul class="space-y-2 list-disc ml-5 text-gray-200">
-              <li>Probabilistic ML</li>
-              <li>Bayesian deep learning</li>
-              <li>Uncertainty estimation</li>
-              <li>Implement MC Dropout</li>
-              <li>Read Gal & Ghahramani paper</li>
-              <li>Build uncertainty visualization system</li>
-            </ul>
-          </div>
-
-          <div class="bg-black/20 rounded-2xl p-5">
-            <h3 class="text-2xl font-bold mb-4">Month 6</h3>
-            <ul class="space-y-2 list-disc ml-5 text-gray-200">
-              <li>Scientific computing workflows</li>
-              <li>Experiment reproducibility</li>
-              <li>MLOps fundamentals</li>
-              <li>Kubernetes basics</li>
-              <li>Ray / distributed inference</li>
-              <li>Reproduce 1 research paper fully</li>
-            </ul>
-          </div>
-
-        </div>
-      </section>
-
-      <section class="glass rounded-3xl p-8">
-        <h2 class="text-4xl font-bold mb-3">Quarter 3 — Build Something Exceptional</h2>
-        <p class="text-gray-300 mb-6">Goal: Build a project that differentiates you globally.</p>
-
-        <div class="grid lg:grid-cols-3 gap-6">
-
-          <div class="bg-black/20 rounded-2xl p-5">
-            <h3 class="text-2xl font-bold mb-4">Month 7</h3>
-            <ul class="space-y-2 list-disc ml-5 text-gray-200">
-              <li>Design flagship architecture</li>
-              <li>Create technical roadmap</li>
-              <li>System design documentation</li>
-              <li>UX research for scientific tools</li>
-              <li>Start implementation</li>
-              <li>Create public progress logs</li>
-            </ul>
-          </div>
-
-          <div class="bg-black/20 rounded-2xl p-5">
-            <h3 class="text-2xl font-bold mb-4">Month 8</h3>
-            <ul class="space-y-2 list-disc ml-5 text-gray-200">
-              <li>Multi-agent systems</li>
-              <li>Vector databases</li>
-              <li>Retrieval systems</li>
-              <li>Evaluation pipelines</li>
-              <li>Human-AI interaction design</li>
-              <li>Performance optimization</li>
-            </ul>
-          </div>
-
-          <div class="bg-black/20 rounded-2xl p-5">
-            <h3 class="text-2xl font-bold mb-4">Month 9</h3>
-            <ul class="space-y-2 list-disc ml-5 text-gray-200">
-              <li>Publish demo videos</li>
-              <li>Open-source your project</li>
-              <li>Write architecture blog</li>
-              <li>Build benchmark suite</li>
-              <li>Add uncertainty-aware features</li>
-              <li>Polish production deployment</li>
-            </ul>
-          </div>
-
-        </div>
-      </section>
-
-      <section class="glass rounded-3xl p-8">
-        <h2 class="text-4xl font-bold mb-3">Quarter 4 — Research Visibility + Opportunities</h2>
-        <p class="text-gray-300 mb-6">Goal: Become visible enough that opportunities become likely instead of random.</p>
-
-        <div class="grid lg:grid-cols-3 gap-6">
-
-          <div class="bg-black/20 rounded-2xl p-5">
-            <h3 class="text-2xl font-bold mb-4">Month 10</h3>
-            <ul class="space-y-2 list-disc ml-5 text-gray-200">
-              <li>Contribute to open source</li>
-              <li>Refactor project professionally</li>
-              <li>Prepare portfolio website</li>
-              <li>Start networking with researchers</li>
-              <li>Apply to research internships</li>
-              <li>Prepare research proposal ideas</li>
-            </ul>
-          </div>
-
-          <div class="bg-black/20 rounded-2xl p-5">
-            <h3 class="text-2xl font-bold mb-4">Month 11</h3>
-            <ul class="space-y-2 list-disc ml-5 text-gray-200">
-              <li>Read frontier AI papers daily</li>
-              <li>Practice explaining research</li>
-              <li>Create technical presentation videos</li>
-              <li>Build second mini research project</li>
-              <li>Improve mathematical depth</li>
-              <li>Refine GitHub profile</li>
-            </ul>
-          </div>
-
-          <div class="bg-black/20 rounded-2xl p-5">
-            <h3 class="text-2xl font-bold mb-4">Month 12</h3>
-            <ul class="space-y-2 list-disc ml-5 text-gray-200">
-              <li>Finalize flagship project</li>
-              <li>Create polished technical documentation</li>
-              <li>Write yearly reflection</li>
-              <li>Apply to AI research roles</li>
-              <li>Prepare interview portfolio</li>
-              <li>Plan next specialization phase</li>
-            </ul>
-          </div>
-
-        </div>
-      </section>
-
-    </div>
-
-    <div class="mt-14 glass rounded-3xl p-8">
-      <h2 class="text-4xl font-bold mb-5">Your Flagship Project (Most Important Part)</h2>
-
-      <p class="text-gray-300 leading-relaxed mb-6">
-        Your biggest opportunity multiplier will be one project that demonstrates research engineering ability, systems thinking, and product quality.
-      </p>
-
-      <div class="grid md:grid-cols-2 gap-6">
-
-        <div class="bg-black/20 rounded-2xl p-5">
-          <h3 class="text-2xl font-bold mb-3">Recommended Direction</h3>
-          <ul class="list-disc ml-5 space-y-2">
-            <li>AI system for scientific reasoning</li>
-            <li>Uncertainty-aware AI assistant</li>
-            <li>Research copilot</li>
-            <li>Mission-control-style AI dashboard</li>
-            <li>Scientific workflow orchestration</li>
-            <li>AI + UX for complex systems</li>
-          </ul>
-        </div>
-
-        <div class="bg-black/20 rounded-2xl p-5">
-          <h3 class="text-2xl font-bold mb-3">What Makes It Exceptional</h3>
-          <ul class="list-disc ml-5 space-y-2">
-            <li>Production-quality UI</li>
-            <li>Real research grounding</li>
-            <li>System architecture diagrams</li>
-            <li>Technical writeups</li>
-            <li>Evaluation metrics</li>
-            <li>Open-source implementation</li>
-          </ul>
-        </div>
-
-      </div>
-    </div>
-
-    <div class="mt-14 glass rounded-3xl p-8">
-      <h2 class="text-4xl font-bold mb-5">Books & Papers</h2>
-
-      <div class="grid md:grid-cols-2 gap-6">
-
-        <div>
-          <h3 class="text-2xl font-bold mb-3">Books</h3>
-          <ul class="list-disc ml-5 space-y-2">
-            <li>Deep Learning — Goodfellow</li>
-            <li>Designing Machine Learning Systems</li>
-            <li>Probabilistic Machine Learning</li>
-            <li>The Design of Everyday Things</li>
-            <li>Pattern Recognition and ML</li>
-          </ul>
-        </div>
-
-        <div>
-          <h3 class="text-2xl font-bold mb-3">Important Papers</h3>
-          <ul class="list-disc ml-5 space-y-2">
-            <li>Attention Is All You Need</li>
-            <li>Dropout as Bayesian Approximation</li>
-            <li>ResNet</li>
-            <li>LoRA</li>
-            <li>Scaling Laws for Neural Language Models</li>
-          </ul>
-        </div>
-
-      </div>
-    </div>
-
-    <div class="mt-14 mb-10 text-center">
-      <h2 class="text-5xl font-bold mb-4">Final Outcome</h2>
-
-      <p class="max-w-4xl mx-auto text-xl text-gray-300 leading-relaxed">
-        If you complete this roadmap seriously, you will not just “learn AI.”
-        
-        You will have:
-      </p>
-
-      <div class="grid md:grid-cols-4 gap-4 mt-8 text-left">
-        <div class="glass rounded-2xl p-5">Strong mathematical intuition</div>
-        <div class="glass rounded-2xl p-5">Production-level AI engineering capability</div>
-        <div class="glass rounded-2xl p-5">Research implementation experience</div>
-        <div class="glass rounded-2xl p-5">A globally competitive portfolio</div>
-      </div>
-
-      <p class="text-gray-400 mt-10 max-w-4xl mx-auto">
-        No roadmap can guarantee a specific company.
-        But if you genuinely execute this consistently for one year, your probability of landing at least one strong AI research engineering opportunity becomes very high.
-      </p>
-    </div>
-
+    <div id="calendar" class="space-y-12"></div>
   </div>
-  <div class="max-w-7xl mx-auto px-6 pb-20">
-    <div class="mt-20 glass rounded-3xl p-8">
-      <h2 class="text-5xl font-bold mb-6">52-Week Execution Calendar</h2>
-      <p class="text-gray-300 text-lg mb-10 max-w-4xl">
-        This weekly roadmap converts the yearly strategy into concrete execution. The goal is consistency, technical depth, and visible output.
-      </p>
 
-      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+  <script>
+    const roadmapThemes = [
+      {
+        month: 'May 2026',
+        focus: 'Foundations + Public Presence',
+        tasks: [
+          ['math', 'Implement backpropagation from scratch'],
+          ['build', 'Create professional GitHub structure'],
+          ['writing', 'Write first technical blog'],
+          ['research', 'Read Attention Is All You Need'],
+          ['systems', 'Set up Linux + Docker workflow'],
+          ['open-source', 'Make first OSS contribution']
+        ]
+      },
+      {
+        month: 'June 2026',
+        focus: 'PyTorch + Training Systems',
+        tasks: [
+          ['build', 'Train CNN on CIFAR-10'],
+          ['systems', 'Create reusable training framework'],
+          ['research', 'Reproduce ResNet paper'],
+          ['writing', 'Document training pipeline'],
+          ['math', 'Implement optimizers manually'],
+          ['open-source', 'Contribute to ML repo']
+        ]
+      },
+      {
+        month: 'July 2026',
+        focus: 'Transformers + NLP',
+        tasks: [
+          ['research', 'Implement transformer from scratch'],
+          ['build', 'Fine-tune open LLM'],
+          ['systems', 'Create inference API'],
+          ['writing', 'Blog: Understanding Attention'],
+          ['math', 'Derive attention equations'],
+          ['open-source', 'Release tokenizer utility']
+        ]
+      },
+      {
+        month: 'August 2026',
+        focus: 'LLM Systems + RAG',
+        tasks: [
+          ['build', 'Build production-grade RAG system'],
+          ['systems', 'Integrate vector DB'],
+          ['research', 'Evaluate retrieval quality'],
+          ['writing', 'Publish RAG architecture article'],
+          ['math', 'Study embedding geometry'],
+          ['open-source', 'Release retrieval toolkit']
+        ]
+      },
+      {
+        month: 'September 2026',
+        focus: 'Distributed Training',
+        tasks: [
+          ['systems', 'Learn DeepSpeed + FSDP'],
+          ['build', 'Train distributed model'],
+          ['research', 'Benchmark scaling efficiency'],
+          ['writing', 'Distributed training engineering blog'],
+          ['math', 'Analyze optimization stability'],
+          ['open-source', 'Improve training scripts']
+        ]
+      },
+      {
+        month: 'October 2026',
+        focus: 'Evaluation + Research Rigor',
+        tasks: [
+          ['research', 'Build evaluation framework'],
+          ['build', 'Hallucination benchmark'],
+          ['systems', 'Automated experiment tracking'],
+          ['writing', 'Research methodology article'],
+          ['math', 'Study statistical significance'],
+          ['open-source', 'Publish benchmark suite']
+        ]
+      },
+      {
+        month: 'November 2026',
+        focus: 'Multimodal AI',
+        tasks: [
+          ['research', 'Study CLIP and Flamingo'],
+          ['build', 'Vision-language prototype'],
+          ['systems', 'Multimodal inference pipeline'],
+          ['writing', 'How multimodal models work'],
+          ['math', 'Contrastive learning derivations'],
+          ['open-source', 'Image embedding utilities']
+        ]
+      },
+      {
+        month: 'December 2026',
+        focus: 'Inference Optimization',
+        tasks: [
+          ['systems', 'Optimize LLM latency'],
+          ['build', 'Deploy vLLM service'],
+          ['research', 'Benchmark quantization'],
+          ['writing', 'Inference engineering report'],
+          ['math', 'Memory-compute tradeoffs'],
+          ['open-source', 'Optimization toolkit']
+        ]
+      },
+      {
+        month: 'January 2027',
+        focus: 'Research Reproduction Month',
+        tasks: [
+          ['research', 'Reproduce major recent paper'],
+          ['build', 'Open-source full implementation'],
+          ['systems', 'Automate reproducibility'],
+          ['writing', 'Detailed reproduction report'],
+          ['math', 'Derive core paper equations'],
+          ['open-source', 'Share training configs']
+        ]
+      },
+      {
+        month: 'February 2027',
+        focus: 'Agents + Tool Use',
+        tasks: [
+          ['research', 'Study AI agents'],
+          ['build', 'Create autonomous coding agent'],
+          ['systems', 'Tool execution pipeline'],
+          ['writing', 'Agent architecture analysis'],
+          ['math', 'Reasoning and planning models'],
+          ['open-source', 'Agent framework contributions']
+        ]
+      },
+      {
+        month: 'March 2027',
+        focus: 'Original Research Direction',
+        tasks: [
+          ['research', 'Develop novel hypothesis'],
+          ['build', 'Prototype experimental model'],
+          ['systems', 'Large-scale experiment pipeline'],
+          ['writing', 'Research proposal draft'],
+          ['math', 'Theoretical analysis'],
+          ['open-source', 'Release experimental repo']
+        ]
+      },
+      {
+        month: 'April 2027',
+        focus: 'Portfolio Consolidation',
+        tasks: [
+          ['build', 'Refine flagship projects'],
+          ['systems', 'Productionize best systems'],
+          ['research', 'Prepare paper/blog summaries'],
+          ['writing', 'Create professional portfolio site'],
+          ['math', 'Review advanced concepts'],
+          ['open-source', 'Finalize OSS contributions']
+        ]
+      },
+      {
+        month: 'May 2027',
+        focus: 'Application + Visibility',
+        tasks: [
+          ['build', 'Create AI research engineer portfolio'],
+          ['systems', 'Publish infrastructure case studies'],
+          ['research', 'Submit paper or technical report'],
+          ['writing', 'Publish yearly retrospective'],
+          ['math', 'Present technical deep dive'],
+          ['open-source', 'Launch polished public repositories']
+        ]
+      }
+    ];
 
-        <div class="bg-black/20 rounded-2xl p-5">
-          <h3 class="text-2xl font-bold mb-3">Weeks 1–4</h3>
-          <ul class="list-disc ml-5 space-y-2">
-            <li>Linux mastery</li>
-            <li>Advanced Python</li>
-            <li>NumPy + vectorization</li>
-            <li>Linear algebra refresh</li>
-            <li>Create GitHub portfolio structure</li>
-            <li>Daily coding streak begins</li>
-          </ul>
-        </div>
+    const calendar = document.getElementById('calendar');
 
-        <div class="bg-black/20 rounded-2xl p-5">
-          <h3 class="text-2xl font-bold mb-3">Weeks 5–8</h3>
-          <ul class="list-disc ml-5 space-y-2">
-            <li>PyTorch fundamentals</li>
-            <li>Autograd implementation</li>
-            <li>Train simple neural networks</li>
-            <li>Optimization algorithms</li>
-            <li>Write first technical notes</li>
-            <li>Deploy simple inference APIs</li>
-          </ul>
-        </div>
+    roadmapThemes.forEach((theme) => {
+      const monthCard = document.createElement('div');
+      monthCard.className = 'month-card rounded-3xl p-8';
 
-        <div class="bg-black/20 rounded-2xl p-5">
-          <h3 class="text-2xl font-bold mb-3">Weeks 9–12</h3>
-          <ul class="list-disc ml-5 space-y-2">
-            <li>Transformers deeply</li>
-            <li>Implement attention from scratch</li>
-            <li>Read transformer papers</li>
-            <li>GPU/CUDA understanding</li>
-            <li>Docker containers</li>
-            <li>Publish first AI blog</li>
-          </ul>
-        </div>
-
-        <div class="bg-black/20 rounded-2xl p-5">
-          <h3 class="text-2xl font-bold mb-3">Weeks 13–16</h3>
-          <ul class="list-disc ml-5 space-y-2">
-            <li>Distributed systems basics</li>
-            <li>Tokenization systems</li>
-            <li>Inference optimization</li>
-            <li>Scaling laws</li>
-            <li>LoRA fine-tuning</li>
-            <li>System design practice</li>
-          </ul>
-        </div>
-
-        <div class="bg-black/20 rounded-2xl p-5">
-          <h3 class="text-2xl font-bold mb-3">Weeks 17–20</h3>
-          <ul class="list-disc ml-5 space-y-2">
-            <li>Bayesian deep learning</li>
-            <li>Uncertainty estimation</li>
-            <li>Monte Carlo dropout</li>
-            <li>Probabilistic ML</li>
-            <li>Visualization systems</li>
-            <li>Technical paper summaries</li>
-          </ul>
-        </div>
-
-        <div class="bg-black/20 rounded-2xl p-5">
-          <h3 class="text-2xl font-bold mb-3">Weeks 21–24</h3>
-          <ul class="list-disc ml-5 space-y-2">
-            <li>MLOps foundations</li>
-            <li>Kubernetes basics</li>
-            <li>Ray distributed inference</li>
-            <li>Experiment reproducibility</li>
-            <li>Reproduce one research paper</li>
-            <li>Improve technical writing</li>
-          </ul>
-        </div>
-
-        <div class="bg-black/20 rounded-2xl p-5">
-          <h3 class="text-2xl font-bold mb-3">Weeks 25–28</h3>
-          <ul class="list-disc ml-5 space-y-2">
-            <li>Choose flagship project</li>
-            <li>Architecture planning</li>
-            <li>UX/system design research</li>
-            <li>Technical roadmap creation</li>
-            <li>Repository organization</li>
-            <li>Public build logs begin</li>
-          </ul>
-        </div>
-
-        <div class="bg-black/20 rounded-2xl p-5">
-          <h3 class="text-2xl font-bold mb-3">Weeks 29–32</h3>
-          <ul class="list-disc ml-5 space-y-2">
-            <li>Core AI system implementation</li>
-            <li>Vector databases</li>
-            <li>Retrieval systems</li>
-            <li>Backend optimization</li>
-            <li>Model evaluation pipeline</li>
-            <li>Human-AI interaction improvements</li>
-          </ul>
-        </div>
-
-        <div class="bg-black/20 rounded-2xl p-5">
-          <h3 class="text-2xl font-bold mb-3">Weeks 33–36</h3>
-          <ul class="list-disc ml-5 space-y-2">
-            <li>Advanced agent systems</li>
-            <li>Performance optimization</li>
-            <li>Scientific reasoning workflows</li>
-            <li>Experiment tracking systems</li>
-            <li>Deploy polished MVP</li>
-            <li>Record demo videos</li>
-          </ul>
-        </div>
-
-        <div class="bg-black/20 rounded-2xl p-5">
-          <h3 class="text-2xl font-bold mb-3">Weeks 37–40</h3>
-          <ul class="list-disc ml-5 space-y-2">
-            <li>Open-source contributions</li>
-            <li>Architecture documentation</li>
-            <li>Benchmark creation</li>
-            <li>Write technical blogs</li>
-            <li>Improve portfolio website</li>
-            <li>Refactor code professionally</li>
-          </ul>
-        </div>
-
-        <div class="bg-black/20 rounded-2xl p-5">
-          <h3 class="text-2xl font-bold mb-3">Weeks 41–44</h3>
-          <ul class="list-disc ml-5 space-y-2">
-            <li>Read frontier AI papers daily</li>
-            <li>Create technical presentations</li>
-            <li>Deep mathematics review</li>
-            <li>Improve scientific communication</li>
-            <li>Build mini side research project</li>
-            <li>Network with researchers</li>
-          </ul>
-        </div>
-
-        <div class="bg-black/20 rounded-2xl p-5">
-          <h3 class="text-2xl font-bold mb-3">Weeks 45–48</h3>
-          <ul class="list-disc ml-5 space-y-2">
-            <li>Finalize flagship project</li>
-            <li>Create polished demos</li>
-            <li>Optimize GitHub profile</li>
-            <li>Prepare research applications</li>
-            <li>Mock technical interviews</li>
-            <li>Research engineering resume refinement</li>
-          </ul>
-        </div>
-
-        <div class="bg-black/20 rounded-2xl p-5 md:col-span-2 lg:col-span-3">
-          <h3 class="text-3xl font-bold mb-4">Weeks 49–52 — Transition Into Professional Research Engineering</h3>
-          <div class="grid md:grid-cols-2 gap-6">
-            <ul class="list-disc ml-5 space-y-2">
-              <li>Apply to AI research engineering positions</li>
-              <li>Reach out to labs/startups/research groups</li>
-              <li>Publish yearly technical retrospective</li>
-              <li>Create a personal research direction document</li>
-            </ul>
-
-            <ul class="list-disc ml-5 space-y-2">
-              <li>Build long-term specialization strategy</li>
-              <li>Identify your strongest technical niche</li>
-              <li>Prepare next-generation flagship project</li>
-              <li>Continue daily research habit permanently</li>
-            </ul>
+      const title = document.createElement('div');
+      title.innerHTML = `
+        <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 mb-8">
+          <div>
+            <h2 class="text-3xl font-bold">${theme.month}</h2>
+            <p class="text-slate-400 mt-2 text-lg">${theme.focus}</p>
+          </div>
+          <div class="bg-slate-800 rounded-2xl px-5 py-3 border border-slate-700">
+            <p class="text-sm text-slate-400">Primary Goal</p>
+            <p class="font-semibold">Build visible technical credibility</p>
           </div>
         </div>
+      `;
 
-      </div>
-    </div>
-  </div>
+      const grid = document.createElement('div');
+      grid.className = 'week-grid';
+
+      for (let i = 1; i <= 28; i++) {
+        const day = document.createElement('div');
+        day.className = 'day-cell';
+
+        const task = theme.tasks[(i - 1) % theme.tasks.length];
+        const category = task[0];
+        const text = task[1];
+
+        day.innerHTML = `
+          <div class="flex justify-between items-center mb-2">
+            <span class="font-bold text-lg">${i}</span>
+            <span class="text-xs uppercase tracking-wider text-slate-400">${category}</span>
+          </div>
+
+          <div class="task ${category}">
+            ${text}
+          </div>
+
+          <div class="mt-4 text-xs text-slate-400 leading-relaxed">
+            Deliverable:
+            <ul class="list-disc ml-4 mt-1 space-y-1">
+              <li>GitHub commit</li>
+              <li>Documentation</li>
+              <li>Visible artifact</li>
+            </ul>
+          </div>
+        `;
+
+        grid.appendChild(day);
+      }
+
+      monthCard.appendChild(title);
+      monthCard.appendChild(grid);
+      calendar.appendChild(monthCard);
+    });
+  </script>
 </body>
 </html>
