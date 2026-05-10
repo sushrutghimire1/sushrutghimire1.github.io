@@ -1,1972 +1,557 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CML Research Roadmap — Apr 26 → Oct 1, 2026</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
-<style>
-  :root {
-    --bg:        #0b0c10;
-    --surface:   #12141a;
-    --card:      #181b23;
-    --border:    #252836;
-    --border2:   #2e3244;
-    --text:      #e8e6f0;
-    --muted:     #888aA2;
-    --faint:     #404360;
-
-    --p1: #6a5acd; /* phase 1 - indigo */
-    --p2: #20b68a; /* phase 2 - teal */
-    --p3: #e0903a; /* phase 3 - amber */
-    --p4: #d4567e; /* phase 4 - rose */
-
-    --p1l: rgba(106,90,205,.12);
-    --p2l: rgba(32,182,138,.12);
-    --p3l: rgba(224,144,58,.12);
-    --p4l: rgba(212,86,126,.12);
-
-    --mono: 'DM Mono', monospace;
-    --serif: 'Playfair Display', Georgia, serif;
-    --sans: 'DM Sans', system-ui, sans-serif;
-  }
-
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  html { scroll-behavior: smooth; }
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: var(--sans);
-    font-size: 15px;
-    line-height: 1.7;
-    min-height: 100vh;
-  }
-
-  /* ── HEADER ── */
-  .header {
-    padding: 72px 40px 56px;
-    max-width: 1060px;
-    margin: 0 auto;
-    border-bottom: 1px solid var(--border);
-  }
-  .header-eyebrow {
-    font-family: var(--mono);
-    font-size: 11px;
-    letter-spacing: .14em;
-    text-transform: uppercase;
-    color: var(--muted);
-    margin-bottom: 20px;
-  }
-  .header h1 {
-    font-family: var(--serif);
-    font-size: clamp(36px, 5vw, 62px);
-    font-weight: 900;
-    line-height: 1.08;
-    letter-spacing: -.02em;
-    color: var(--text);
-    margin-bottom: 20px;
-  }
-  .header h1 span { color: var(--p1); }
-  .header-sub {
-    font-size: 16px;
-    color: var(--muted);
-    max-width: 620px;
-    line-height: 1.65;
-    margin-bottom: 36px;
-  }
-  .header-meta {
-    display: flex;
-    gap: 32px;
-    flex-wrap: wrap;
-  }
-  .meta-pill {
-    font-family: var(--mono);
-    font-size: 11.5px;
-    color: var(--muted);
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 4px;
-    padding: 6px 14px;
-  }
-  .meta-pill strong { color: var(--text); }
-
-  /* ── PHASE NAV ── */
-  .phase-nav {
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    background: rgba(11,12,16,.92);
-    backdrop-filter: blur(12px);
-    border-bottom: 1px solid var(--border);
-    padding: 0 40px;
-  }
-  .phase-nav-inner {
-    max-width: 1060px;
-    margin: 0 auto;
-    display: flex;
-    gap: 0;
-    overflow-x: auto;
-    scrollbar-width: none;
-  }
-  .phase-nav-inner::-webkit-scrollbar { display: none; }
-  .pnav-item {
-    font-family: var(--mono);
-    font-size: 11px;
-    letter-spacing: .08em;
-    text-transform: uppercase;
-    color: var(--muted);
-    padding: 14px 20px;
-    cursor: pointer;
-    border-bottom: 2px solid transparent;
-    white-space: nowrap;
-    transition: color .2s, border-color .2s;
-    text-decoration: none;
-  }
-  .pnav-item:hover { color: var(--text); }
-  .pnav-item.p1 { border-color: transparent; } .pnav-item.p1:hover, .pnav-item.p1.active { color: var(--p1); border-color: var(--p1); }
-  .pnav-item.p2:hover, .pnav-item.p2.active { color: var(--p2); border-color: var(--p2); }
-  .pnav-item.p3:hover, .pnav-item.p3.active { color: var(--p3); border-color: var(--p3); }
-  .pnav-item.p4:hover, .pnav-item.p4.active { color: var(--p4); border-color: var(--p4); }
-
-  /* ── LAYOUT ── */
-  .main { max-width: 1060px; margin: 0 auto; padding: 0 40px 120px; }
-
-  /* ── PHASE BLOCK ── */
-  .phase-block { margin-top: 72px; }
-  .phase-header {
-    display: flex;
-    align-items: flex-start;
-    gap: 24px;
-    margin-bottom: 40px;
-    padding-bottom: 28px;
-    border-bottom: 1px solid var(--border);
-  }
-  .phase-number {
-    font-family: var(--serif);
-    font-size: 56px;
-    font-weight: 900;
-    line-height: 1;
-    opacity: .18;
-    flex-shrink: 0;
-    width: 56px;
-  }
-  .phase-header-text h2 {
-    font-family: var(--serif);
-    font-size: 28px;
-    font-weight: 700;
-    margin-bottom: 6px;
-  }
-  .phase-header-text .phase-dates {
-    font-family: var(--mono);
-    font-size: 11px;
-    letter-spacing: .1em;
-    color: var(--muted);
-    margin-bottom: 10px;
-  }
-  .phase-header-text p {
-    color: var(--muted);
-    font-size: 14px;
-    max-width: 640px;
-    line-height: 1.6;
-  }
-  .phase-goals {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    margin-top: 14px;
-  }
-  .goal-tag {
-    font-size: 12px;
-    font-family: var(--mono);
-    padding: 4px 12px;
-    border-radius: 3px;
-    border: 1px solid;
-  }
-
-  /* ── WEEK CARD ── */
-  .week-card {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    margin-bottom: 24px;
-    overflow: hidden;
-    transition: border-color .2s;
-  }
-  .week-card:hover { border-color: var(--border2); }
-
-  .week-header {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    padding: 20px 24px;
-    cursor: pointer;
-    user-select: none;
-    border-bottom: 1px solid transparent;
-    transition: border-color .2s;
-  }
-  .week-header.open { border-color: var(--border); }
-
-  .week-badge {
-    font-family: var(--mono);
-    font-size: 10px;
-    letter-spacing: .12em;
-    text-transform: uppercase;
-    padding: 4px 10px;
-    border-radius: 3px;
-    border: 1px solid;
-    flex-shrink: 0;
-  }
-  .week-title {
-    font-weight: 500;
-    font-size: 15px;
-    flex: 1;
-  }
-  .week-dates {
-    font-family: var(--mono);
-    font-size: 11px;
-    color: var(--muted);
-    flex-shrink: 0;
-  }
-  .week-chevron {
-    width: 16px;
-    height: 16px;
-    color: var(--muted);
-    transition: transform .25s;
-    flex-shrink: 0;
-  }
-  .week-header.open .week-chevron { transform: rotate(90deg); }
-
-  .week-body { display: none; padding: 0 24px 24px; }
-  .week-body.open { display: block; }
-
-  .week-milestone {
-    font-family: var(--mono);
-    font-size: 12px;
-    color: var(--muted);
-    margin: 16px 0 20px;
-    padding: 10px 16px;
-    background: var(--surface);
-    border-radius: 6px;
-    border-left: 3px solid var(--faint);
-  }
-  .week-milestone strong { color: var(--text); }
-
-  /* ── DAYS ── */
-  .days-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 20px; }
-  @media (max-width: 640px) { .days-grid { grid-template-columns: 1fr; } }
-
-  .day-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 14px 16px;
-  }
-  .day-label {
-    font-family: var(--mono);
-    font-size: 10px;
-    letter-spacing: .14em;
-    text-transform: uppercase;
-    color: var(--muted);
-    margin-bottom: 10px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-  .day-type {
-    font-size: 9px;
-    padding: 2px 7px;
-    border-radius: 3px;
-    font-weight: 500;
-  }
-  .type-deep   { background: rgba(106,90,205,.18); color: #a99df8; }
-  .type-think  { background: rgba(32,182,138,.15); color: #57d9ad; }
-  .type-reflect{ background: rgba(224,144,58,.15);  color: #f4b16b; }
-  .type-eval   { background: rgba(212,86,126,.18);  color: #f48aab; }
-
-  .day-tasks { list-style: none; }
-  .day-tasks li {
-    font-size: 13px;
-    color: var(--muted);
-    padding: 3px 0 3px 16px;
-    position: relative;
-    line-height: 1.5;
-  }
-  .day-tasks li::before {
-    content: '→';
-    position: absolute;
-    left: 0;
-    color: var(--faint);
-    font-size: 11px;
-  }
-
-  /* ── WEEKEND (Sun) ── */
-  .weekend-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 14px 16px;
-    margin-bottom: 14px;
-  }
-
-  /* ── PAPERS ── */
-  .papers-section { margin-top: 20px; }
-  .papers-label {
-    font-family: var(--mono);
-    font-size: 10px;
-    letter-spacing: .14em;
-    text-transform: uppercase;
-    color: var(--muted);
-    margin-bottom: 12px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-  .papers-label::after {
-    content: '';
-    flex: 1;
-    height: 1px;
-    background: var(--border);
-  }
-  .paper-entry {
-    display: flex;
-    gap: 14px;
-    padding: 10px 0;
-    border-bottom: 1px solid var(--border);
-  }
-  .paper-entry:last-child { border-bottom: none; }
-  .paper-num {
-    font-family: var(--mono);
-    font-size: 11px;
-    color: var(--faint);
-    flex-shrink: 0;
-    padding-top: 2px;
-    width: 24px;
-  }
-  .paper-content { flex: 1; }
-  .paper-title {
-    font-size: 13px;
-    font-weight: 500;
-    color: var(--text);
-    margin-bottom: 3px;
-    line-height: 1.4;
-  }
-  .paper-why {
-    font-size: 12px;
-    color: var(--muted);
-    margin-bottom: 4px;
-    line-height: 1.5;
-  }
-  .paper-extract {
-    font-family: var(--mono);
-    font-size: 11px;
-    color: var(--p2);
-    line-height: 1.5;
-  }
-
-  /* ── CHECKPOINT ── */
-  .checkpoint-card {
-    border: 1px solid var(--p4);
-    background: var(--p4l);
-    border-radius: 10px;
-    padding: 20px 24px;
-    margin-bottom: 24px;
-  }
-  .checkpoint-label {
-    font-family: var(--mono);
-    font-size: 10px;
-    letter-spacing: .14em;
-    text-transform: uppercase;
-    color: var(--p4);
-    margin-bottom: 8px;
-  }
-  .checkpoint-card h3 {
-    font-weight: 600;
-    font-size: 16px;
-    margin-bottom: 8px;
-  }
-  .checkpoint-card p, .checkpoint-card li {
-    font-size: 13px;
-    color: var(--muted);
-    line-height: 1.6;
-  }
-  .checkpoint-card ul { padding-left: 18px; }
-
-  /* ── TIMELINE BAR ── */
-  .timeline-bar {
-    height: 6px;
-    background: var(--border);
-    border-radius: 3px;
-    margin: 48px 0 64px;
-    position: relative;
-    overflow: hidden;
-  }
-  .timeline-fill {
-    height: 100%;
-    border-radius: 3px;
-    position: absolute;
-    top: 0;
-    left: 0;
-  }
-
-  /* ── SCROLLBAR ── */
-  ::-webkit-scrollbar { width: 6px; height: 6px; }
-  ::-webkit-scrollbar-track { background: var(--bg); }
-  ::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 3px; }
-
-  /* ── UTILITY ── */
-  .p1-col { color: var(--p1); }
-  .p2-col { color: var(--p2); }
-  .p3-col { color: var(--p3); }
-  .p4-col { color: var(--p4); }
-
-  .p1-border { border-color: var(--p1) !important; }
-  .p2-border { border-color: var(--p2) !important; }
-  .p3-border { border-color: var(--p3) !important; }
-  .p4-border { border-color: var(--p4) !important; }
-
-  .p1-bg { background: var(--p1l) !important; }
-  .p2-bg { background: var(--p2l) !important; }
-  .p3-bg { background: var(--p3l) !important; }
-  .p4-bg { background: var(--p4l) !important; }
-
-  .phase-block[data-phase="1"] .week-header.open,
-  .phase-block[data-phase="1"] .week-card:hover { border-color: var(--p1); }
-  .phase-block[data-phase="2"] .week-header.open,
-  .phase-block[data-phase="2"] .week-card:hover { border-color: var(--p2); }
-  .phase-block[data-phase="3"] .week-header.open,
-  .phase-block[data-phase="3"] .week-card:hover { border-color: var(--p3); }
-  .phase-block[data-phase="4"] .week-header.open,
-  .phase-block[data-phase="4"] .week-card:hover { border-color: var(--p4); }
-
-  .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0); }
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI Research Engineer - 1 Year Roadmap</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    html {
+      scroll-behavior: smooth;
+    }
+    body {
+      background: #0b1020;
+      color: #e5e7eb;
+      font-family: Inter, sans-serif;
+    }
+    .glass {
+      background: rgba(255,255,255,0.05);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+    .check-item input:checked + span {
+      text-decoration: line-through;
+      opacity: 0.55;
+    }
+  </style>
 </head>
 <body>
+  <div class="max-w-7xl mx-auto px-6 py-10">
 
-<!-- HEADER -->
-<header class="header">
-  <div class="header-eyebrow">Research Execution Roadmap · 2026</div>
-  <h1>Contrastive<br><span>Memory</span><br>Learning</h1>
-  <p class="header-sub">A structured daily/weekly execution plan for developing CML — a framework where models learn via structured contrast accumulation across the training trajectory, rather than static loss optimization.</p>
-  <div class="header-meta">
-    <span class="meta-pill"><strong>Start:</strong> Apr 26, 2026</span>
-    <span class="meta-pill"><strong>End:</strong> Oct 1, 2026</span>
-    <span class="meta-pill"><strong>Phases:</strong> 4</span>
-    <span class="meta-pill"><strong>Daily commitment:</strong> 2–4 hours</span>
-    <span class="meta-pill"><strong>Output:</strong> Framework + Experiments + Demo + Paper</span>
+    <div class="mb-10">
+      <h1 class="text-5xl font-bold mb-4">AI Research Engineer — 1 Year Operating System</h1>
+      <p class="text-lg text-gray-300 max-w-4xl leading-relaxed">
+        This is not a generic course list. This roadmap is designed to transform you into a highly credible AI Research Engineer with a strong portfolio, systems depth, research capability, and visible public work.
+        
+        The goal at the end of 12 months is:
+      </p>
+
+      <div class="grid md:grid-cols-3 gap-4 mt-6">
+        <div class="glass rounded-2xl p-5">
+          <h2 class="font-bold text-xl mb-2">Technical Depth</h2>
+          <p>PyTorch, transformers, probabilistic ML, distributed systems, MLOps, scientific computing.</p>
+        </div>
+
+        <div class="glass rounded-2xl p-5">
+          <h2 class="font-bold text-xl mb-2">Research Credibility</h2>
+          <p>Paper reproductions, technical writing, experiments, open-source contributions, research intuition.</p>
+        </div>
+
+        <div class="glass rounded-2xl p-5">
+          <h2 class="font-bold text-xl mb-2">Public Reputation</h2>
+          <p>Strong GitHub, polished flagship project, blogs, demos, technical communication.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="glass rounded-3xl p-6 mb-12">
+      <h2 class="text-3xl font-bold mb-4">Daily Non-Negotiables</h2>
+
+      <div class="grid md:grid-cols-2 gap-6">
+        <div>
+          <ul class="space-y-3">
+            <li class="check-item flex items-center gap-3">
+              <input type="checkbox" class="w-5 h-5">
+              <span>2–4 hours deep technical work</span>
+            </li>
+            <li class="check-item flex items-center gap-3">
+              <input type="checkbox" class="w-5 h-5">
+              <span>Read 1 research paper section daily</span>
+            </li>
+            <li class="check-item flex items-center gap-3">
+              <input type="checkbox" class="w-5 h-5">
+              <span>Write implementation notes</span>
+            </li>
+            <li class="check-item flex items-center gap-3">
+              <input type="checkbox" class="w-5 h-5">
+              <span>Code every single day</span>
+            </li>
+          </ul>
+        </div>
+
+        <div>
+          <ul class="space-y-3">
+            <li class="check-item flex items-center gap-3">
+              <input type="checkbox" class="w-5 h-5">
+              <span>Exercise / physical movement</span>
+            </li>
+            <li class="check-item flex items-center gap-3">
+              <input type="checkbox" class="w-5 h-5">
+              <span>Maintain GitHub contribution streak</span>
+            </li>
+            <li class="check-item flex items-center gap-3">
+              <input type="checkbox" class="w-5 h-5">
+              <span>Track weekly learning reflections</span>
+            </li>
+            <li class="check-item flex items-center gap-3">
+              <input type="checkbox" class="w-5 h-5">
+              <span>1 hour focused mathematics practice</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="space-y-10">
+
+      <section class="glass rounded-3xl p-8">
+        <h2 class="text-4xl font-bold mb-3">Quarter 1 — Foundations + Systems Thinking</h2>
+        <p class="text-gray-300 mb-6">Goal: Build strong mathematical and engineering foundations while becoming extremely comfortable with PyTorch and modern ML systems.</p>
+
+        <div class="grid lg:grid-cols-3 gap-6">
+
+          <div class="bg-black/20 rounded-2xl p-5">
+            <h3 class="text-2xl font-bold mb-4">Month 1</h3>
+            <ul class="space-y-2 list-disc ml-5 text-gray-200">
+              <li>Master Python for scientific computing</li>
+              <li>Deep NumPy + vectorization</li>
+              <li>Linear algebra refresh</li>
+              <li>Linux mastery</li>
+              <li>Git + GitHub workflow</li>
+              <li>Read: Attention Is All You Need</li>
+              <li>Start technical note repository</li>
+            </ul>
+          </div>
+
+          <div class="bg-black/20 rounded-2xl p-5">
+            <h3 class="text-2xl font-bold mb-4">Month 2</h3>
+            <ul class="space-y-2 list-disc ml-5 text-gray-200">
+              <li>PyTorch internals</li>
+              <li>Autograd understanding</li>
+              <li>Optimization algorithms</li>
+              <li>Implement MLPs from scratch</li>
+              <li>Learn experiment tracking</li>
+              <li>Train CNNs end-to-end</li>
+              <li>Deploy simple inference APIs</li>
+            </ul>
+          </div>
+
+          <div class="bg-black/20 rounded-2xl p-5">
+            <h3 class="text-2xl font-bold mb-4">Month 3</h3>
+            <ul class="space-y-2 list-disc ml-5 text-gray-200">
+              <li>Transformers deeply</li>
+              <li>Implement attention from scratch</li>
+              <li>Read transformer papers</li>
+              <li>Learn GPU basics + CUDA awareness</li>
+              <li>Docker + containers</li>
+              <li>Build mini LLM training pipeline</li>
+              <li>Publish first technical blog</li>
+            </ul>
+          </div>
+
+        </div>
+      </section>
+
+      <section class="glass rounded-3xl p-8">
+        <h2 class="text-4xl font-bold mb-3">Quarter 2 — Research Engineering</h2>
+        <p class="text-gray-300 mb-6">Goal: Become capable of reproducing papers and building serious AI systems.</p>
+
+        <div class="grid lg:grid-cols-3 gap-6">
+
+          <div class="bg-black/20 rounded-2xl p-5">
+            <h3 class="text-2xl font-bold mb-4">Month 4</h3>
+            <ul class="space-y-2 list-disc ml-5 text-gray-200">
+              <li>Distributed training concepts</li>
+              <li>Deep dive into tokenization</li>
+              <li>Inference optimization</li>
+              <li>Read scaling law papers</li>
+              <li>Implement LoRA / fine-tuning</li>
+              <li>Start flagship project planning</li>
+            </ul>
+          </div>
+
+          <div class="bg-black/20 rounded-2xl p-5">
+            <h3 class="text-2xl font-bold mb-4">Month 5</h3>
+            <ul class="space-y-2 list-disc ml-5 text-gray-200">
+              <li>Probabilistic ML</li>
+              <li>Bayesian deep learning</li>
+              <li>Uncertainty estimation</li>
+              <li>Implement MC Dropout</li>
+              <li>Read Gal & Ghahramani paper</li>
+              <li>Build uncertainty visualization system</li>
+            </ul>
+          </div>
+
+          <div class="bg-black/20 rounded-2xl p-5">
+            <h3 class="text-2xl font-bold mb-4">Month 6</h3>
+            <ul class="space-y-2 list-disc ml-5 text-gray-200">
+              <li>Scientific computing workflows</li>
+              <li>Experiment reproducibility</li>
+              <li>MLOps fundamentals</li>
+              <li>Kubernetes basics</li>
+              <li>Ray / distributed inference</li>
+              <li>Reproduce 1 research paper fully</li>
+            </ul>
+          </div>
+
+        </div>
+      </section>
+
+      <section class="glass rounded-3xl p-8">
+        <h2 class="text-4xl font-bold mb-3">Quarter 3 — Build Something Exceptional</h2>
+        <p class="text-gray-300 mb-6">Goal: Build a project that differentiates you globally.</p>
+
+        <div class="grid lg:grid-cols-3 gap-6">
+
+          <div class="bg-black/20 rounded-2xl p-5">
+            <h3 class="text-2xl font-bold mb-4">Month 7</h3>
+            <ul class="space-y-2 list-disc ml-5 text-gray-200">
+              <li>Design flagship architecture</li>
+              <li>Create technical roadmap</li>
+              <li>System design documentation</li>
+              <li>UX research for scientific tools</li>
+              <li>Start implementation</li>
+              <li>Create public progress logs</li>
+            </ul>
+          </div>
+
+          <div class="bg-black/20 rounded-2xl p-5">
+            <h3 class="text-2xl font-bold mb-4">Month 8</h3>
+            <ul class="space-y-2 list-disc ml-5 text-gray-200">
+              <li>Multi-agent systems</li>
+              <li>Vector databases</li>
+              <li>Retrieval systems</li>
+              <li>Evaluation pipelines</li>
+              <li>Human-AI interaction design</li>
+              <li>Performance optimization</li>
+            </ul>
+          </div>
+
+          <div class="bg-black/20 rounded-2xl p-5">
+            <h3 class="text-2xl font-bold mb-4">Month 9</h3>
+            <ul class="space-y-2 list-disc ml-5 text-gray-200">
+              <li>Publish demo videos</li>
+              <li>Open-source your project</li>
+              <li>Write architecture blog</li>
+              <li>Build benchmark suite</li>
+              <li>Add uncertainty-aware features</li>
+              <li>Polish production deployment</li>
+            </ul>
+          </div>
+
+        </div>
+      </section>
+
+      <section class="glass rounded-3xl p-8">
+        <h2 class="text-4xl font-bold mb-3">Quarter 4 — Research Visibility + Opportunities</h2>
+        <p class="text-gray-300 mb-6">Goal: Become visible enough that opportunities become likely instead of random.</p>
+
+        <div class="grid lg:grid-cols-3 gap-6">
+
+          <div class="bg-black/20 rounded-2xl p-5">
+            <h3 class="text-2xl font-bold mb-4">Month 10</h3>
+            <ul class="space-y-2 list-disc ml-5 text-gray-200">
+              <li>Contribute to open source</li>
+              <li>Refactor project professionally</li>
+              <li>Prepare portfolio website</li>
+              <li>Start networking with researchers</li>
+              <li>Apply to research internships</li>
+              <li>Prepare research proposal ideas</li>
+            </ul>
+          </div>
+
+          <div class="bg-black/20 rounded-2xl p-5">
+            <h3 class="text-2xl font-bold mb-4">Month 11</h3>
+            <ul class="space-y-2 list-disc ml-5 text-gray-200">
+              <li>Read frontier AI papers daily</li>
+              <li>Practice explaining research</li>
+              <li>Create technical presentation videos</li>
+              <li>Build second mini research project</li>
+              <li>Improve mathematical depth</li>
+              <li>Refine GitHub profile</li>
+            </ul>
+          </div>
+
+          <div class="bg-black/20 rounded-2xl p-5">
+            <h3 class="text-2xl font-bold mb-4">Month 12</h3>
+            <ul class="space-y-2 list-disc ml-5 text-gray-200">
+              <li>Finalize flagship project</li>
+              <li>Create polished technical documentation</li>
+              <li>Write yearly reflection</li>
+              <li>Apply to AI research roles</li>
+              <li>Prepare interview portfolio</li>
+              <li>Plan next specialization phase</li>
+            </ul>
+          </div>
+
+        </div>
+      </section>
+
+    </div>
+
+    <div class="mt-14 glass rounded-3xl p-8">
+      <h2 class="text-4xl font-bold mb-5">Your Flagship Project (Most Important Part)</h2>
+
+      <p class="text-gray-300 leading-relaxed mb-6">
+        Your biggest opportunity multiplier will be one project that demonstrates research engineering ability, systems thinking, and product quality.
+      </p>
+
+      <div class="grid md:grid-cols-2 gap-6">
+
+        <div class="bg-black/20 rounded-2xl p-5">
+          <h3 class="text-2xl font-bold mb-3">Recommended Direction</h3>
+          <ul class="list-disc ml-5 space-y-2">
+            <li>AI system for scientific reasoning</li>
+            <li>Uncertainty-aware AI assistant</li>
+            <li>Research copilot</li>
+            <li>Mission-control-style AI dashboard</li>
+            <li>Scientific workflow orchestration</li>
+            <li>AI + UX for complex systems</li>
+          </ul>
+        </div>
+
+        <div class="bg-black/20 rounded-2xl p-5">
+          <h3 class="text-2xl font-bold mb-3">What Makes It Exceptional</h3>
+          <ul class="list-disc ml-5 space-y-2">
+            <li>Production-quality UI</li>
+            <li>Real research grounding</li>
+            <li>System architecture diagrams</li>
+            <li>Technical writeups</li>
+            <li>Evaluation metrics</li>
+            <li>Open-source implementation</li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="mt-14 glass rounded-3xl p-8">
+      <h2 class="text-4xl font-bold mb-5">Books & Papers</h2>
+
+      <div class="grid md:grid-cols-2 gap-6">
+
+        <div>
+          <h3 class="text-2xl font-bold mb-3">Books</h3>
+          <ul class="list-disc ml-5 space-y-2">
+            <li>Deep Learning — Goodfellow</li>
+            <li>Designing Machine Learning Systems</li>
+            <li>Probabilistic Machine Learning</li>
+            <li>The Design of Everyday Things</li>
+            <li>Pattern Recognition and ML</li>
+          </ul>
+        </div>
+
+        <div>
+          <h3 class="text-2xl font-bold mb-3">Important Papers</h3>
+          <ul class="list-disc ml-5 space-y-2">
+            <li>Attention Is All You Need</li>
+            <li>Dropout as Bayesian Approximation</li>
+            <li>ResNet</li>
+            <li>LoRA</li>
+            <li>Scaling Laws for Neural Language Models</li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="mt-14 mb-10 text-center">
+      <h2 class="text-5xl font-bold mb-4">Final Outcome</h2>
+
+      <p class="max-w-4xl mx-auto text-xl text-gray-300 leading-relaxed">
+        If you complete this roadmap seriously, you will not just “learn AI.”
+        
+        You will have:
+      </p>
+
+      <div class="grid md:grid-cols-4 gap-4 mt-8 text-left">
+        <div class="glass rounded-2xl p-5">Strong mathematical intuition</div>
+        <div class="glass rounded-2xl p-5">Production-level AI engineering capability</div>
+        <div class="glass rounded-2xl p-5">Research implementation experience</div>
+        <div class="glass rounded-2xl p-5">A globally competitive portfolio</div>
+      </div>
+
+      <p class="text-gray-400 mt-10 max-w-4xl mx-auto">
+        No roadmap can guarantee a specific company.
+        But if you genuinely execute this consistently for one year, your probability of landing at least one strong AI research engineering opportunity becomes very high.
+      </p>
+    </div>
+
   </div>
-</header>
+  <div class="max-w-7xl mx-auto px-6 pb-20">
+    <div class="mt-20 glass rounded-3xl p-8">
+      <h2 class="text-5xl font-bold mb-6">52-Week Execution Calendar</h2>
+      <p class="text-gray-300 text-lg mb-10 max-w-4xl">
+        This weekly roadmap converts the yearly strategy into concrete execution. The goal is consistency, technical depth, and visible output.
+      </p>
 
-<!-- STICKY NAV -->
-<nav class="phase-nav">
-  <div class="phase-nav-inner">
-    <a class="pnav-item p1 active" href="#phase1">I · Formulation</a>
-    <a class="pnav-item p2" href="#phase2">II · Validation</a>
-    <a class="pnav-item p3" href="#phase3">III · System Build</a>
-    <a class="pnav-item p4" href="#phase4">IV · Narrative</a>
-  </div>
-</nav>
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
 
-<main class="main">
+        <div class="bg-black/20 rounded-2xl p-5">
+          <h3 class="text-2xl font-bold mb-3">Weeks 1–4</h3>
+          <ul class="list-disc ml-5 space-y-2">
+            <li>Linux mastery</li>
+            <li>Advanced Python</li>
+            <li>NumPy + vectorization</li>
+            <li>Linear algebra refresh</li>
+            <li>Create GitHub portfolio structure</li>
+            <li>Daily coding streak begins</li>
+          </ul>
+        </div>
 
-<!-- ════════════════════════════════════════════
-     PHASE 1 — FORMULATION
-     Apr 26 – May 31 (5 weeks)
-════════════════════════════════════════════ -->
-<section class="phase-block" id="phase1" data-phase="1">
-  <div class="phase-header">
-    <div class="phase-number p1-col">01</div>
-    <div class="phase-header-text">
-      <div class="phase-dates">APR 26 – MAY 31, 2026 · 5 WEEKS</div>
-      <h2 class="p1-col">Formulation</h2>
-      <p>Mathematical and conceptual grounding of CML. Define the core objects (contrast accumulator, memory buffer, structured contrast loss), prove at least one non-trivial property, and eliminate weak variants.</p>
-      <div class="phase-goals">
-        <span class="goal-tag p1-border p1-col" style="background:var(--p1l)">Formal definition of CML</span>
-        <span class="goal-tag p1-border p1-col" style="background:var(--p1l)">Memory structure spec</span>
-        <span class="goal-tag p1-border p1-col" style="background:var(--p1l)">Theoretical motivation</span>
-        <span class="goal-tag p1-border p1-col" style="background:var(--p1l)">Literature anchoring</span>
-      </div>
-    </div>
-  </div>
+        <div class="bg-black/20 rounded-2xl p-5">
+          <h3 class="text-2xl font-bold mb-3">Weeks 5–8</h3>
+          <ul class="list-disc ml-5 space-y-2">
+            <li>PyTorch fundamentals</li>
+            <li>Autograd implementation</li>
+            <li>Train simple neural networks</li>
+            <li>Optimization algorithms</li>
+            <li>Write first technical notes</li>
+            <li>Deploy simple inference APIs</li>
+          </ul>
+        </div>
 
-  <!-- WEEK 1 -->
-  <div class="week-card">
-    <div class="week-header" onclick="toggleWeek(this)">
-      <span class="week-badge p1-border p1-col" style="background:var(--p1l)">Week 1</span>
-      <span class="week-title">Anchoring: Literature + Core Hypothesis</span>
-      <span class="week-dates">Apr 26 – May 2</span>
-      <svg class="week-chevron" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 3l5 5-5 5"/></svg>
-    </div>
-    <div class="week-body">
-      <div class="week-milestone"><strong>Milestone:</strong> You have a written one-page hypothesis document and have read 3 of 4 anchor papers. You can state what CML is in one precise paragraph.</div>
-      <div class="days-grid">
-        <div class="day-card">
-          <div class="day-label">Monday <span class="day-type type-deep">Deep Work</span></div>
-          <ul class="day-tasks">
-            <li>Read SimCLR paper in full. Extract: loss structure, batch composition, representation space</li>
-            <li>Write 1-page literature note: what contrastive learning IS vs what it is NOT</li>
-            <li>Draft Question List: 5 open questions SimCLR doesn't answer</li>
+        <div class="bg-black/20 rounded-2xl p-5">
+          <h3 class="text-2xl font-bold mb-3">Weeks 9–12</h3>
+          <ul class="list-disc ml-5 space-y-2">
+            <li>Transformers deeply</li>
+            <li>Implement attention from scratch</li>
+            <li>Read transformer papers</li>
+            <li>GPU/CUDA understanding</li>
+            <li>Docker containers</li>
+            <li>Publish first AI blog</li>
           </ul>
         </div>
-        <div class="day-card">
-          <div class="day-label">Tuesday <span class="day-type type-think">Thinking</span></div>
-          <ul class="day-tasks">
-            <li>Read MoCo v2. Contrast with SimCLR's approach to negative sampling and momentum</li>
-            <li>Thinking task: "What is a memory bank doing geometrically to the representation space?"</li>
-            <li>Write 300-word reflection in research journal on the role of time/ordering in MoCo</li>
-          </ul>
-        </div>
-        <div class="day-card">
-          <div class="day-label">Wednesday <span class="day-type type-deep">Deep Work</span></div>
-          <ul class="day-tasks">
-            <li>Draft CML Hypothesis v0.1: 3 claims, each falsifiable, on a single page</li>
-            <li>Define informally: contrast accumulator C(t), memory M, structured contrast loss L_CML</li>
-            <li>Identify what distinguishes CML from MoCo memory bank — write one paragraph</li>
-          </ul>
-        </div>
-        <div class="day-card">
-          <div class="day-label">Thursday <span class="day-type type-deep">Deep Work</span></div>
-          <ul class="day-tasks">
-            <li>Read BYOL. Focus: how does it learn without negative pairs? What is the role of the predictor?</li>
-            <li>Explore: can CML learn from trajectory without explicit negatives? Write 200-word note</li>
-            <li>Set up research codebase: directories, experiment logging template (Weights & Biases)</li>
-          </ul>
-        </div>
-        <div class="day-card">
-          <div class="day-label">Friday <span class="day-type type-reflect">Reflect</span></div>
-          <ul class="day-tasks">
-            <li>Weekly reflection: which of your 3 CML claims survived reading SimCLR, MoCo, BYOL?</li>
-            <li>Write "What CML is NOT" — one paragraph. This is as important as what it is</li>
-            <li>Update hypothesis document to v0.2 based on what you learned</li>
-          </ul>
-        </div>
-        <div class="day-card">
-          <div class="day-label">Saturday <span class="day-type type-deep">Deep Work</span></div>
-          <ul class="day-tasks">
-            <li>Read Memory Networks (Weston et al.) — understand external memory as a first-class object</li>
-            <li>Sketch a diagram: how CML's memory M differs structurally from a memory network</li>
-          </ul>
-        </div>
-      </div>
-      <div class="papers-section">
-        <div class="papers-label">Research Papers This Week</div>
-        <div class="paper-entry">
-          <div class="paper-num">P1</div>
-          <div class="paper-content">
-            <div class="paper-title">SimCLR: A Simple Framework for Contrastive Learning (Chen et al., 2020)</div>
-            <div class="paper-why">Why: The canonical contrastive learning framework. Understand batch-level contrast as baseline for CML's trajectory-level contrast.</div>
-            <div class="paper-extract">Extract: How NT-Xent loss works; importance of projection head; what "uniformity" and "alignment" mean geometrically.</div>
-          </div>
-        </div>
-        <div class="paper-entry">
-          <div class="paper-num">P2</div>
-          <div class="paper-content">
-            <div class="paper-title">MoCo v2: Improved Baselines with Momentum Contrast (Chen et al., 2020)</div>
-            <div class="paper-why">Why: Memory bank + momentum encoder = first temporal/persistent contrast mechanism. CML extends this idea over the full training trajectory.</div>
-            <div class="paper-extract">Extract: How queue decay affects representation quality; the momentum encoder as a form of temporal smoothing.</div>
-          </div>
-        </div>
-        <div class="paper-entry">
-          <div class="paper-num">P3</div>
-          <div class="paper-content">
-            <div class="paper-title">BYOL: Bootstrap Your Own Latent (Grill et al., 2020)</div>
-            <div class="paper-why">Why: Challenges the assumption that negatives are necessary. Critical for CML's claim that structured contrast ≠ just negative mining.</div>
-            <div class="paper-extract">Extract: Role of stop-gradient; what the predictor head does to prevent collapse; how it relates to EMA target networks.</div>
-          </div>
-        </div>
-        <div class="paper-entry">
-          <div class="paper-num">P4</div>
-          <div class="paper-content">
-            <div class="paper-title">Memory Networks (Weston et al., 2014)</div>
-            <div class="paper-why">Why: Foundational paper for external memory in neural networks. Establishes vocabulary for memory-as-first-class-object, which CML requires.</div>
-            <div class="paper-extract">Extract: Read/write memory operations; how memory enables temporal reasoning; limitations relevant to CML's design.</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
 
-  <!-- WEEK 2 -->
-  <div class="week-card">
-    <div class="week-header" onclick="toggleWeek(this)">
-      <span class="week-badge p1-border p1-col" style="background:var(--p1l)">Week 2</span>
-      <span class="week-title">Mathematical Formalization of CML</span>
-      <span class="week-dates">May 3 – 9</span>
-      <svg class="week-chevron" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 3l5 5-5 5"/></svg>
-    </div>
-    <div class="week-body">
-      <div class="week-milestone"><strong>Milestone:</strong> CML is fully defined mathematically. You have formal definitions for C(t), M_t, L_CML, and an update rule. You can prove a simple bound or regularity property.</div>
-      <div class="days-grid">
-        <div class="day-card">
-          <div class="day-label">Monday <span class="day-type type-deep">Deep Work</span></div>
-          <ul class="day-tasks">
-            <li>Define formally: representation space Z, encoder f_θ, projection head g, memory buffer M_t ⊆ Z^k</li>
-            <li>Write the CML loss function L_CML(z, M_t) using structured contrast over M_t</li>
-            <li>Decide on memory update rule: FIFO queue, reservoir sampling, or curated hard negatives</li>
+        <div class="bg-black/20 rounded-2xl p-5">
+          <h3 class="text-2xl font-bold mb-3">Weeks 13–16</h3>
+          <ul class="list-disc ml-5 space-y-2">
+            <li>Distributed systems basics</li>
+            <li>Tokenization systems</li>
+            <li>Inference optimization</li>
+            <li>Scaling laws</li>
+            <li>LoRA fine-tuning</li>
+            <li>System design practice</li>
           </ul>
         </div>
-        <div class="day-card">
-          <div class="day-label">Tuesday <span class="day-type type-think">Thinking</span></div>
-          <ul class="day-tasks">
-            <li>Read "Understanding Contrastive Representation Learning through Alignment and Uniformity" (Wang & Isola)</li>
-            <li>Thinking: how do alignment and uniformity evolve when memory contains historical representations? Write 1-page note</li>
-            <li>Formalize what "contrast accumulation" means geometrically in terms of these two quantities</li>
-          </ul>
-        </div>
-        <div class="day-card">
-          <div class="day-label">Wednesday <span class="day-type type-deep">Deep Work</span></div>
-          <ul class="day-tasks">
-            <li>Prove a regularity lemma: show that L_CML upper/lower bounds a known quantity (e.g., mutual information or alignment loss)</li>
-            <li>Write this as a formal proposition with proof sketch — even if incomplete, commit the argument to paper</li>
-          </ul>
-        </div>
-        <div class="day-card">
-          <div class="day-label">Thursday <span class="day-type type-deep">Deep Work</span></div>
-          <ul class="day-tasks">
-            <li>Study "Temporal Contrastive Learning with Curriculum" (Lorre et al.) — read abstract + method + results</li>
-            <li>Formalize the trajectory-indexed memory: M_t = {z_s : s ∈ [t-T, t]} and the structural property you claim it has</li>
-            <li>Write the "Contributions" section of your eventual paper in one paragraph</li>
-          </ul>
-        </div>
-        <div class="day-card">
-          <div class="day-label">Friday <span class="day-type type-reflect">Reflect</span></div>
-          <ul class="day-tasks">
-            <li>Write your first "theoretical vulnerability list" — 3 things someone could attack mathematically</li>
-            <li>For each: decide whether it's a real weakness or a misunderstanding, and draft a response</li>
-            <li>Update hypothesis to v0.3 — prune any claim you cannot formalize</li>
-          </ul>
-        </div>
-        <div class="day-card">
-          <div class="day-label">Saturday <span class="day-type type-deep">Deep Work</span></div>
-          <ul class="day-tasks">
-            <li>Implement skeleton: Python class CMLMemory(buffer_size, strategy) with push(), sample(), loss() stubs</li>
-            <li>Write unit tests that verify memory size invariants and sampling correctness</li>
-          </ul>
-        </div>
-      </div>
-      <div class="papers-section">
-        <div class="papers-label">Research Papers This Week</div>
-        <div class="paper-entry">
-          <div class="paper-num">P1</div>
-          <div class="paper-content">
-            <div class="paper-title">Understanding Contrastive Representation Learning through Alignment and Uniformity (Wang & Isola, 2020)</div>
-            <div class="paper-why">Why: Gives you geometric vocabulary (alignment, uniformity on the hypersphere) to formally characterize what CML's memory achieves over time.</div>
-            <div class="paper-extract">Extract: Alignment loss, uniformity loss definitions; how to measure each during training; proof that both connect to downstream performance.</div>
-          </div>
-        </div>
-        <div class="paper-entry">
-          <div class="paper-num">P2</div>
-          <div class="paper-content">
-            <div class="paper-title">Temporal Contrastive Learning with Curriculum (Lorre et al., 2020)</div>
-            <div class="paper-why">Why: Shows how temporal structure in data can define positive/negative pairs — directly relevant to CML's use of trajectory ordering.</div>
-            <div class="paper-extract">Extract: Curriculum scheduling for contrast; how time-distance maps to semantic similarity; limitations in non-temporal data.</div>
-          </div>
-        </div>
-        <div class="paper-entry">
-          <div class="paper-num">P3</div>
-          <div class="paper-content">
-            <div class="paper-title">Representation Learning: A Review and New Perspectives (Bengio et al., 2013)</div>
-            <div class="paper-why">Why: Canonical framework for what good representations are. Grounds your theoretical claims about what CML representations should achieve.</div>
-            <div class="paper-extract">Extract: The 10 desiderata for good representations; what "disentangled" means; how temporal information helps representation learning.</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
 
-  <!-- WEEK 3 -->
-  <div class="week-card">
-    <div class="week-header" onclick="toggleWeek(this)">
-      <span class="week-badge p1-border p1-col" style="background:var(--p1l)">Week 3</span>
-      <span class="week-title">Memory Structure Design + Continual Learning Literature</span>
-      <span class="week-dates">May 10 – 16</span>
-      <svg class="week-chevron" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 3l5 5-5 5"/></svg>
-    </div>
-    <div class="week-body">
-      <div class="week-milestone"><strong>Milestone:</strong> You have chosen a specific memory architecture (with justification) and can explain why it is better than alternatives for CML's purpose.</div>
-      <div class="days-grid">
-        <div class="day-card">
-          <div class="day-label">Monday <span class="day-type type-deep">Deep Work</span></div>
-          <ul class="day-tasks">
-            <li>Read "Gradient Episodic Memory for Continual Learning" (Lopez-Paz & Ranzato). Focus on memory as constraint</li>
-            <li>Write comparison: GEM's memory vs CML's memory — same word, completely different function</li>
+        <div class="bg-black/20 rounded-2xl p-5">
+          <h3 class="text-2xl font-bold mb-3">Weeks 17–20</h3>
+          <ul class="list-disc ml-5 space-y-2">
+            <li>Bayesian deep learning</li>
+            <li>Uncertainty estimation</li>
+            <li>Monte Carlo dropout</li>
+            <li>Probabilistic ML</li>
+            <li>Visualization systems</li>
+            <li>Technical paper summaries</li>
           </ul>
         </div>
-        <div class="day-card">
-          <div class="day-label">Tuesday <span class="day-type type-think">Thinking</span></div>
-          <ul class="day-tasks">
-            <li>Design 3 candidate memory structures: (a) FIFO queue, (b) class-prototype store, (c) hard-negative mine</li>
-            <li>For each: write expected effect on loss landscape, expected computational cost, expected generalization benefit</li>
-            <li>Think: what property of CML's hypothesis does each design test differently?</li>
-          </ul>
-        </div>
-        <div class="day-card">
-          <div class="day-label">Wednesday <span class="day-type type-deep">Deep Work</span></div>
-          <ul class="day-tasks">
-            <li>Implement all 3 memory strategies in Python with a shared interface</li>
-            <li>Write a toy simulation (random Gaussian embeddings) and observe what each memory "looks like" after 1000 steps</li>
-          </ul>
-        </div>
-        <div class="day-card">
-          <div class="day-label">Thursday <span class="day-type type-deep">Deep Work</span></div>
-          <ul class="day-tasks">
-            <li>Read "iCaRL: Incremental Classifier and Representation Learning" — focus on exemplar management</li>
-            <li>Formalize decision: choose one memory structure and write a 2-paragraph justification anchored in the math</li>
-          </ul>
-        </div>
-        <div class="day-card">
-          <div class="day-label">Friday <span class="day-type type-reflect">Reflect</span></div>
-          <ul class="day-tasks">
-            <li>Reflect: which of the 3 memory designs did you discard and why? Write the tombstone paragraph for each rejected idea</li>
-            <li>Draw the full CML architecture diagram (encoder + projector + memory + loss) by hand or in code</li>
-          </ul>
-        </div>
-        <div class="day-card">
-          <div class="day-label">Saturday <span class="day-type type-deep">Deep Work</span></div>
-          <ul class="day-tasks">
-            <li>Write the "Method" section draft of your paper — just CML's architecture, 300 words, precise notation</li>
-            <li>This forces clarity: if you cannot write it clearly, the design needs refinement</li>
-          </ul>
-        </div>
-      </div>
-      <div class="papers-section">
-        <div class="papers-label">Research Papers This Week</div>
-        <div class="paper-entry">
-          <div class="paper-num">P1</div>
-          <div class="paper-content">
-            <div class="paper-title">Gradient Episodic Memory for Continual Learning (Lopez-Paz & Ranzato, 2017)</div>
-            <div class="paper-why">Why: Most rigorous use of memory in continual learning. Understand memory as geometric constraint — CML uses memory differently (contrastive structure vs forgetting prevention).</div>
-            <div class="paper-extract">Extract: How episodic memory constrains gradient updates; the "average GEM" efficient approximation; what this reveals about memory capacity requirements.</div>
-          </div>
-        </div>
-        <div class="paper-entry">
-          <div class="paper-num">P2</div>
-          <div class="paper-content">
-            <div class="paper-title">iCaRL: Incremental Classifier and Representation Learning (Rebuffi et al., 2017)</div>
-            <div class="paper-why">Why: Exemplar management for representation learning. Directly comparable to CML's memory curation question.</div>
-            <div class="paper-extract">Extract: Herding-based exemplar selection; class-mean representation; how exemplar quality affects downstream classification.</div>
-          </div>
-        </div>
-        <div class="paper-entry">
-          <div class="paper-num">P3</div>
-          <div class="paper-content">
-            <div class="paper-title">Continual Learning with Deep Generative Replay (Shin et al., 2017)</div>
-            <div class="paper-why">Why: Alternative to explicit memory — generative replay. Understanding it clarifies CML's unique position as explicit structured memory.</div>
-            <div class="paper-extract">Extract: When generative replay fails vs succeeds; computational overhead vs memory overhead tradeoffs.</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
 
-  <!-- WEEK 4 -->
-  <div class="week-card">
-    <div class="week-header" onclick="toggleWeek(this)">
-      <span class="week-badge p1-border p1-col" style="background:var(--p1l)">Week 4</span>
-      <span class="week-title">Self-Supervised Learning Deep Dive + CML Positioning</span>
-      <span class="week-dates">May 17 – 23</span>
-      <svg class="week-chevron" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 3l5 5-5 5"/></svg>
-    </div>
-    <div class="week-body">
-      <div class="week-milestone"><strong>Milestone:</strong> You can place CML precisely in the SSL landscape — what it inherits, what it changes, and why that change matters. The "Related Work" section is first-drafted.</div>
-      <div class="days-grid">
-        <div class="day-card">
-          <div class="day-label">Monday <span class="day-type type-deep">Deep Work</span></div>
-          <ul class="day-tasks">
-            <li>Read Barlow Twins (Zbontar et al.). Focus: redundancy reduction vs contrast. How is this different from SimCLR geometrically?</li>
-            <li>Place Barlow Twins on a comparison table: SimCLR / MoCo / BYOL / Barlow Twins / CML — for 6 axes (negatives, memory, loss type, collapse prevention, compute cost, theoretical grounding)</li>
+        <div class="bg-black/20 rounded-2xl p-5">
+          <h3 class="text-2xl font-bold mb-3">Weeks 21–24</h3>
+          <ul class="list-disc ml-5 space-y-2">
+            <li>MLOps foundations</li>
+            <li>Kubernetes basics</li>
+            <li>Ray distributed inference</li>
+            <li>Experiment reproducibility</li>
+            <li>Reproduce one research paper</li>
+            <li>Improve technical writing</li>
           </ul>
         </div>
-        <div class="day-card">
-          <div class="day-label">Tuesday <span class="day-type type-think">Thinking</span></div>
-          <ul class="day-tasks">
-            <li>Read VICReg (Bardes et al.). Note variance-invariance-covariance regularization as an alternative collapse prevention</li>
-            <li>Thinking: does CML need explicit collapse prevention, or does the historical memory provide it naturally? Write 1-page note</li>
-          </ul>
-        </div>
-        <div class="day-card">
-          <div class="day-label">Wednesday <span class="day-type type-deep">Deep Work</span></div>
-          <ul class="day-tasks">
-            <li>Write the full "Related Work" draft — 400 words placing CML vs SimCLR, MoCo, BYOL, GEM, iCaRL</li>
-            <li>Each paragraph: "X does Y. CML differs because Z." Be surgical, not complimentary</li>
-          </ul>
-        </div>
-        <div class="day-card">
-          <div class="day-label">Thursday <span class="day-type type-deep">Deep Work</span></div>
-          <ul class="day-tasks">
-            <li>Thinking task: "What would an ideal CML paper look like in NeurIPS/ICLR?" Read one recent accepted ICLR paper in your area to calibrate standards</li>
-            <li>Refine your Method section to match that calibration level of precision</li>
-          </ul>
-        </div>
-        <div class="day-card">
-          <div class="day-label">Friday <span class="day-type type-reflect">Reflect</span></div>
-          <ul class="day-tasks">
-            <li>Weekly retrospective: do you still believe your core hypothesis? Rate your confidence 1-10 and write why</li>
-            <li>Identify the one experiment that would most increase your confidence. Write it as a research question</li>
-          </ul>
-        </div>
-        <div class="day-card">
-          <div class="day-label">Saturday <span class="day-type type-deep">Deep Work</span></div>
-          <ul class="day-tasks">
-            <li>Implement the CML loss function end-to-end in PyTorch: takes embeddings + memory buffer, returns scalar loss</li>
-            <li>Verify gradient flow is correct with a gradient check test</li>
-          </ul>
-        </div>
-      </div>
-      <div class="papers-section">
-        <div class="papers-label">Research Papers This Week</div>
-        <div class="paper-entry">
-          <div class="paper-num">P1</div>
-          <div class="paper-content">
-            <div class="paper-title">Barlow Twins: Self-Supervised Learning via Redundancy Reduction (Zbontar et al., 2021)</div>
-            <div class="paper-why">Why: Non-contrastive SSL competitor. Understanding redundancy reduction as an alternative to CML's accumulation approach sharpens your positioning.</div>
-            <div class="paper-extract">Extract: Cross-correlation matrix objective; why invariance + redundancy reduction ≈ information maximization; failure modes.</div>
-          </div>
-        </div>
-        <div class="paper-entry">
-          <div class="paper-num">P2</div>
-          <div class="paper-content">
-            <div class="paper-title">VICReg: Variance-Invariance-Covariance Regularization for Self-Supervised Learning (Bardes et al., 2022)</div>
-            <div class="paper-why">Why: Decomposed loss structure directly comparable to CML's structural contrast components. Understand what each term does to the representation geometry.</div>
-            <div class="paper-extract">Extract: What variance, invariance, and covariance terms each prevent; how weighting them changes the learned structure.</div>
-          </div>
-        </div>
-        <div class="paper-entry">
-          <div class="paper-num">P3</div>
-          <div class="paper-content">
-            <div class="paper-title">A Survey on Contrastive Self-supervised Learning (Jaiswal et al., 2021)</div>
-            <div class="paper-why">Why: Use strategically — not for depth but for exhaustiveness. Check you have not missed a relevant prior approach.</div>
-            <div class="paper-extract">Extract: The taxonomy of contrastive methods; which pairs of papers you should have read but haven't yet.</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
 
-  <!-- WEEK 5 — CHECKPOINT -->
-  <div class="checkpoint-card">
-    <div class="checkpoint-label">⬡ Phase 1 Checkpoint — May 24–31</div>
-    <h3>Formulation Evaluation Week</h3>
-    <p style="margin-bottom: 12px;">Spend this week reviewing and stress-testing your formulation before moving to experiments. Do NOT start coding experiments yet if any of the following are unresolved.</p>
-    <ul style="list-style: disc; padding-left: 20px; margin-bottom: 16px;">
-      <li>Can you state CML's core claim in one sentence, mathematically?</li>
-      <li>Have you proven or informally established at least one non-trivial property of L_CML?</li>
-      <li>Have you written a "Related Work" draft that clearly distinguishes CML from MoCo, BYOL, and GEM?</li>
-      <li>Have you chosen and justified a memory architecture?</li>
-      <li>Is your codebase skeleton clean, tested, and documented?</li>
-    </ul>
-    <p><strong>Decision gate:</strong> If fewer than 4 of these are complete, extend Phase 1 by one week. Better to be slow now than to run experiments for a poorly defined idea.</p>
-    <p style="margin-top: 8px;"><strong>Papers this week:</strong> Read the two papers you marked as "later" in weeks 1–4. Write 1-paragraph synthesis notes for each. Fill gaps in your reading list — don't discover missing literature during review.</p>
-  </div>
+        <div class="bg-black/20 rounded-2xl p-5">
+          <h3 class="text-2xl font-bold mb-3">Weeks 25–28</h3>
+          <ul class="list-disc ml-5 space-y-2">
+            <li>Choose flagship project</li>
+            <li>Architecture planning</li>
+            <li>UX/system design research</li>
+            <li>Technical roadmap creation</li>
+            <li>Repository organization</li>
+            <li>Public build logs begin</li>
+          </ul>
+        </div>
 
-</section>
+        <div class="bg-black/20 rounded-2xl p-5">
+          <h3 class="text-2xl font-bold mb-3">Weeks 29–32</h3>
+          <ul class="list-disc ml-5 space-y-2">
+            <li>Core AI system implementation</li>
+            <li>Vector databases</li>
+            <li>Retrieval systems</li>
+            <li>Backend optimization</li>
+            <li>Model evaluation pipeline</li>
+            <li>Human-AI interaction improvements</li>
+          </ul>
+        </div>
 
-<!-- ════════════════════════════════════════════
-     PHASE 2 — VALIDATION
-     Jun 1 – Jul 13 (6 weeks)
-════════════════════════════════════════════ -->
-<section class="phase-block" id="phase2" data-phase="2">
-  <div class="phase-header">
-    <div class="phase-number p2-col">02</div>
-    <div class="phase-header-text">
-      <div class="phase-dates">JUN 1 – JUL 13, 2026 · 6 WEEKS</div>
-      <h2 class="p2-col">Validation</h2>
-      <p>Empirical signal collection. Run structured experiments to confirm or falsify each CML claim. Prioritize simple, clean experiments that produce clear signal over complex pipelines that obscure causality.</p>
-      <div class="phase-goals">
-        <span class="goal-tag p2-border p2-col" style="background:var(--p2l)">Baseline experiments</span>
-        <span class="goal-tag p2-border p2-col" style="background:var(--p2l)">CML vs MoCo comparison</span>
-        <span class="goal-tag p2-border p2-col" style="background:var(--p2l)">Memory ablation study</span>
-        <span class="goal-tag p2-border p2-col" style="background:var(--p2l)">Representation analysis</span>
-      </div>
-    </div>
-  </div>
+        <div class="bg-black/20 rounded-2xl p-5">
+          <h3 class="text-2xl font-bold mb-3">Weeks 33–36</h3>
+          <ul class="list-disc ml-5 space-y-2">
+            <li>Advanced agent systems</li>
+            <li>Performance optimization</li>
+            <li>Scientific reasoning workflows</li>
+            <li>Experiment tracking systems</li>
+            <li>Deploy polished MVP</li>
+            <li>Record demo videos</li>
+          </ul>
+        </div>
 
-  <!-- WEEK 6 -->
-  <div class="week-card">
-    <div class="week-header" onclick="toggleWeek(this)">
-      <span class="week-badge p2-border p2-col" style="background:var(--p2l)">Week 6</span>
-      <span class="week-title">Experiment Infrastructure + CIFAR-10 Baseline</span>
-      <span class="week-dates">Jun 1 – 7</span>
-      <svg class="week-chevron" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 3l5 5-5 5"/></svg>
-    </div>
-    <div class="week-body">
-      <div class="week-milestone"><strong>Milestone:</strong> SimCLR baseline running and reproducible on CIFAR-10 with kNN evaluation at ≥87% top-1 accuracy. CML training loop is wired end-to-end.</div>
-      <div class="days-grid">
-        <div class="day-card">
-          <div class="day-label">Monday <span class="day-type type-deep">Deep Work</span></div>
-          <ul class="day-tasks">
-            <li>Set up training pipeline: DataLoader, augmentation (RandomCrop, ColorJitter, GaussianBlur), ResNet-18 encoder</li>
-            <li>Implement NT-Xent loss with temperature parameter τ</li>
-            <li>Run first SimCLR training on CIFAR-10 for 100 epochs — confirm loss decreases</li>
+        <div class="bg-black/20 rounded-2xl p-5">
+          <h3 class="text-2xl font-bold mb-3">Weeks 37–40</h3>
+          <ul class="list-disc ml-5 space-y-2">
+            <li>Open-source contributions</li>
+            <li>Architecture documentation</li>
+            <li>Benchmark creation</li>
+            <li>Write technical blogs</li>
+            <li>Improve portfolio website</li>
+            <li>Refactor code professionally</li>
           </ul>
         </div>
-        <div class="day-card">
-          <div class="day-label">Tuesday <span class="day-type type-deep">Deep Work</span></div>
-          <ul class="day-tasks">
-            <li>Implement kNN evaluation protocol (k=20, cosine similarity) on CIFAR-10 test set</li>
-            <li>Run SimCLR for 200 epochs. Log: loss curve, kNN accuracy at epoch 50/100/200</li>
-            <li>Confirm reproducibility: run twice with fixed seed, check results match</li>
-          </ul>
-        </div>
-        <div class="day-card">
-          <div class="day-label">Wednesday <span class="day-type type-deep">Deep Work</span></div>
-          <ul class="day-tasks">
-            <li>Wire CML memory buffer into training loop. Confirm push() and sample() work during actual training</li>
-            <li>Run CML for 200 epochs on CIFAR-10. Log kNN accuracy + loss</li>
-            <li>First comparison: SimCLR 200ep kNN acc vs CML 200ep kNN acc. Write number in research journal</li>
-          </ul>
-        </div>
-        <div class="day-card">
-          <div class="day-label">Thursday <span class="day-type type-think">Thinking</span></div>
-          <ul class="day-tasks">
-            <li>Thinking task: what does the loss curve shape tell you? Is CML converging faster or slower?</li>
-            <li>Inspect memory buffer contents at epoch 50/100/200 — visualize 2D t-SNE of stored representations</li>
-            <li>Write a 1-page "experiment diary" entry: what you observed, what surprised you</li>
-          </ul>
-        </div>
-        <div class="day-card">
-          <div class="day-label">Friday <span class="day-type type-reflect">Reflect</span></div>
-          <ul class="day-tasks">
-            <li>Is first CML result better, same, or worse than SimCLR baseline?</li>
-            <li>If worse: diagnose — is it memory size? Learning rate? Loss balance? Write specific next-step hypotheses</li>
-            <li>If better: be suspicious — check for implementation bugs, data leakage, evaluation mismatch</li>
-          </ul>
-        </div>
-        <div class="day-card">
-          <div class="day-label">Saturday <span class="day-type type-deep">Deep Work</span></div>
-          <ul class="day-tasks">
-            <li>Read "Intriguing Properties of Contrastive Losses" (Chen & He, 2021) — understand theoretical basis for why certain design choices matter</li>
-            <li>Implement experiment logging: save full config (memory size, strategy, lr, τ) and results in JSON per run</li>
-          </ul>
-        </div>
-      </div>
-      <div class="papers-section">
-        <div class="papers-label">Research Papers This Week</div>
-        <div class="paper-entry">
-          <div class="paper-num">P1</div>
-          <div class="paper-content">
-            <div class="paper-title">Intriguing Properties of Contrastive Losses (Chen & He, 2021)</div>
-            <div class="paper-why">Why: Explains why some contrastive design choices matter empirically. Helps you understand your own experimental results, not just observe them.</div>
-            <div class="paper-extract">Extract: Why uniform negative sampling outperforms biased; what batch size really controls; role of temperature τ.</div>
-          </div>
-        </div>
-        <div class="paper-entry">
-          <div class="paper-num">P2</div>
-          <div class="paper-content">
-            <div class="paper-title">Revisiting Self-Supervised Visual Representation Learning (Kolesnikov et al., 2019)</div>
-            <div class="paper-why">Why: Systematic evaluation methodology. Learn how to structure ablations so your experiments are interpretable — critical for Phase 2 rigor.</div>
-            <div class="paper-extract">Extract: Which hyperparameters matter most; how to fairly compare SSL methods; evaluation protocol details.</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
 
-  <!-- WEEK 7 -->
-  <div class="week-card">
-    <div class="week-header" onclick="toggleWeek(this)">
-      <span class="week-badge p2-border p2-col" style="background:var(--p2l)">Week 7</span>
-      <span class="week-title">Memory Ablation Study</span>
-      <span class="week-dates">Jun 8 – 14</span>
-      <svg class="week-chevron" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 3l5 5-5 5"/></svg>
-    </div>
-    <div class="week-body">
-      <div class="week-milestone"><strong>Milestone:</strong> Ablation table with ≥4 rows is complete. You know which memory design choices matter and by how much. One finding should be surprising.</div>
-      <div class="days-grid">
-        <div class="day-card">
-          <div class="day-label">Monday <span class="day-type type-deep">Deep Work</span></div>
-          <ul class="day-tasks">
-            <li>Ablation 1: Memory size M ∈ {128, 256, 512, 1024, 4096}. Fix all else. Run each for 200 epochs</li>
-            <li>Log kNN accuracy for each. Plot accuracy vs memory size</li>
+        <div class="bg-black/20 rounded-2xl p-5">
+          <h3 class="text-2xl font-bold mb-3">Weeks 41–44</h3>
+          <ul class="list-disc ml-5 space-y-2">
+            <li>Read frontier AI papers daily</li>
+            <li>Create technical presentations</li>
+            <li>Deep mathematics review</li>
+            <li>Improve scientific communication</li>
+            <li>Build mini side research project</li>
+            <li>Network with researchers</li>
           </ul>
         </div>
-        <div class="day-card">
-          <div class="day-label">Tuesday <span class="day-type type-deep">Deep Work</span></div>
-          <ul class="day-tasks">
-            <li>Ablation 2: Memory update strategy — FIFO vs reservoir sampling vs hard-negative selection</li>
-            <li>Run each 200 epochs. Log results. Write 2-paragraph interpretation before plotting</li>
+
+        <div class="bg-black/20 rounded-2xl p-5">
+          <h3 class="text-2xl font-bold mb-3">Weeks 45–48</h3>
+          <ul class="list-disc ml-5 space-y-2">
+            <li>Finalize flagship project</li>
+            <li>Create polished demos</li>
+            <li>Optimize GitHub profile</li>
+            <li>Prepare research applications</li>
+            <li>Mock technical interviews</li>
+            <li>Research engineering resume refinement</li>
           </ul>
         </div>
-        <div class="day-card">
-          <div class="day-label">Wednesday <span class="day-type type-think">Thinking</span></div>
-          <ul class="day-tasks">
-            <li>Ablation 3: Memory decay — what happens if you weight older memories lower in the contrast loss?</li>
-            <li>Implement exponential decay weighting: w(t-s) = exp(-λ(t-s)) for stored representation at step s</li>
-            <li>Test with λ ∈ {0, 0.001, 0.01, 0.1}</li>
-          </ul>
-        </div>
-        <div class="day-card">
-          <div class="day-label">Thursday <span class="day-type type-deep">Deep Work</span></div>
-          <ul class="day-tasks">
-            <li>Ablation 4: What if memory is frozen after epoch 50? After epoch 100? vs continuously updated?</li>
-            <li>This tests whether the dynamic nature of memory is what drives CML's benefit (or if it's just the size)</li>
-          </ul>
-        </div>
-        <div class="day-card">
-          <div class="day-label">Friday <span class="day-type type-reflect">Reflect</span></div>
-          <ul class="day-tasks">
-            <li>Compile all ablation results into a table. Identify the single most impactful design choice</li>
-            <li>Reflect: does this match your theoretical prediction from Phase 1? If not, why not? Update hypothesis</li>
-          </ul>
-        </div>
-        <div class="day-card">
-          <div class="day-label">Saturday <span class="day-type type-deep">Deep Work</span></div>
-          <ul class="day-tasks">
-            <li>Write the ablation study section (300 words) with table and 1 figure</li>
-            <li>This is paper content — write it as if submitting</li>
-          </ul>
-        </div>
-      </div>
-      <div class="papers-section">
-        <div class="papers-label">Research Papers This Week</div>
-        <div class="paper-entry">
-          <div class="paper-num">P1</div>
-          <div class="paper-content">
-            <div class="paper-title">Hard Negative Mixing for Contrastive Learning (Kalantidis et al., 2020)</div>
-            <div class="paper-why">Why: Directly relevant to memory curation. Hard negative selection is one of your ablation axes — understanding the theory behind it sharpens your interpretation.</div>
-            <div class="paper-extract">Extract: How to construct synthetic hard negatives via feature mixing; why this helps vs random negatives; failure modes.</div>
+
+        <div class="bg-black/20 rounded-2xl p-5 md:col-span-2 lg:col-span-3">
+          <h3 class="text-3xl font-bold mb-4">Weeks 49–52 — Transition Into Professional Research Engineering</h3>
+          <div class="grid md:grid-cols-2 gap-6">
+            <ul class="list-disc ml-5 space-y-2">
+              <li>Apply to AI research engineering positions</li>
+              <li>Reach out to labs/startups/research groups</li>
+              <li>Publish yearly technical retrospective</li>
+              <li>Create a personal research direction document</li>
+            </ul>
+
+            <ul class="list-disc ml-5 space-y-2">
+              <li>Build long-term specialization strategy</li>
+              <li>Identify your strongest technical niche</li>
+              <li>Prepare next-generation flagship project</li>
+              <li>Continue daily research habit permanently</li>
+            </ul>
           </div>
         </div>
-        <div class="paper-entry">
-          <div class="paper-num">P2</div>
-          <div class="paper-content">
-            <div class="paper-title">Rethinking the Role of Negative Samples for Contrastive Representation Learning (Ge et al., 2021)</div>
-            <div class="paper-why">Why: Challenges conventional wisdom about negative sampling — directly relevant to your memory strategy ablation results.</div>
-            <div class="paper-extract">Extract: When negatives are helpful vs harmful; conditional negative sampling; implications for memory-based contrast.</div>
-          </div>
-        </div>
-        <div class="paper-entry">
-          <div class="paper-num">P3</div>
-          <div class="paper-content">
-            <div class="paper-title">What Makes for Good Views for Contrastive Learning? (Tian et al., 2020)</div>
-            <div class="paper-why">Why: Fundamental question about the role of augmentation views. CML's memory adds a temporal "view" — this paper helps you understand what makes that meaningful.</div>
-            <div class="paper-extract">Extract: The infoMin principle; when more information in views is actually harmful; implications for memory-as-view design.</div>
-          </div>
-        </div>
+
       </div>
     </div>
   </div>
-
-  <!-- WEEK 8 -->
-  <div class="week-card">
-    <div class="week-header" onclick="toggleWeek(this)">
-      <span class="week-badge p2-border p2-col" style="background:var(--p2l)">Week 8</span>
-      <span class="week-title">Representation Analysis + Geometry Probing</span>
-      <span class="week-dates">Jun 15 – 21</span>
-      <svg class="week-chevron" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 3l5 5-5 5"/></svg>
-    </div>
-    <div class="week-body">
-      <div class="week-milestone"><strong>Milestone:</strong> You have a representation analysis toolkit and can compare SimCLR vs CML representations on at least 3 geometric measures. At least one measure shows a meaningful difference.</div>
-      <div class="days-grid">
-        <div class="day-card">
-          <div class="day-label">Monday <span class="day-type type-deep">Deep Work</span></div>
-          <ul class="day-tasks">
-            <li>Implement alignment and uniformity metrics (from Wang & Isola). Log during training for SimCLR and CML</li>
-            <li>Plot alignment vs uniformity trajectory over 200 epochs for both methods</li>
-          </ul>
-        </div>
-        <div class="day-card">
-          <div class="day-label">Tuesday <span class="day-type type-deep">Deep Work</span></div>
-          <ul class="day-tasks">
-            <li>Implement CKA (Centered Kernel Alignment) to compare representation similarity across checkpoints</li>
-            <li>Run: CKA(SimCLR_epoch_t, CML_epoch_t) for t ∈ {50, 100, 150, 200}. Are representations diverging over time?</li>
-          </ul>
-        </div>
-        <div class="day-card">
-          <div class="day-label">Wednesday <span class="day-type type-think">Thinking</span></div>
-          <ul class="day-tasks">
-            <li>Thinking task: generate t-SNE visualizations of representations at epoch 50 and epoch 200 for both methods</li>
-            <li>Write qualitative interpretation: what structural differences do you see? Are CML clusters cleaner, larger, or differently shaped?</li>
-          </ul>
-        </div>
-        <div class="day-card">
-          <div class="day-label">Thursday <span class="day-type type-deep">Deep Work</span></div>
-          <ul class="day-tasks">
-            <li>Probe for interpretability: train a linear probe on each representation for 10-class CIFAR-10 classification</li>
-            <li>Compare linear probe accuracy vs kNN accuracy for SimCLR and CML — are CML representations more linearly separable?</li>
-          </ul>
-        </div>
-        <div class="day-card">
-          <div class="day-label">Friday <span class="day-type type-reflect">Reflect</span></div>
-          <ul class="day-tasks">
-            <li>Reflect on this question: "Is CML actually learning differently, or just training longer with more signal?"</li>
-            <li>Design one experiment that would definitively distinguish these two explanations. Run it next week.</li>
-          </ul>
-        </div>
-        <div class="day-card">
-          <div class="day-label">Saturday <span class="day-type type-deep">Deep Work</span></div>
-          <ul class="day-tasks">
-            <li>Read "Probing the Robustness of Trained Metrics for Conversational Dialogue Systems" — not directly on topic but study the probing methodology for your own use</li>
-            <li>Write the representation analysis section of your paper, 400 words with 2 figures</li>
-          </ul>
-        </div>
-      </div>
-      <div class="papers-section">
-        <div class="papers-label">Research Papers This Week</div>
-        <div class="paper-entry">
-          <div class="paper-num">P1</div>
-          <div class="paper-content">
-            <div class="paper-title">Similarity of Neural Network Representations Revisited (Kornblith et al., 2019)</div>
-            <div class="paper-why">Why: CKA is your primary tool for comparing SimCLR vs CML representations. This paper justifies its use and explains its properties and pitfalls.</div>
-            <div class="paper-extract">Extract: Why CKA is preferred over correlation or CCA; invariances it satisfies; which architectures it fails on.</div>
-          </div>
-        </div>
-        <div class="paper-entry">
-          <div class="paper-num">P2</div>
-          <div class="paper-content">
-            <div class="paper-title">Representation Dynamics over the Course of Training (Nguyen et al., 2021)</div>
-            <div class="paper-why">Why: Directly studies how representations change across training — the temporal dimension CML explicitly exploits. Essential reading for your analysis this week.</div>
-            <div class="paper-extract">Extract: How different layers change at different rates; the "lazy training" regime; what it means for CML's memory contents to span early vs late training.</div>
-          </div>
-        </div>
-        <div class="paper-entry">
-          <div class="paper-num">P3</div>
-          <div class="paper-content">
-            <div class="paper-title">Linear Mode Connectivity and the Lottery Ticket Hypothesis (Frankle et al., 2020)</div>
-            <div class="paper-why">Why: Reveals that early training dynamics determine final structure. Relevant for understanding whether CML's early-epoch memory content has privileged status.</div>
-            <div class="paper-extract">Extract: The rewinding trick; linear interpolation between weight snapshots; implications for training trajectory structure.</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- WEEK 9 -->
-  <div class="week-card">
-    <div class="week-header" onclick="toggleWeek(this)">
-      <span class="week-badge p2-border p2-col" style="background:var(--p2l)">Week 9</span>
-      <span class="week-title">Transfer Learning + Robustness Tests</span>
-      <span class="week-dates">Jun 22 – 28</span>
-      <svg class="week-chevron" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 3l5 5-5 5"/></svg>
-    </div>
-    <div class="week-body">
-      <div class="week-milestone"><strong>Milestone:</strong> CML shows a measurable advantage in at least one of: transfer accuracy, corruption robustness, or few-shot generalization. You have a concrete claim to make in your paper.</div>
-      <div class="days-grid">
-        <div class="day-card">
-          <div class="day-label">Monday <span class="day-type type-deep">Deep Work</span></div>
-          <ul class="day-tasks">
-            <li>Transfer test: train SimCLR and CML on CIFAR-10, then fine-tune linear probe on STL-10. Compare transfer accuracy</li>
-            <li>This tests generalization, not just in-distribution performance</li>
-          </ul>
-        </div>
-        <div class="day-card">
-          <div class="day-label">Tuesday <span class="day-type type-deep">Deep Work</span></div>
-          <ul class="day-tasks">
-            <li>Corruption robustness test: evaluate on CIFAR-10-C (corrupted CIFAR-10 benchmark) using representations trained by SimCLR vs CML</li>
-            <li>Log accuracy at each corruption severity level (1–5) for each corruption type</li>
-          </ul>
-        </div>
-        <div class="day-card">
-          <div class="day-label">Wednesday <span class="day-type type-think">Thinking</span></div>
-          <ul class="day-tasks">
-            <li>Few-shot test: evaluate 5-way 1-shot and 5-way 5-shot on CIFAR-10 using nearest-centroid classifier</li>
-            <li>Thinking: why would accumulated contrast over training improve few-shot performance? Write the causal argument</li>
-          </ul>
-        </div>
-        <div class="day-card">
-          <div class="day-label">Thursday <span class="day-type type-deep">Deep Work</span></div>
-          <ul class="day-tasks">
-            <li>Run "shuffled training" control: train CML with randomly ordered memory (destroying temporal structure). Compare to standard CML</li>
-            <li>This isolates the contribution of temporal ordering vs simply having more examples in memory</li>
-          </ul>
-        </div>
-        <div class="day-card">
-          <div class="day-label">Friday <span class="day-type type-reflect">Reflect</span></div>
-          <ul class="day-tasks">
-            <li>Write your "Main Result" paragraph — the finding that would go in the abstract. Be specific: numbers, conditions, comparisons</li>
-            <li>Is this finding strong enough to publish? Honest assessment. Rate 1-10.</li>
-          </ul>
-        </div>
-        <div class="day-card">
-          <div class="day-label">Saturday <span class="day-type type-deep">Deep Work</span></div>
-          <ul class="day-tasks">
-            <li>Scale up: run CIFAR-100 experiments for SimCLR vs CML best config. Log results</li>
-            <li>More classes = harder test of representation quality. Does CML's advantage grow, shrink, or disappear?</li>
-          </ul>
-        </div>
-      </div>
-      <div class="papers-section">
-        <div class="papers-label">Research Papers This Week</div>
-        <div class="paper-entry">
-          <div class="paper-num">P1</div>
-          <div class="paper-content">
-            <div class="paper-title">Benchmarking Neural Network Robustness to Common Corruptions (Hendrycks & Dietterich, 2019)</div>
-            <div class="paper-why">Why: CIFAR-10-C is your robustness benchmark this week. Read this to understand what the corruption types test and how to interpret your results.</div>
-            <div class="paper-extract">Extract: The 19 corruption types; why robustness to Gaussian noise ≠ robustness to blur; how SSL representations compare to supervised on this benchmark.</div>
-          </div>
-        </div>
-        <div class="paper-entry">
-          <div class="paper-num">P2</div>
-          <div class="paper-content">
-            <div class="paper-title">Improved Few-Shot Visual Classification (Bateni et al., 2020)</div>
-            <div class="paper-why">Why: Few-shot evaluation methodology. Understand how to properly evaluate and report few-shot results — necessary for the credibility of your week's experiments.</div>
-            <div class="paper-extract">Extract: Confidence interval reporting for few-shot; correct episode sampling; which metrics matter for publication.</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- WEEK 10 -->
-  <div class="week-card">
-    <div class="week-header" onclick="toggleWeek(this)">
-      <span class="week-badge p2-border p2-col" style="background:var(--p2l)">Week 10</span>
-      <span class="week-title">Interpretability of CML Representations</span>
-      <span class="week-dates">Jun 29 – Jul 5</span>
-      <svg class="week-chevron" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 3l5 5-5 5"/></svg>
-    </div>
-    <div class="week-body">
-      <div class="week-milestone"><strong>Milestone:</strong> You can show qualitatively and/or quantitatively that CML representations are more interpretable than baseline in at least one sense — cleaner concept geometry, stronger linear separability, or smoother activation atlases.</div>
-      <div class="days-grid">
-        <div class="day-card">
-          <div class="day-label">Monday <span class="day-type type-deep">Deep Work</span></div>
-          <ul class="day-tasks">
-            <li>Read "Network Dissection: Quantifying Interpretability of Deep Visual Representations" (Bau et al.)</li>
-            <li>Identify which interpretability probes you can apply given your CIFAR-10 experimental setup</li>
-          </ul>
-        </div>
-        <div class="day-card">
-          <div class="day-label">Tuesday <span class="day-type type-deep">Deep Work</span></div>
-          <ul class="day-tasks">
-            <li>Implement concept probing: train logistic regression on each dimension of CML vs SimCLR representations to predict binary concept labels (e.g., "has wings", "is round")</li>
-            <li>Compare: which representation has more disentangled concept dimensions?</li>
-          </ul>
-        </div>
-        <div class="day-card">
-          <div class="day-label">Wednesday <span class="day-type type-think">Thinking</span></div>
-          <ul class="day-tasks">
-            <li>Thinking: why might accumulating contrast over the training trajectory improve interpretability? Write the mechanistic hypothesis</li>
-            <li>Is it that historical contrast prevents "late binding" where early features collapse into undifferentiated blobs?</li>
-          </ul>
-        </div>
-        <div class="day-card">
-          <div class="day-label">Thursday <span class="day-type type-deep">Deep Work</span></div>
-          <ul class="day-tasks">
-            <li>Nearest-neighbor retrieval: for 20 query images, find top-5 nearest neighbors in CML vs SimCLR representation space</li>
-            <li>Visualize both grids. Are CML neighbors more semantically consistent?</li>
-          </ul>
-        </div>
-        <div class="day-card">
-          <div class="day-label">Friday <span class="day-type type-reflect">Reflect</span></div>
-          <ul class="day-tasks">
-            <li>Write the interpretability section of your paper draft — 300 words, 1-2 figures</li>
-            <li>Reflect on your total experimental story: what narrative runs through all Phase 2 results?</li>
-          </ul>
-        </div>
-        <div class="day-card">
-          <div class="day-label">Saturday <span class="day-type type-deep">Deep Work</span></div>
-          <ul class="day-tasks">
-            <li>Read "Concept Bottleneck Models" (Koh et al.) — study concept probing methodology</li>
-            <li>Clean up experiment logs into a master results spreadsheet with all conditions and metrics</li>
-          </ul>
-        </div>
-      </div>
-      <div class="papers-section">
-        <div class="papers-label">Research Papers This Week</div>
-        <div class="paper-entry">
-          <div class="paper-num">P1</div>
-          <div class="paper-content">
-            <div class="paper-title">Network Dissection: Quantifying Interpretability of Deep Visual Representations (Bau et al., 2017)</div>
-            <div class="paper-why">Why: Canonical method for measuring interpretability of feature detectors. Your interpretability claims need a quantitative backing — this paper provides the methodology.</div>
-            <div class="paper-extract">Extract: IoU-based interpretability score; how to associate units with concept labels; limitations at the representation (not neuron) level.</div>
-          </div>
-        </div>
-        <div class="paper-entry">
-          <div class="paper-num">P2</div>
-          <div class="paper-content">
-            <div class="paper-title">On the Information Bottleneck Theory of Deep Learning (Saxe et al., 2019)</div>
-            <div class="paper-why">Why: Links information compression during training to generalization. CML's memory maintains information about the past — does it resist compression in a beneficial way?</div>
-            <div class="paper-extract">Extract: The two-phase learning hypothesis; when compression happens; how this interacts with representation quality.</div>
-          </div>
-        </div>
-        <div class="paper-entry">
-          <div class="paper-num">P3</div>
-          <div class="paper-content">
-            <div class="paper-title">Concept Bottleneck Models (Koh et al., 2020)</div>
-            <div class="paper-why">Why: Concept probing methodology you will adapt for your interpretability experiments. Read the method section carefully.</div>
-            <div class="paper-extract">Extract: How to train concept probes; how to evaluate whether concepts are disentangled; limitations with incomplete concept sets.</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- WEEK 11 — CHECKPOINT -->
-  <div class="checkpoint-card" style="border-color: var(--p2); background: var(--p2l);">
-    <div class="checkpoint-label" style="color: var(--p2);">⬡ Phase 2 Checkpoint — Jul 6–13</div>
-    <h3>Validation Evaluation Week</h3>
-    <p style="margin-bottom: 12px;">Evaluate your experimental results before moving to system building. This is the hardest checkpoint — you must make a honest assessment of whether CML works.</p>
-    <ul style="list-style: disc; padding-left: 20px; margin-bottom: 16px;">
-      <li>Do you have at least 2 metrics on which CML outperforms SimCLR baseline?</li>
-      <li>Is the improvement consistent across at least 2 datasets (CIFAR-10 + CIFAR-100)?</li>
-      <li>Do your ablations tell a coherent story about which design choices matter?</li>
-      <li>Can you draw a causal chain from "contrast accumulation" to "improved representation"?</li>
-    </ul>
-    <p><strong>Hard decision gate:</strong> If CML shows no advantage in any experiment, do not proceed to system building for a failed idea. Instead: revisit Week 2's formal definition, identify the error, and spend 1 week redesigning. Phase 3 can only begin once you have a positive empirical signal.</p>
-    <p style="margin-top: 8px;"><strong>This week's task:</strong> Write the complete Experiments section of your paper (first draft). Table of results, ablation table, and 3 analysis figures. Writing forces clarity about what you found vs what you hoped to find.</p>
-  </div>
-
-</section>
-
-<!-- ════════════════════════════════════════════
-     PHASE 3 — SYSTEM BUILDING
-     Jul 14 – Aug 24 (6 weeks)
-════════════════════════════════════════════ -->
-<section class="phase-block" id="phase3" data-phase="3">
-  <div class="phase-header">
-    <div class="phase-number p3-col">03</div>
-    <div class="phase-header-text">
-      <div class="phase-dates">JUL 14 – AUG 24, 2026 · 6 WEEKS</div>
-      <h2 class="p3-col">System Building</h2>
-      <p>Build an interactive visualization platform for CML that makes the framework tangible. The goal is a demo that lets a viewer see contrast accumulation happening in real time — making the idea viscerally understandable, not just technically correct.</p>
-      <div class="phase-goals">
-        <span class="goal-tag p3-border p3-col" style="background:var(--p3l)">Live training visualization</span>
-        <span class="goal-tag p3-border p3-col" style="background:var(--p3l)">Memory browser UI</span>
-        <span class="goal-tag p3-border p3-col" style="background:var(--p3l)">Contrast trajectory explorer</span>
-        <span class="goal-tag p3-border p3-col" style="background:var(--p3l)">Deployable demo</span>
-      </div>
-    </div>
-  </div>
-
-  <!-- WEEK 12 -->
-  <div class="week-card">
-    <div class="week-header" onclick="toggleWeek(this)">
-      <span class="week-badge p3-border p3-col" style="background:var(--p3l)">Week 12</span>
-      <span class="week-title">System Architecture + Streaming Experiment Logger</span>
-      <span class="week-dates">Jul 14 – 20</span>
-      <svg class="week-chevron" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 3l5 5-5 5"/></svg>
-    </div>
-    <div class="week-body">
-      <div class="week-milestone"><strong>Milestone:</strong> Architecture is decided. Training runs emit real-time events that the visualization layer can consume. Memory buffer is serializable and queryable.</div>
-      <div class="days-grid">
-        <div class="day-card">
-          <div class="day-label">Monday <span class="day-type type-think">Thinking</span></div>
-          <ul class="day-tasks">
-            <li>Design the system: what does a user see? Draw a wireframe of the full visualization UI (memory browser, training curves, representation space)</li>
-            <li>Choose tech stack: FastAPI backend + WebSocket streaming + React or vanilla JS frontend</li>
-          </ul>
-        </div>
-        <div class="day-card">
-          <div class="day-label">Tuesday <span class="day-type type-deep">Deep Work</span></div>
-          <ul class="day-tasks">
-            <li>Implement training event emitter: at each step, emit JSON event {step, loss, knn_acc, memory_sample} via WebSocket</li>
-            <li>Test: run training, confirm events arrive in browser console in real time</li>
-          </ul>
-        </div>
-        <div class="day-card">
-          <div class="day-label">Wednesday <span class="day-type type-deep">Deep Work</span></div>
-          <ul class="day-tasks">
-            <li>Implement memory snapshot API: GET /memory/{step} returns top-K stored representations as (embedding, label, step_added)</li>
-            <li>Implement UMAP projection of memory contents to 2D for visualization</li>
-          </ul>
-        </div>
-        <div class="day-card">
-          <div class="day-label">Thursday <span class="day-type type-deep">Deep Work</span></div>
-          <ul class="day-tasks">
-            <li>Build live training dashboard: loss curve + kNN accuracy updating in real time via WebSocket</li>
-            <li>Use D3.js or Chart.js — streaming line chart that appends one point per training step</li>
-          </ul>
-        </div>
-        <div class="day-card">
-          <div class="day-label">Friday <span class="day-type type-reflect">Reflect</span></div>
-          <ul class="day-tasks">
-            <li>Show the live dashboard to someone not in ML. Can they understand what is happening? What confuses them?</li>
-            <li>Write "UX research notes" — 5 things to improve based on this observation</li>
-          </ul>
-        </div>
-        <div class="day-card">
-          <div class="day-label">Saturday <span class="day-type type-deep">Deep Work</span></div>
-          <ul class="day-tasks">
-            <li>Read "The Building Blocks of Interpretability" (Olah et al., Distill) — study how expert ML visualization is done for external audiences</li>
-          </ul>
-        </div>
-      </div>
-      <div class="papers-section">
-        <div class="papers-label">Research Papers This Week</div>
-        <div class="paper-entry">
-          <div class="paper-num">P1</div>
-          <div class="paper-content">
-            <div class="paper-title">The Building Blocks of Interpretability (Olah et al., Distill, 2018)</div>
-            <div class="paper-why">Why: The gold standard for ML visualization and interactive explanation. Study the design decisions for your own demo system — what makes the Distill experience effective.</div>
-            <div class="paper-extract">Extract: How feature visualization + network dissection + attribution maps combine; how layering simple tools creates complex insight; the role of interactivity.</div>
-          </div>
-        </div>
-        <div class="paper-entry">
-          <div class="paper-num">P2</div>
-          <div class="paper-content">
-            <div class="paper-title">UMAP: Uniform Manifold Approximation and Projection (McInnes et al., 2018)</div>
-            <div class="paper-why">Why: Your primary dimensionality reduction tool for visualizing memory contents. Understand when UMAP preserves global vs local structure and how to interpret your visualizations.</div>
-            <div class="paper-extract">Extract: n_neighbors vs min_dist tradeoffs; when UMAP misleads vs enlightens; how to use metric parameter for cosine similarity spaces.</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- WEEK 13 -->
-  <div class="week-card">
-    <div class="week-header" onclick="toggleWeek(this)">
-      <span class="week-badge p3-border p3-col" style="background:var(--p3l)">Week 13</span>
-      <span class="week-title">Memory Browser + Contrast Trajectory Explorer</span>
-      <span class="week-dates">Jul 21 – 27</span>
-      <svg class="week-chevron" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 3l5 5-5 5"/></svg>
-    </div>
-    <div class="week-body">
-      <div class="week-milestone"><strong>Milestone:</strong> User can scrub through training epochs and see the memory buffer evolve in 2D space. This is the core interactive element of the demo.</div>
-      <div class="days-grid">
-        <div class="day-card">
-          <div class="day-label">Monday <span class="day-type type-deep">Deep Work</span></div>
-          <ul class="day-tasks">
-            <li>Build the memory browser: 2D scatter plot (UMAP projected) of memory contents, colored by class label</li>
-            <li>Add epoch slider: scrubbing it updates the scatter plot to show memory at that epoch</li>
-          </ul>
-        </div>
-        <div class="day-card">
-          <div class="day-label">Tuesday <span class="day-type type-deep">Deep Work</span></div>
-          <ul class="day-tasks">
-            <li>Add hover interaction: hovering a point shows the original image and its class label</li>
-            <li>Add "new vs old" color coding: points added in the last N steps vs older points rendered differently</li>
-          </ul>
-        </div>
-        <div class="day-card">
-          <div class="day-label">Wednesday <span class="day-type type-deep">Deep Work</span></div>
-          <ul class="day-tasks">
-            <li>Build contrast trajectory view: for a selected anchor image, show how its top-K contrast partners change across epochs</li>
-            <li>This visualizes directly what "contrast accumulation" means — the viewer can see it change over time</li>
-          </ul>
-        </div>
-        <div class="day-card">
-          <div class="day-label">Thursday <span class="day-type type-deep">Deep Work</span></div>
-          <ul class="day-tasks">
-            <li>Add side-by-side mode: show SimCLR representation space vs CML representation space at the same epoch</li>
-            <li>This is the most compelling comparison view for a paper figure and conference demo</li>
-          </ul>
-        </div>
-        <div class="day-card">
-          <div class="day-label">Friday <span class="day-type type-reflect">Reflect</span></div>
-          <ul class="day-tasks">
-            <li>Record a screen capture of the memory browser. Watch it back. Is the animation of memory evolution compelling?</li>
-            <li>Write what the ideal viewer reaction should be: "Oh, I can see that CML's memory is doing X while SimCLR's is doing Y"</li>
-          </ul>
-        </div>
-        <div class="day-card">
-          <div class="day-label">Saturday <span class="day-type type-deep">Deep Work</span></div>
-          <ul class="day-tasks">
-            <li>Pre-compute and cache all UMAP projections for 200 training epochs so scrubbing is instant</li>
-            <li>Test with slow/fast scrubbing — ensure smooth animation without visual artifacts</li>
-          </ul>
-        </div>
-      </div>
-      <div class="papers-section">
-        <div class="papers-label">Research Papers This Week</div>
-        <div class="paper-entry">
-          <div class="paper-num">P1</div>
-          <div class="paper-content">
-            <div class="paper-title">GAN Dissection: Visualizing and Understanding Generative Adversarial Networks (Bau et al., 2019)</div>
-            <div class="paper-why">Why: Landmark interactive visualization paper. Study how they make an internal model mechanism (unit → concept) visually navigable. Apply the design principles to your memory browser.</div>
-            <div class="paper-extract">Extract: The architecture of the interactive tool; how they layer interactivity to let users probe causal relationships; how they manage visual complexity.</div>
-          </div>
-        </div>
-        <div class="paper-entry">
-          <div class="paper-num">P2</div>
-          <div class="paper-content">
-            <div class="paper-title">Visualizing Data using t-SNE (van der Maaten & Hinton, 2008)</div>
-            <div class="paper-why">Why: While you're using UMAP, understanding t-SNE's failure modes (crowding, global structure loss) helps you communicate your UMAP visualizations honestly.</div>
-            <div class="paper-extract">Extract: Crowding problem; perplexity sensitivity; when cluster distances in 2D are interpretable vs misleading.</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- WEEK 14 -->
-  <div class="week-card">
-    <div class="week-header" onclick="toggleWeek(this)">
-      <span class="week-badge p3-border p3-col" style="background:var(--p3l)">Week 14</span>
-      <span class="week-title">Live Inference + Comparison Mode</span>
-      <span class="week-dates">Jul 28 – Aug 3</span>
-      <svg class="week-chevron" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 3l5 5-5 5"/></svg>
-    </div>
-    <div class="week-body">
-      <div class="week-milestone"><strong>Milestone:</strong> User can upload an image and see where it lands in the representation space for both SimCLR and CML, with nearest-neighbor retrieval from memory.</div>
-      <div class="days-grid">
-        <div class="day-card">
-          <div class="day-label">Monday <span class="day-type type-deep">Deep Work</span></div>
-          <ul class="day-tasks">
-            <li>Build image upload API endpoint: accepts image, returns embedding from CML model and SimCLR model</li>
-            <li>Apply same UMAP projection to place the new embedding in the pre-computed 2D space</li>
-          </ul>
-        </div>
-        <div class="day-card">
-          <div class="day-label">Tuesday <span class="day-type type-deep">Deep Work</span></div>
-          <ul class="day-tasks">
-            <li>Build nearest-neighbor retrieval: given uploaded image embedding, find top-5 nearest images in CIFAR-10 test set</li>
-            <li>Display retrieved images as a horizontal row below the scatter plot</li>
-          </ul>
-        </div>
-        <div class="day-card">
-          <div class="day-label">Wednesday <span class="day-type type-deep">Deep Work</span></div>
-          <ul class="day-tasks">
-            <li>Implement comparison mode: split-screen showing retrieved neighbors from CML vs SimCLR for the same query</li>
-            <li>This is the demo's "wow moment" — seeing different retrieval results side by side</li>
-          </ul>
-        </div>
-        <div class="day-card">
-          <div class="day-label">Thursday <span class="day-type type-deep">Deep Work</span></div>
-          <ul class="day-tasks">
-            <li>Add "memory trace": show which memory entries contributed most to the query embedding's placement in CML's space</li>
-            <li>Visualize as highlighted points in the scatter plot when a query is active</li>
-          </ul>
-        </div>
-        <div class="day-card">
-          <div class="day-label">Friday <span class="day-type type-reflect">Reflect</span></div>
-          <ul class="day-tasks">
-            <li>Do a full demo run: pretend you're presenting to a lab group. Record it. Watch it. What falls flat?</li>
-            <li>Identify the 3 most confusing moments and plan UI changes to address each</li>
-          </ul>
-        </div>
-        <div class="day-card">
-          <div class="day-label">Saturday <span class="day-type type-deep">Deep Work</span></div>
-          <ul class="day-tasks">
-            <li>Add "example queries" gallery: 10 pre-selected images that produce especially striking comparison results</li>
-            <li>These become your demo talking points at a conference poster session</li>
-          </ul>
-        </div>
-      </div>
-      <div class="papers-section">
-        <div class="papers-label">Research Papers This Week</div>
-        <div class="paper-entry">
-          <div class="paper-num">P1</div>
-          <div class="paper-content">
-            <div class="paper-title">Scalable Nearest Neighbor Search with FAISS (Johnson et al., 2019)</div>
-            <div class="paper-why">Why: If you scale your demo to larger datasets or real-time retrieval, you need FAISS. Understand it now even if CIFAR-10 doesn't require it — the paper explains approximate nearest neighbor principles.</div>
-            <div class="paper-extract">Extract: IVF index type for cosine similarity; how to choose nlist and nprobe for speed-accuracy tradeoffs; GPU vs CPU index.</div>
-          </div>
-        </div>
-        <div class="paper-entry">
-          <div class="paper-num">P2</div>
-          <div class="paper-content">
-            <div class="paper-title">Do Wide and Deep Networks Learn the Same Things? (Raghu et al., 2021)</div>
-            <div class="paper-why">Why: CKA analysis of different architectures. Useful if you plan to test CML across architectures — also a model for how to write clean representation analysis results.</div>
-            <div class="paper-extract">Extract: How CKA reveals architectural differences in representation geometry; bottom-up vs top-down similarity patterns.</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- WEEK 15 -->
-  <div class="week-card">
-    <div class="week-header" onclick="toggleWeek(this)">
-      <span class="week-badge p3-border p3-col" style="background:var(--p3l)">Week 15</span>
-      <span class="week-title">Polish + Deployment</span>
-      <span class="week-dates">Aug 4 – 10</span>
-      <svg class="week-chevron" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 3l5 5-5 5"/></svg>
-    </div>
-    <div class="week-body">
-      <div class="week-milestone"><strong>Milestone:</strong> Demo is live at a public URL. Someone who has never seen the project can use it without your help and understand what CML is doing.</div>
-      <div class="days-grid">
-        <div class="day-card">
-          <div class="day-label">Mon–Wed <span class="day-type type-deep">Deep Work</span></div>
-          <ul class="day-tasks">
-            <li>Polish all visualizations: consistent color scheme, proper labels, tooltips, loading states</li>
-            <li>Write in-app explanatory text: 1-2 sentences next to each visualization explaining what the user is seeing</li>
-            <li>Mobile responsiveness: ensure the demo works on a tablet (conference setup)</li>
-          </ul>
-        </div>
-        <div class="day-card">
-          <div class="day-label">Thu–Fri <span class="day-type type-deep">Deep Work</span></div>
-          <ul class="day-tasks">
-            <li>Deploy to a cloud instance (e.g., Hugging Face Spaces, Render, or DigitalOcean)</li>
-            <li>Test latency: image upload → retrieval results should be under 2 seconds</li>
-            <li>Test with 5 people outside your lab. Record feedback</li>
-          </ul>
-        </div>
-        <div class="day-card">
-          <div class="day-label">Weekend <span class="day-type type-reflect">Reflect</span></div>
-          <ul class="day-tasks">
-            <li>Write a 200-word "System" section for your paper describing the visualization platform</li>
-            <li>Screenshot the 5 most compelling views for use as paper figures</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- WEEK 16 — BUFFER + CHECKPOINT -->
-  <div class="checkpoint-card" style="border-color: var(--p3); background: var(--p3l);">
-    <div class="checkpoint-label" style="color: var(--p3);">⬡ Phase 3 Checkpoint — Aug 11–24</div>
-    <h3>System Evaluation + Buffer Week</h3>
-    <p style="margin-bottom: 12px;">Two weeks to evaluate the system, catch up on any Phase 2 experiments that were deferred, and begin structuring the paper narrative.</p>
-    <ul style="list-style: disc; padding-left: 20px; margin-bottom: 16px;">
-      <li>Is the demo live and accessible? Test the URL on 3 different devices</li>
-      <li>Do you have all figures needed for the paper? Identify missing visualizations now</li>
-      <li>Are there any experiments you want to run that you deferred? Do them this week</li>
-      <li>Begin reading the narrative and positioning papers for Phase 4</li>
-    </ul>
-    <p><strong>Buffer rule:</strong> Weeks 15–16 exist as buffer. If Phase 3 ran smoothly, use this time to run additional experiments or start writing. Do not start Phase 4 until both the visualization system and the experiment results are considered complete.</p>
-  </div>
-
-</section>
-
-<!-- ════════════════════════════════════════════
-     PHASE 4 — NARRATIVE + POSITIONING
-     Aug 25 – Oct 1 (5 weeks)
-════════════════════════════════════════════ -->
-<section class="phase-block" id="phase4" data-phase="4">
-  <div class="phase-header">
-    <div class="phase-number p4-col">04</div>
-    <div class="phase-header-text">
-      <div class="phase-dates">AUG 25 – OCT 1, 2026 · 5 WEEKS</div>
-      <h2 class="p4-col">Narrative + Positioning</h2>
-      <p>Write and position the CML paper for a top-tier venue. Focus on clarity, conviction, and a narrative arc that makes the reader feel the idea was inevitable once stated. Target ICLR 2027 or NeurIPS 2027.</p>
-      <div class="phase-goals">
-        <span class="goal-tag p4-border p4-col" style="background:var(--p4l)">Complete paper draft</span>
-        <span class="goal-tag p4-border p4-col" style="background:var(--p4l)">Abstract + intro polished</span>
-        <span class="goal-tag p4-border p4-col" style="background:var(--p4l)">Figures publication-ready</span>
-        <span class="goal-tag p4-border p4-col" style="background:var(--p4l)">Peer review simulation</span>
-      </div>
-    </div>
-  </div>
-
-  <!-- WEEK 17 -->
-  <div class="week-card">
-    <div class="week-header" onclick="toggleWeek(this)">
-      <span class="week-badge p4-border p4-col" style="background:var(--p4l)">Week 17</span>
-      <span class="week-title">Abstract + Introduction: The Claim and the Story</span>
-      <span class="week-dates">Aug 25 – 31</span>
-      <svg class="week-chevron" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 3l5 5-5 5"/></svg>
-    </div>
-    <div class="week-body">
-      <div class="week-milestone"><strong>Milestone:</strong> Abstract and Introduction are written to a high standard — someone reading just the intro should understand what CML is, why it matters, and what you found, without reading the rest of the paper.</div>
-      <div class="days-grid">
-        <div class="day-card">
-          <div class="day-label">Monday <span class="day-type type-think">Thinking</span></div>
-          <ul class="day-tasks">
-            <li>Read "How to Write a Great Research Paper" (Peyton Jones). This is non-negotiable — spend 2 hours on it</li>
-            <li>Identify the 1 sentence that captures CML's contribution. Write 10 versions and choose the best</li>
-          </ul>
-        </div>
-        <div class="day-card">
-          <div class="day-label">Tuesday <span class="day-type type-deep">Deep Work</span></div>
-          <ul class="day-tasks">
-            <li>Write abstract v1: problem, gap, approach, key results, significance — in 5 sentences or less</li>
-            <li>Read it aloud. Does every word earn its place? Remove the weakest sentence</li>
-          </ul>
-        </div>
-        <div class="day-card">
-          <div class="day-label">Wednesday <span class="day-type type-deep">Deep Work</span></div>
-          <ul class="day-tasks">
-            <li>Write Introduction section 1: "Why does the field need CML?" — make the gap visceral, not abstract</li>
-            <li>Reference SimCLR and MoCo as context, but the gap should feel like a fundamental limit, not a minor improvement</li>
-          </ul>
-        </div>
-        <div class="day-card">
-          <div class="day-label">Thursday <span class="day-type type-deep">Deep Work</span></div>
-          <ul class="day-tasks">
-            <li>Write Introduction section 2: "Our approach and contributions" — list 3 specific, verifiable contributions</li>
-            <li>Rule: each contribution is falsifiable. "We propose CML" is not a contribution. "CML improves kNN accuracy by X% on CIFAR-10/100" is.</li>
-          </ul>
-        </div>
-        <div class="day-card">
-          <div class="day-label">Friday <span class="day-type type-reflect">Reflect</span></div>
-          <ul class="day-tasks">
-            <li>Read your abstract + intro to someone who is ML-competent but not working on SSL. What do they say?</li>
-            <li>Rewrite the most confusing paragraph based on their feedback</li>
-          </ul>
-        </div>
-        <div class="day-card">
-          <div class="day-label">Weekend <span class="day-type type-deep">Deep Work</span></div>
-          <ul class="day-tasks">
-            <li>Read 2 recently accepted ICLR/NeurIPS papers in SSL. Study their intro structure surgically</li>
-            <li>Identify what makes each intro convincing. Apply to yours</li>
-          </ul>
-        </div>
-      </div>
-      <div class="papers-section">
-        <div class="papers-label">Research Papers / Reading This Week</div>
-        <div class="paper-entry">
-          <div class="paper-num">P1</div>
-          <div class="paper-content">
-            <div class="paper-title">Emerging Properties in Self-Supervised Vision Transformers (Caron et al., DINO, 2021)</div>
-            <div class="paper-why">Why: Study the narrative and intro style of a highly cited SSL paper. How do they frame emergence as a contribution without overpromising?</div>
-            <div class="paper-extract">Extract: The language used to describe unsupervised discovery; how they position vs prior work in exactly one paragraph; the figure choice for the intro.</div>
-          </div>
-        </div>
-        <div class="paper-entry">
-          <div class="paper-num">P2</div>
-          <div class="paper-content">
-            <div class="paper-title">Masked Autoencoders Are Scalable Vision Learners (He et al., MAE, 2022)</div>
-            <div class="paper-why">Why: Example of a paradigm-shifting paper with a deceptively simple claim. Study how the abstract delivers maximum impact in minimum words.</div>
-            <div class="paper-extract">Extract: Opening sentence construction; how they handle the "but also" tension (simple method, surprising result); the one figure that makes the paper.</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- WEEK 18 -->
-  <div class="week-card">
-    <div class="week-header" onclick="toggleWeek(this)">
-      <span class="week-badge p4-border p4-col" style="background:var(--p4l)">Week 18</span>
-      <span class="week-title">Method + Theory Sections</span>
-      <span class="week-dates">Sep 1 – 7</span>
-      <svg class="week-chevron" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 3l5 5-5 5"/></svg>
-    </div>
-    <div class="week-body">
-      <div class="week-milestone"><strong>Milestone:</strong> Method section is precise, self-contained, and reproducible. Theory section contains at least one proposition with proof sketch. Both are at submission quality.</div>
-      <div class="days-grid">
-        <div class="day-card">
-          <div class="day-label">Mon–Tue <span class="day-type type-deep">Deep Work</span></div>
-          <ul class="day-tasks">
-            <li>Write Method section: encoder, projection head, memory buffer (formal definition), CML loss, update rule, training algorithm pseudocode</li>
-            <li>Every symbol must be defined exactly once, in order of first appearance</li>
-          </ul>
-        </div>
-        <div class="day-card">
-          <div class="day-label">Wed–Thu <span class="day-type type-deep">Deep Work</span></div>
-          <ul class="day-tasks">
-            <li>Write Theory section: state your main proposition formally; provide proof sketch or full proof if short</li>
-            <li>Write a "Discussion of Assumptions" paragraph — what must be true for the proposition to hold?</li>
-          </ul>
-        </div>
-        <div class="day-card">
-          <div class="day-label">Friday <span class="day-type type-reflect">Reflect</span></div>
-          <ul class="day-tasks">
-            <li>Cross-check: does your implementation match your method section exactly? Any divergence is a bug or a writing error — fix both</li>
-            <li>Have a colleague try to re-implement CML from your method section alone (without code). Where do they get stuck?</li>
-          </ul>
-        </div>
-        <div class="day-card">
-          <div class="day-label">Weekend <span class="day-type type-deep">Deep Work</span></div>
-          <ul class="day-tasks">
-            <li>Draw the paper's key architecture figure in TikZ or vector illustration tool (not ASCII art)</li>
-            <li>This figure will be on every slide and in the paper — it must be publication quality</li>
-          </ul>
-        </div>
-      </div>
-      <div class="papers-section">
-        <div class="papers-label">Research Papers This Week</div>
-        <div class="paper-entry">
-          <div class="paper-num">P1</div>
-          <div class="paper-content">
-            <div class="paper-title">Provable Guarantees for Self-Supervised Deep Learning with Spectral Contrastive Loss (HaoChen et al., 2021)</div>
-            <div class="paper-why">Why: Example of a rigorous theory paper in SSL. Study the proof structure, notation conventions, and how they connect theory to practice.</div>
-            <div class="paper-extract">Extract: How they state the main theorem; the key assumptions; how they bridge the gap between theory and experimental validation.</div>
-          </div>
-        </div>
-        <div class="paper-entry">
-          <div class="paper-num">P2</div>
-          <div class="paper-content">
-            <div class="paper-title">Theoretical Analysis of Self-Training with Deep Networks on Unlabeled Data (Wei et al., 2020)</div>
-            <div class="paper-why">Why: Provides theoretical vocabulary for self-supervised methods you can adapt for CML's theory section.</div>
-            <div class="paper-extract">Extract: Expansion conditions; how augmentation structure enables theoretical guarantees; what "the model learns what augmentation preserves" means formally.</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- WEEK 19 -->
-  <div class="week-card">
-    <div class="week-header" onclick="toggleWeek(this)">
-      <span class="week-badge p4-border p4-col" style="background:var(--p4l)">Week 19</span>
-      <span class="week-title">Experiments + Related Work + Figures</span>
-      <span class="week-dates">Sep 8 – 14</span>
-      <svg class="week-chevron" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 3l5 5-5 5"/></svg>
-    </div>
-    <div class="week-body">
-      <div class="week-milestone"><strong>Milestone:</strong> All sections of the paper are written. All figures are at final quality. The paper reads as a complete, coherent document.</div>
-      <div class="days-grid">
-        <div class="day-card">
-          <div class="day-label">Mon–Tue <span class="day-type type-deep">Deep Work</span></div>
-          <ul class="day-tasks">
-            <li>Finalize Experiments section: clean up all result tables, add standard deviations, check that all numbers match your logs</li>
-            <li>Each experiment paragraph: setup → metric → result → interpretation. No dangling numbers without interpretation</li>
-          </ul>
-        </div>
-        <div class="day-card">
-          <div class="day-label">Wednesday <span class="day-type type-deep">Deep Work</span></div>
-          <ul class="day-tasks">
-            <li>Finalize Related Work: SimCLR, MoCo, BYOL, GEM, iCaRL + 3-4 interpretability papers — one paragraph each, precise differentiation</li>
-            <li>Add a 1-paragraph section on "Learning Dynamics" literature (representation dynamics, loss landscape)</li>
-          </ul>
-        </div>
-        <div class="day-card">
-          <div class="day-label">Thursday <span class="day-type type-deep">Deep Work</span></div>
-          <ul class="day-tasks">
-            <li>Finalize all figures: each figure needs a title, caption that explains what the reader should see, and axis labels</li>
-            <li>Test: print figures in grayscale — do the key differences still show?</li>
-          </ul>
-        </div>
-        <div class="day-card">
-          <div class="day-label">Friday <span class="day-type type-reflect">Reflect</span></div>
-          <ul class="day-tasks">
-            <li>Read the complete paper front-to-back as if you are a reviewer seeing it for the first time</li>
-            <li>Write 3 reviewer criticisms you would make. For each, write your response + planned paper fix</li>
-          </ul>
-        </div>
-        <div class="day-card">
-          <div class="day-label">Weekend <span class="day-type type-deep">Deep Work</span></div>
-          <ul class="day-tasks">
-            <li>Write Discussion + Conclusion + Limitations sections — be honest about what CML cannot do</li>
-            <li>Limitations section is often what separates a strong submission from a weak one — make it thoughtful, not defensive</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- WEEK 20 -->
-  <div class="week-card">
-    <div class="week-header" onclick="toggleWeek(this)">
-      <span class="week-badge p4-border p4-col" style="background:var(--p4l)">Week 20</span>
-      <span class="week-title">Peer Review Simulation + Revision</span>
-      <span class="week-dates">Sep 15 – 21</span>
-      <svg class="week-chevron" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 3l5 5-5 5"/></svg>
-    </div>
-    <div class="week-body">
-      <div class="week-milestone"><strong>Milestone:</strong> The paper has been reviewed by at least 2 people with ML expertise. Their most critical feedback has been addressed.</div>
-      <div class="days-grid">
-        <div class="day-card">
-          <div class="day-label">Monday <span class="day-type type-think">Thinking</span></div>
-          <ul class="day-tasks">
-            <li>Send the paper to 2 ML-literate people you trust to be critical (not encouraging). Give them 5 days</li>
-            <li>Write a "reviewer guide": 5 specific questions you want answered beyond general feedback</li>
-          </ul>
-        </div>
-        <div class="day-card">
-          <div class="day-label">Tue–Wed <span class="day-type type-deep">Deep Work</span></div>
-          <ul class="day-tasks">
-            <li>While waiting for review: prepare supplementary materials — full hyperparameter tables, additional ablations, proof details</li>
-            <li>Write the camera-ready appendix if the venue allows it</li>
-          </ul>
-        </div>
-        <div class="day-card">
-          <div class="day-label">Thu–Fri <span class="day-type type-reflect">Reflect</span></div>
-          <ul class="day-tasks">
-            <li>Receive reviews. Read them once. Step away for 2 hours before responding</li>
-            <li>Classify each criticism: (a) valid — fix it, (b) misunderstanding — clarify writing, (c) scope issue — respond in rebuttal</li>
-          </ul>
-        </div>
-        <div class="day-card">
-          <div class="day-label">Weekend <span class="day-type type-deep">Deep Work</span></div>
-          <ul class="day-tasks">
-            <li>Address all category (a) and (b) criticisms. Revise the paper accordingly</li>
-            <li>Re-read the abstract and intro with fresh eyes after revisions — they must still flow naturally</li>
-          </ul>
-        </div>
-      </div>
-      <div class="papers-section">
-        <div class="papers-label">Research Papers This Week</div>
-        <div class="paper-entry">
-          <div class="paper-num">P1</div>
-          <div class="paper-content">
-            <div class="paper-title">Self-Supervised Learning of Pretext-Invariant Representations (Misra & Maaten, 2020)</div>
-            <div class="paper-why">Why: Read to confirm you haven't missed a key related method. Also: study how they handle the positioning in a crowded space — relevant for your Related Work.</div>
-            <div class="paper-extract">Extract: PIRL's approach to invariance without collapse; the pretext task → downstream task gap; how they justify their specific pretext task choice.</div>
-          </div>
-        </div>
-        <div class="paper-entry">
-          <div class="paper-num">P2</div>
-          <div class="paper-content">
-            <div class="paper-title">Efficient Lifelong Learning with A-GEM (Chaudhry et al., 2019)</div>
-            <div class="paper-why">Why: Final related work sweep: lifelong learning with memory. Ensure CML is clearly differentiated from A-GEM in your Related Work section.</div>
-            <div class="paper-extract">Extract: A-GEM's memory usage as constraint vs CML's as contrastive signal; computational cost comparison; what each method optimizes for.</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- WEEK 21 — FINAL -->
-  <div class="week-card">
-    <div class="week-header" onclick="toggleWeek(this)">
-      <span class="week-badge p4-border p4-col" style="background:var(--p4l)">Week 21</span>
-      <span class="week-title">Final Polish + Code Release + Submission Prep</span>
-      <span class="week-dates">Sep 22 – Oct 1</span>
-      <svg class="week-chevron" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 3l5 5-5 5"/></svg>
-    </div>
-    <div class="week-body">
-      <div class="week-milestone"><strong>Milestone:</strong> Paper is at final quality. Code is on GitHub with README, requirements, and a training script that reproduces your main result. Demo URL is stable.</div>
-      <div class="days-grid">
-        <div class="day-card">
-          <div class="day-label">Mon–Tue <span class="day-type type-deep">Deep Work</span></div>
-          <ul class="day-tasks">
-            <li>Final paper pass: fix all grammar, verify every citation, confirm every number in the paper matches your experiment logs</li>
-            <li>Check: every figure caption is self-contained (understandable without reading the text)</li>
-          </ul>
-        </div>
-        <div class="day-card">
-          <div class="day-label">Wed–Thu <span class="day-type type-deep">Deep Work</span></div>
-          <ul class="day-tasks">
-            <li>Clean up and document the codebase. Write README with: motivation, setup, training script, evaluation script, demo instructions</li>
-            <li>Test: clone the repo on a clean machine and verify training runs end-to-end</li>
-          </ul>
-        </div>
-        <div class="day-card">
-          <div class="day-label">Friday <span class="day-type type-reflect">Reflect</span></div>
-          <ul class="day-tasks">
-            <li>Write a Twitter/X thread (or LinkedIn post) that explains CML to a broad ML audience in 5-8 tweets. This is your public narrative</li>
-            <li>Post it — even before publication. Claim the idea publicly with a preprint on arXiv</li>
-          </ul>
-        </div>
-        <div class="day-card">
-          <div class="day-label">Weekend <span class="day-type type-deep">Final Push</span></div>
-          <ul class="day-tasks">
-            <li>Submit preprint to arXiv</li>
-            <li>Identify the target venue (ICLR 2027 or NeurIPS 2027) and mark the submission deadline in your calendar</li>
-            <li>Write the closing entry in your research journal: what you learned, what you'd do differently, what CML could become</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- FINAL CHECKPOINT -->
-  <div class="checkpoint-card" style="border-color: var(--p4); background: var(--p4l);">
-    <div class="checkpoint-label" style="color: var(--p4);">⬡ Project Completion — October 1, 2026</div>
-    <h3>What You Should Have</h3>
-    <ul style="list-style: disc; padding-left: 20px; margin-bottom: 16px;">
-      <li>A formally defined, mathematically grounded framework (CML)</li>
-      <li>Empirical results on CIFAR-10/100 showing advantage on ≥2 metrics vs SimCLR baseline</li>
-      <li>An ablation study explaining which design choices matter</li>
-      <li>An interactive visualization system deployed at a public URL</li>
-      <li>A complete paper draft at arXiv-submission quality</li>
-      <li>A clean, documented codebase on GitHub</li>
-      <li>A public preprint staking your claim on the idea</li>
-    </ul>
-    <p><strong>Next steps:</strong> Identify collaborators for experiments at scale (ImageNet). Target a workshop paper at NeurIPS 2026 if the timeline allows. Submit the full paper to ICLR 2027 (deadline typically late September/October).</p>
-  </div>
-
-</section>
-
-</main>
-
-<script>
-function toggleWeek(header) {
-  const body = header.nextElementSibling;
-  const isOpen = header.classList.contains('open');
-  header.classList.toggle('open', !isOpen);
-  body.classList.toggle('open', !isOpen);
-}
-
-// Nav active state on scroll
-const sections = document.querySelectorAll('.phase-block');
-const navItems = document.querySelectorAll('.pnav-item');
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      const id = entry.target.id;
-      navItems.forEach(n => n.classList.remove('active'));
-      const active = document.querySelector(`.pnav-item[href="#${id}"]`);
-      if (active) active.classList.add('active');
-    }
-  });
-}, { threshold: 0.25 });
-sections.forEach(s => observer.observe(s));
-</script>
-
 </body>
 </html>
