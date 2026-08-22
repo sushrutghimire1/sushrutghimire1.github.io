@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TripBrief — what your booking confirmation doesn't tell you</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --blue:#2952FF;
+    --blue-dk:#1B3AC7;
+    --blue-lt:#EAEFFF;
+    --amber:#FFB627;
+    --amber-lt:#FFF4DE;
+    --mint:#00BE8A;
+    --mint-lt:#E0F8F1;
+    --rose:#FF5A5F;
+    --rose-lt:#FFEDED;
+    --navy:#0A1030;
+    --slate:#5A6180;
+    --hair:#E4E8F2;
+    --bg:#FFFFFF;
+    --bg-alt:#F5F7FC;
+    --shadow:0 22px 60px -28px rgba(10,16,48,.42);
+  }
+  *{box-sizing:border-box;}
+  html{-webkit-text-size-adjust:100%;scroll-behavior:smooth;}
+  body{
+    margin:0;background:var(--bg);color:var(--navy);
+    font-family:"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+    font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3,.dsp{font-family:"Bricolage Grotesque","Inter",sans-serif;font-weight:700;letter-spacing:-.025em;line-height:1.08;}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 24px;}
+  .narrow{max-width:760px;margin:0 auto;padding:0 24px;}
+
+  .chip{
+    display:inline-flex;align-items:center;gap:7px;
+    font-size:.74rem;font-weight:600;letter-spacing:.04em;text-transform:uppercase;
+    padding:6px 12px;border-radius:999px;background:var(--blue-lt);color:var(--blue-dk);
+  }
+  .chip.amber{background:var(--amber-lt);color:#8A5A00;}
+  .dot{width:6px;height:6px;border-radius:50%;background:currentColor;}
+
+  /* nav */
+  nav{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.88);backdrop-filter:blur(12px);border-bottom:1px solid var(--hair);}
+  nav .wrap{display:flex;align-items:center;justify-content:space-between;height:66px;gap:16px;}
+  .logo{display:flex;align-items:center;gap:9px;font-family:"Bricolage Grotesque",sans-serif;font-weight:800;font-size:1.18rem;letter-spacing:-.03em;}
+  .logo-mark{width:26px;height:26px;border-radius:8px;background:var(--blue);position:relative;flex:none;}
+  .logo-mark::after{content:"";position:absolute;inset:7px 7px auto 7px;height:3px;border-radius:2px;background:#fff;box-shadow:0 6px 0 var(--amber);}
+
+  /* hero */
+  .hero{padding:72px 0 0;position:relative;overflow:hidden;}
+  .hero::before{
+    content:"";position:absolute;top:-320px;left:50%;transform:translateX(-50%);
+    width:1100px;height:700px;border-radius:50%;
+    background:radial-gradient(circle,rgba(41,82,255,.10) 0%,rgba(41,82,255,0) 62%);
+    pointer-events:none;
+  }
+  .hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:56px;align-items:center;position:relative;}
+  .hero h1{font-size:clamp(2.3rem,5vw,3.7rem);margin:22px 0 20px;}
+  .hero h1 .hl{color:var(--blue);}
+  .hero .sub{font-size:1.12rem;color:var(--slate);max-width:29rem;margin:0 0 28px;}
+  .cta-row{display:flex;gap:12px;flex-wrap:wrap;align-items:center;}
+  .btn{
+    display:inline-block;padding:13px 22px;border-radius:11px;font-weight:600;font-size:.97rem;
+    text-decoration:none;border:none;cursor:pointer;transition:transform .15s ease,box-shadow .15s ease;
+  }
+  .btn-primary{background:var(--blue);color:#fff;box-shadow:0 8px 20px -8px rgba(41,82,255,.65);}
+  .btn-primary:hover{transform:translateY(-2px);box-shadow:0 14px 26px -10px rgba(41,82,255,.7);}
+  .btn-ghost{background:#fff;color:var(--navy);border:1.5px solid var(--hair);}
+  .btn-ghost:hover{border-color:var(--blue);color:var(--blue);}
+  .btn:focus-visible{outline:3px solid var(--amber);outline-offset:2px;}
+
+  /* phone */
+  .phone-stage{display:flex;justify-content:center;padding-bottom:56px;}
+  .phone{
+    width:330px;background:var(--navy);border-radius:38px;padding:11px;box-shadow:var(--shadow);flex:none;
+  }
+  .phone-screen{background:#fff;border-radius:29px;overflow:hidden;}
+  .phone-bar{
+    background:var(--blue);color:#fff;padding:16px 18px 15px;
+  }
+  .phone-bar .from{font-size:.7rem;opacity:.78;letter-spacing:.06em;text-transform:uppercase;font-weight:600;}
+  .phone-bar .subject{font-family:"Bricolage Grotesque",sans-serif;font-weight:700;font-size:1.16rem;margin-top:5px;letter-spacing:-.02em;}
+  .phone-bar .when{font-size:.8rem;opacity:.85;margin-top:3px;}
+  .phone-body{padding:6px 16px 20px;max-height:452px;overflow-y:auto;}
+
+  .row{padding:14px 0;border-bottom:1px solid var(--hair);}
+  .row:last-child{border-bottom:none;}
+  .tag{
+    display:inline-block;font-size:.63rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+    padding:4px 9px;border-radius:6px;margin-bottom:8px;
+  }
+  .t-on{background:var(--blue-lt);color:var(--blue-dk);}
+  .t-local{background:var(--mint-lt);color:#007856;}
+  .t-watch{background:var(--rose-lt);color:#C42A2E;}
+  .t-also{background:var(--amber-lt);color:#8A5A00;}
+  .row p{margin:0;font-size:.9rem;line-height:1.55;color:#243056;}
+  .row p + p{margin-top:7px;}
+  .row strong{color:var(--navy);font-weight:600;}
+
+  .switch{display:flex;gap:8px;justify-content:center;margin-top:20px;flex-wrap:wrap;}
+  .switch button{
+    font-family:"Inter",sans-serif;font-size:.85rem;font-weight:600;padding:8px 16px;border-radius:999px;
+    background:#fff;color:var(--slate);border:1.5px solid var(--hair);cursor:pointer;transition:all .16s ease;
+  }
+  .switch button:hover{border-color:var(--blue);color:var(--blue);}
+  .switch button[aria-pressed="true"]{background:var(--navy);border-color:var(--navy);color:#fff;}
+  .switch button:focus-visible{outline:3px solid var(--amber);outline-offset:2px;}
+  .fade{animation:pop .38s cubic-bezier(.2,.75,.3,1) both;}
+  @keyframes pop{from{opacity:0;transform:translateY(9px);}to{opacity:1;transform:none;}}
+
+  /* sections */
+  section{padding:84px 0;}
+  section.alt{background:var(--bg-alt);border-top:1px solid var(--hair);border-bottom:1px solid var(--hair);}
+  .sec-head{max-width:640px;margin-bottom:40px;}
+  .sec-head h2{font-size:clamp(1.7rem,3.6vw,2.5rem);margin:16px 0 14px;}
+  .sec-head p{color:var(--slate);margin:0;font-size:1.05rem;}
+
+  .split{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+  .card{background:#fff;border:1.5px solid var(--hair);border-radius:18px;padding:26px;}
+  .card.flat{background:var(--bg-alt);border-color:transparent;}
+  .card h3{font-size:1.05rem;margin:0 0 10px;}
+  .card p{margin:0;color:var(--slate);font-size:.97rem;}
+  .card .lbl{font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--slate);display:block;margin-bottom:12px;}
+  .card.win{border-color:var(--blue);box-shadow:0 14px 34px -22px rgba(41,82,255,.55);}
+  .card.win .lbl{color:var(--blue);}
+  .card.win p{color:var(--navy);font-weight:500;}
+
+  .three{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+  .step-badge{
+    width:34px;height:34px;border-radius:11px;background:var(--blue);color:#fff;
+    display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.9rem;margin-bottom:14px;
+    font-family:"Bricolage Grotesque",sans-serif;
+  }
+  .step-badge.b2{background:var(--mint);}
+  .step-badge.b3{background:var(--amber);color:#5A3B00;}
+
+  .facts{display:grid;grid-template-columns:repeat(2,1fr);gap:0;border:1.5px solid var(--hair);border-radius:18px;overflow:hidden;background:#fff;}
+  .fact{padding:24px 26px;border-right:1.5px solid var(--hair);border-bottom:1.5px solid var(--hair);}
+  .fact:nth-child(2n){border-right:none;}
+  .fact:nth-last-child(-n+2){border-bottom:none;}
+  .fact b{display:block;font-family:"Bricolage Grotesque",sans-serif;font-size:1.02rem;margin-bottom:6px;letter-spacing:-.02em;}
+  .fact span{color:var(--slate);font-size:.93rem;}
+
+  .ask-box{
+    background:var(--navy);color:#fff;border-radius:24px;padding:48px 44px;
+    display:grid;grid-template-columns:1.2fr .8fr;gap:36px;align-items:center;
+  }
+  .ask-box h2{font-size:clamp(1.6rem,3.4vw,2.2rem);margin:0 0 14px;color:#fff;}
+  .ask-box p{color:#AEB6D8;margin:0;font-size:1rem;}
+  .ask-list{list-style:none;margin:0;padding:0;}
+  .ask-list li{padding:11px 0;border-bottom:1px solid rgba(255,255,255,.13);font-size:.94rem;color:#DDE2F5;}
+  .ask-list li:last-child{border-bottom:none;}
+  .ask-list b{color:var(--amber);font-weight:600;}
+
+  footer{padding:34px 0 56px;color:var(--slate);font-size:.85rem;}
+  footer p{margin:0 0 6px;}
+
+  @media (max-width:900px){
+    .hero-grid{grid-template-columns:1fr;gap:36px;}
+    .hero .sub{max-width:none;}
+    .three{grid-template-columns:1fr;}
+    .ask-box{grid-template-columns:1fr;padding:36px 26px;}
+  }
+  @media (max-width:640px){
+    body{font-size:16px;}
+    section{padding:60px 0;}
+    .split{grid-template-columns:1fr;}
+    .facts{grid-template-columns:1fr;}
+    .fact{border-right:none;}
+    .fact:nth-last-child(2){border-bottom:1.5px solid var(--hair);}
+    .phone{width:100%;max-width:330px;}
+  }
+  @media (prefers-reduced-motion:reduce){
+    .fade{animation:none;}
+    *{transition:none !important;}
+    html{scroll-behavior:auto;}
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <div class="logo"><span class="logo-mark"></span>TripBrief</div>
+    <span class="chip"><span class="dot"></span>Prototype</span>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="wrap">
+    <div class="hero-grid">
+      <div>
+        <span class="chip amber">Pre-product · concierge stage</span>
+        <h1>Your booking confirmation tells you the price.<br><span class="hl">It doesn't tell you what's happening.</span></h1>
+        <p class="sub">Forward it to us and we send back the two minutes a local would give you — what's on during your dates, what to avoid, and what will quietly ruin a day if nobody warns you.</p>
+        <div class="cta-row">
+          <a class="btn btn-primary" href="#ask">See what we're raising for</a>
+          <a class="btn btn-ghost" href="#how">How it works</a>
+        </div>
+      </div>
+      <div>
+        <div class="phone-stage" style="padding-bottom:0;">
+          <div class="phone">
+            <div class="phone-screen">
+              <div class="phone-bar">
+                <div class="from">TripBrief</div>
+                <div class="subject" id="p-subject">Bamberg · 26–30 Aug</div>
+                <div class="when" id="p-when">Sent 6 weeks before you travel</div>
+              </div>
+              <div class="phone-body" id="p-body"></div>
+            </div>
+          </div>
+        </div>
+        <div class="switch">
+          <button id="b-bamberg" aria-pressed="true">Bamberg</button>
+          <button id="b-zagreb" aria-pressed="false">Zagreb</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<section class="alt">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="chip">The gap</span>
+      <h2>Search tells you a thing exists. It doesn't tell you what to do about it.</h2>
+      <p>This is the entire product difference, on one festival, in one town.</p>
+    </div>
+    <div class="split">
+      <div class="card flat">
+        <span class="lbl">What you can already find</span>
+        <p>Sandkerwa takes place in Bamberg's Sand district in late August. It is one of the largest folk festivals in Franconia and attracts many visitors each year.</p>
+      </div>
+      <div class="card win">
+        <span class="lbl">What TripBrief sends</span>
+        <p>Go Thursday. Saturday night on Sandstraße is shoulder-to-shoulder and you won't enjoy it. Rooms are already 2–3× normal — book today, not next week.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="how">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="chip">How it works</span>
+      <h2>No app. No account. One forwarded email.</h2>
+      <p>The lowest-friction input in travel is a booking confirmation the user already has in their inbox.</p>
+    </div>
+    <div class="three">
+      <div class="card">
+        <div class="step-badge">1</div>
+        <h3>They forward a confirmation</h3>
+        <p>Hotel, flight, or rental. We read the city and dates off it. Nothing to install, nothing to fill in.</p>
+      </div>
+      <div class="card">
+        <div class="step-badge b2">2</div>
+        <h3>We do the local research</h3>
+        <p>Local-language sources, municipal calendars, and where we can, a person who lives there. Hand-written today, progressively automated.</p>
+      </div>
+      <div class="card">
+        <div class="step-badge b3">3</div>
+        <h3>One email, early enough to matter</h3>
+        <p>Delivered while dates and bookings can still change. That timing is the whole product.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="alt">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="chip">Why this, why now</span>
+      <h2>The data is already worth a lot — to everyone except the traveller.</h2>
+    </div>
+    <div class="facts">
+      <div class="fact">
+        <b>The category is proven B2B</b>
+        <span>PredictHQ sells event-impact data into Booking.com, Uber, Amazon and Lighthouse. The premise that "what's happening here on these dates" has hard economic value is not in question.</span>
+      </div>
+      <div class="fact">
+        <b>Nobody serves the demand side</b>
+        <span>All of that intelligence flows to pricing engines and revenue managers. The traveller — the person the events actually happen to — receives none of it.</span>
+      </div>
+      <div class="fact">
+        <b>The long tail just got cheap</b>
+        <span>Reading thousands of local-language municipal and parish calendars was a funded project three years ago. It is now a scraping job plus a model.</span>
+      </div>
+      <div class="fact">
+        <b>Most of it is rule-based</b>
+        <span>Sandkerwa is the Thursday before the last Sunday in August. Encode the rule, not the date, and the calendar regenerates itself every year.</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="ask">
+  <div class="wrap">
+    <div class="ask-box">
+      <div>
+        <h2>We're writing the first 100 briefs by hand.</h2>
+        <p>Deliberately unscalable, on purpose. Doing it manually is how we learn which half of this is automatable — and which half is the moat.</p>
+      </div>
+      <ul class="ask-list">
+        <li><b>Now</b> · 100 hand-written briefs, sourced from travellers already asking for this in public forums</li>
+        <li><b>Test</b> · did they change a booking, a date, or a plan</li>
+        <li><b>Then</b> · automate the mechanical half, keep humans on the judgement</li>
+        <li><b>Open question</b> · consumer subscription vs. distribution inside the booking flow</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <p>TripBrief is an early prototype. Sample brief content is illustrative and not fact-checked.</p>
+    <p>Name is a placeholder.</p>
+  </div>
+</footer>
+
+<script>
+  var BRIEFS = {
+    bamberg:{
+      subject:"Bamberg · 26–30 Aug",
+      when:"Sent 6 weeks before you travel",
+      rows:[
+        {tag:"On",cls:"t-on",html:"<p><strong>Sandkerwa</strong> — five days of the biggest thing in the Bamberg year, along the river in the Sand district. Beer benches down the middle of the street, brass bands, the whole town out at once.</p>"},
+        {tag:"Local",cls:"t-local",html:"<p>Thursday and Sunday are the pleasant days. Saturday night on Sandstraße is a real crush. The <strong>Fischerstechen</strong> — jousting from boats on the Regnitz — is the one fixture worth building a day around.</p>"},
+        {tag:"Watch",cls:"t-watch",html:"<p>Old-town rooms run 2–3× normal all week. If you haven't booked, book today.</p><p>15 August is a public holiday here and shops close — but this varies municipality by municipality across Bavaria.</p>"},
+        {tag:"Also",cls:"t-also",html:"<p>Bamberg is a smoked-beer town. Rauchbier tastes like ham on the first sip and like nothing else by the third. Drink it standing at a brewery tap.</p>"}
+      ]
+    },
+    zagreb:{
+      subject:"Zagreb · 12–16 Jun",
+      when:"Sent 5 weeks before you travel",
+      rows:[
+        {tag:"On",cls:"t-on",html:"<p><strong>Orchestra concerts at the Zrinjevac pavilion</strong> — brass and wind ensembles play the 19th-century bandstand in the park on summer weekend mornings. Free, unticketed, audience almost entirely local.</p>"},
+        {tag:"Local",cls:"t-local",html:"<p>Saturday morning is <strong>špica</strong>: the city takes coffee in the lower town and stays for hours. It's a social ritual, not a caffeine run — sit outside and don't rush. Dolac market before ten.</p>"},
+        {tag:"Watch",cls:"t-watch",html:"<p>Much of Zagreb closes on Sunday, including shops you'd assume wouldn't.</p><p>The Grič cannon fires at noon daily. It is very loud and startles every visitor exactly once.</p>"},
+        {tag:"Also",cls:"t-also",html:"<p>Trams beat taxis anywhere central. Buy the ticket at a kiosk before boarding — cheaper than from the driver.</p>"}
+      ]
+    }
+  };
+
+  var body=document.getElementById('p-body'),
+      subj=document.getElementById('p-subject'),
+      when=document.getElementById('p-when'),
+      btns={bamberg:document.getElementById('b-bamberg'),zagreb:document.getElementById('b-zagreb')};
+
+  function render(k){
+    var b=BRIEFS[k];
+    subj.textContent=b.subject;
+    when.textContent=b.when;
+    body.innerHTML=b.rows.map(function(r){
+      return '<div class="row"><span class="tag '+r.cls+'">'+r.tag+'</span>'+r.html+'</div>';
+    }).join('');
+    body.classList.remove('fade');void body.offsetWidth;body.classList.add('fade');
+    Object.keys(btns).forEach(function(x){btns[x].setAttribute('aria-pressed',String(x===k));});
+  }
+  Object.keys(btns).forEach(function(x){btns[x].addEventListener('click',function(){render(x);});});
+  render('bamberg');
+</script>
+
+</body>
+</html>
